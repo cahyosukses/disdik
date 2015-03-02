@@ -1,7 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 ini_set('memory_limit', '512M');
 
-class Tampil extends CI_Controller {
+class Tampil extends My_Controller {
 	
 	function __construct() {
 		parent::__construct();
@@ -73,8 +73,28 @@ class Tampil extends CI_Controller {
 	}
 
 	function rekap_data_sekolah(){
+		$this->load->model('rekap_m');
+
 		$web['title']	= '.:: Rekap Data Sekolah  ::.';
-		
+		if(!empty($_POST)){
+
+			$this->form_validation->set_rules('tahun', 'Tahun', 'xss_clean');			
+			$this->form_validation->set_rules('id_kabupaten', 'Kabupaten', 'xss_clean');
+
+			if ($this->form_validation->run() == TRUE) {	
+
+				$this->session->set_userdata('tahun',$this->input->post('tahun'));				
+				$this->session->set_userdata('id_kabupaten',$this->input->post('id_kabupaten'));
+			}
+
+		}
+
+		$web['kabupaten'] = $this->basecrud_m->get_where('kabupaten',array('id_propinsi' => 1));
+		$web['th_min_max'] = $this->db->query("SELECT MIN(tahun) as min_th, MAX(tahun) as max_th
+											   FROM sekolah_stats")->row();
+
+		$web['data'] = $this->rekap_m->stats();
+
 		$this->load->view('t_atas', $web);
 		$this->load->view('v_rekap_sekolah', $web);
 		$this->load->view('t_footer');
@@ -746,7 +766,7 @@ class Tampil extends CI_Controller {
 	*/
 
 	public function blog() {
-		$web['title']	= '.:: Berita Seputar Website Dinas Pendidikan Provinsi Jambi ::.';
+		$web['title']	= '.:: Official Website Dinas Pendidikan Provinsi Jambi ::.';
 		
 		
 		$ke				= $this->uri->segment(3);

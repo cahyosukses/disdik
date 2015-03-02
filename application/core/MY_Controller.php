@@ -30,6 +30,8 @@ class MY_Controller extends CI_Controller{
             if($curr_method !== $method){
                 $this->session->unset_userdata('cari');
                 $this->session->unset_userdata('filter');
+                $this->session->unset_userdata('id_kabupaten');
+                $this->session->unset_userdata('tahun');
                 $curr_method = $this->session->set_userdata('curr_method',$method);                    
             }        
         }    

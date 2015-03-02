@@ -12,9 +12,9 @@
     <link href="<?php echo base_URL()?>assets/css/bootstrap.css" rel="stylesheet">
     <style type="text/css">
       body {
-	padding-top: 40px;
-	padding-bottom: 40px;
-	background-color: #000066;
+	       padding-top: 40px;	       
+	       background-color: #000066; 
+         background-image: url("../assets/img/batik.jpg"); 
       }
 
       .form-signin {

@@ -58,7 +58,7 @@
 	<label style="width: 200px; float: left">Nama</label><input class="input-large" type="text" name="nama" placeholder="" value="<?php echo $nama?>" required><br>
 	<label style="width: 200px; float: left">Status</label>
 	<select name="status">
-		<option <?php echo $status === 'gty/pty' ? 'selected' : '';?> value="gty/pty">GTY/PTY</option>
+		<!--<option <?php echo $status === 'gty/pty' ? 'selected' : '';?> value="gty/pty">GTY/PTY</option>-->
 		<option <?php echo $status === 'cpns' ? 'selected' : '';?> value="cpns">CPNS</option>
 		<option <?php echo $status === 'pns' ? 'selected' : '';?> value="pns">PNS</option>
 	</select><br>

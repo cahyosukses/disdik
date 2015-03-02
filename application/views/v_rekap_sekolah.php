@@ -7,43 +7,65 @@
 
 	<div class="span12 wellwhite" style="margin-left: 0px">
 		<legend>Rekap Data Sekolah</legend>
-		<form class="form-search">
-			<label class="control-label" for="inputEmail">Pilih Tahun</label>
-			<select>
-				<option>2011</option>
-				<option>2012</option>
-				<option>2013</option>
-			</select>
-			<button type="submit" class="btn">Lihat</button>
-		</form>
+		<form class="form-search" method="POST" action="">      
+      <table>
+        <tr>  
+          <td style="padding-right:10px">Filter</td>           
+          <td style="padding-right:10px">
+            <?php $id_kabupaten = $this->session->userdata('id_kabupaten');?>
+            <select name="id_kabupaten" style="width:250px">
+              <option value="">Semua Wilayah</option>
+              <?php foreach ($kabupaten->result() as $k){ ?>
+              <option <?php echo $id_kabupaten == $k->id ? 'selected' : ''?> value="<?php echo $k->id;?>"><?php echo $k->nama;?></option>  
+              <?php }?>
+            </select>
+          </td>
+          
+          <td style="padding-right:10px">
+            <?php $tahun = $this->session->userdata('tahun');?>
+            <select name="tahun" style="width:120px">
+              <option value="">Semua Tahun</option>
+              <?php $min = $th_min_max->min_th;
+                    $max = $th_min_max->max_th;
+                    for ($i= $min; $i <= $max ; $i++) { 
+              ?>
+              <option <?php echo $tahun === $i ? 'selected': '';?> value="<?php echo $i?>"><?php echo $i; ?></option>
+              <?php } ?>
+            </select>
+          </td>  
+          <td><button type="submit" class="btn pull-right">Cari Data</button></td>        
+        </tr>        
+        <tr>
+          <td></td>
+          
+        </tr>
+      </table> 
+    </form>
+
 		<table class="table table-hover">
           <thead>
             <tr>
-              <th>Kategori</th>
-              <th>TK</th>
-              <th>SD</th>
-              <th>MI</th>
-              <th>SMP</th>
-              <th>MTs</th>
-              <th>SMA</th>
-              <th>SMK</th>
-              <th>MA</th>
-              <th>SLB</th>
+              <th style="text-align:left">Jenjang</th>
+              <th>Rombel</th>
+              <th>Murid</th>
+              <th>Guru</th>
+              <th>Ruang Kelas</th>
+              <th>Lulusan</th>              
             </tr>
           </thead>
           <tbody>
+          <?php foreach ($data->result() as $d){ ?>
             <tr>
-              <td style="text-align:center">Lembaga</td>
-              <td style="text-align:center">666</td>
-              <td style="text-align:center">666</td>
-              <td style="text-align:center">666</td>
-              <td style="text-align:center">666</td>
-              <td style="text-align:center">666</td>
-              <td style="text-align:center">666</td>
-              <td style="text-align:center">666</td>
-              <td style="text-align:center">666</td>
-              <td style="text-align:center">666</td>
+              
+              <td style="text-align:left"><?php echo $d->jenjang?></td>  
+              <td style="text-align:center"><?php echo $d->rombel?></td>  
+              <td style="text-align:center"><?php echo $d->murid?></td>  
+              <td style="text-align:center"><?php echo $d->guru?></td>  
+              <td style="text-align:center"><?php echo $d->ruang_kelas?></td>  
+              <td style="text-align:center"><?php echo $d->lulusan?></td>  
+              
             </tr>            
+            <?php }?>
           </tbody>
         </table>
 	</div>
