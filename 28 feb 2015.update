@@ -1,0 +1,12 @@
+/*
+		
+*/
+ALTER TABLE `ekspresi`ADD COLUMN `tampil` ENUM('Y','N') NOT NULL DEFAULT 'N' AFTER `isi_ekspresi`;
+ALTER TABLE `ide_saran` ADD COLUMN `tampil` ENUM('Y','N') NOT NULL DEFAULT 'N' AFTER `topik`;
+ALTER TABLE `ide_saran`	ADD COLUMN `inserted_at` DATETIME NOT NULL AFTER `tampil`;
+ALTER TABLE `ekspresi` ADD COLUMN `inserted_at` DATETIME NOT NULL AFTER `tampil`;
+
+ALTER TABLE `ekspresi_tanggapan` ADD COLUMN `tampil` ENUM('Y','N') NOT NULL DEFAULT 'N' AFTER `komentar`;
+ALTER TABLE `ide_saran_tanggapan` ADD COLUMN `tampil` ENUM('Y','N') NOT NULL DEFAULT 'N' AFTER `komentar`;
+
+ALTER TABLE `galeri` ADD COLUMN `slideshow` ENUM('Y','N') NOT NULL DEFAULT 'N' AFTER `ket`;
