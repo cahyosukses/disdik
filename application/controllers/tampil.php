@@ -62,6 +62,7 @@ class Tampil extends My_Controller {
 		$this->load->view('t_footer');
 	}
 
+	/*
 	public function data_informasi() {
 		$web['title']	= '.:: Data dan Informasi Dinas Pendidikan Provinsi Jambi  ::.';
 		$id				= $this->uri->segment(3);
@@ -71,6 +72,7 @@ class Tampil extends My_Controller {
 		$this->load->view('v_data_informasi', $web);
 		$this->load->view('t_footer');
 	}
+	*/
 
 	function rekap_data_sekolah(){
 		$this->load->model('rekap_m');
@@ -871,10 +873,10 @@ class Tampil extends My_Controller {
 	}
 	
 	public function post_komen() {
-		$nama	= addslashes($this->input->post('nama'));
-		$email	= addslashes($this->input->post('email'));
-		$pesan	= addslashes($this->input->post('pesan'));
-		$id		= addslashes($this->input->post('id'));
+		$nama	= $this->security->xss_clean(addslashes($this->input->post('nama')));
+		$email	= $this->security->xss_clean(addslashes($this->input->post('email')));
+		$pesan	= $this->security->xss_clean(addslashes($this->input->post('pesan')));
+		$id		= $this->security->xss_clean(addslashes($this->input->post('id')));
 		
 		if ($nama != "" || $email != "" || $pesan != "" || $id != "") {
 			$this->db->query("INSERT INTO berita_komen VALUES ('', '$id', '$nama', '$email', '$pesan', NOW())");
@@ -893,10 +895,19 @@ class Tampil extends My_Controller {
 		$web['data']	= $this->db->query("SELECT * FROM galeri_album ORDER BY id DESC")->result();		
 		
 		$this->load->view('t_atas', $web);
+
 		if ($ke == "lihat") {
-			$web['datdet']	= $this->db->query("SELECT * FROM galeri WHERE id_album = '$idu'")->result();
-			$web['datalb']	= $this->db->query("SELECT * FROM galeri_album WHERE id = '$idu'")->row();
-			$this->load->view('v_galeri_detil', $web);
+
+			$gal = $this->basecrud_m->get_where('galeri_album',array('id' => $idu));
+			if($gal->num_rows() == 0){
+				$this->load->view('invalid', $web);	
+			}else{
+				$web['datdet']	= $this->db->query("SELECT * FROM galeri WHERE id_album = '$idu'")->result();
+				$web['datalb']	= $this->db->query("SELECT * FROM galeri_album WHERE id = '$idu'")->row();
+				$this->load->view('v_galeri_detil', $web);	
+			}
+
+			
 		} else {
 			$this->load->view('v_galeri', $web);
 		}

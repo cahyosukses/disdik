@@ -6,5 +6,5 @@
 			
 		</ul>
 		
-		<div class='alert alert-error'>Invalid Post ID.</div>
+		<div class='alert alert-error'>Invalid ID.</div>
 </div>
