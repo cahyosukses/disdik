@@ -13,15 +13,20 @@
       <th width="15%" style="text-align: left">Komentar</th>
       <th width="20%">Control</th>
    </tr>
-   <?php $i = 0 ?>
-   <?php foreach ($blog as $b):
+   <?php 
+      $start_number = $this->uri->segment(3);
+      $i = $start_number == TRUE ? $start_number : 0; 
+   ?>
+   <?php foreach ($blog->result() as $b):
       $j_komen	= $this->db->query("SELECT * FROM berita_komen WHERE id_berita = '".$b->id."'")->num_rows();
       
       $i++;
       ?>
    <tr>
       <td style="text-align: center"><?php echo $i; ?></td>
-      <td><?php echo $b->judul ?></td>
+      <td><?php echo $b->judul ?> 
+          <?php if($b->sticky === 'Y'){ ?><span class="label label-important">Sticky</span> <?php } ?>
+      </td>
       <td>
       	<?php $select_kat = explode('-',$b->kategori);?>
       	<?php $kat_list = "";?>
@@ -46,4 +51,10 @@
    </tr>
    <?php endforeach ?>
 </table>
+
+<center>
+   <div class="pagination pagination-small">
+      <ul><?php echo $this->pagination->create_links();?> </ul>
+   </div>
+</center>
 

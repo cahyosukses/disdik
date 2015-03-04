@@ -79,6 +79,28 @@
                <div class="well sidebar-nav">
                   <ul class="nav nav-list">
                      <li class="nav-header">Administrator Menu</li>
+                     <?php 
+                     $menu_list = explode(',',$this->session->userdata('menu_list'));
+                     $this->db->from('manage_menu');
+                     $this->db->where('show','Y');    
+                     $this->db->where_in('id',$menu_list);    
+                      
+                     $this->db->order_by('sort','ASC');
+                     $menu = $this->db->get();
+
+                     ?>
+                     <?php foreach ($menu->result() as $mn){ 
+                        
+                        if ($this->uri->segment(2) === $mn->method) {
+                            echo "<li class='active'><a href='".base_URL()."manage/".$mn->method."'>".$mn->name."</a></li>";
+                          } else {
+                            echo "<li><a href='".base_URL()."manage/".$mn->method."'>".$mn->name."</a></li>";
+                          } 
+
+
+                     } ?>
+
+                     <!--
                      <?php
                         $l_val  = array("", "profil", "data_sekolah","data_produk_hukum","blog","kategori_berita", "komentar", "galeri", "bukutamu","ide_saran","ekspresi", "link", "agenda", "passwod");
                         $l_view = array("Beranda", "Profil","Data Sekolah","Produk Hukum", "Post Berita","Kategori Berita", "Komentar Berita", "Galeri Foto", "Buku Tamu","Ide & Saran","Ekspresi", "Link/Tautan", "Agenda", "Edit Admin");
@@ -93,6 +115,7 @@
                         
                         ?>
                      <li><a href="<?php echo base_URL()?>manage/logout" onclick="return confirm('Anda yakin akan LOGOUT dari halaman Admin ..?')"><b>Logout</b></a></li>
+                     -->
                   </ul>
                </div>
                <!--/.well -->

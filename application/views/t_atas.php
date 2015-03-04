@@ -75,7 +75,7 @@
       <br>
       <small style="font-family: Times New Roman; font-size: 17px; margin: -40px 0 0 90px; display: inline; position: absolute">Alamat : Jl. Jend. A. Yani No.06 Telanaipura Jambi. Telp. (0741) 63197 Fax. (0741) 63197</small>
       <div style="margin-top: -40px; font-family: tahoma" class="pull-right">
-         <a href="<?php echo base_URL()?>tampil/bukutamu">Kontak Kami</a> 
+         <a href="http://www.facebook.com" target="_BLANK"><img src="<?php echo base_URL() . 'upload/galeri/facebook.png'?>"></a> 
       </div>
       <div class="navbar">
          <div class="navbar-inner">
@@ -176,8 +176,8 @@
          <div class="wellwhite sidebar-nav">
             <ul class="nav nav-list">
                <li class="nav-header" style="">Interaktif Menu</li>
-               <!--<li><a href="<?php echo base_URL()?>tampil/blog">Berita</a></li>
-               <li><a href="<?php echo base_URL()?>tampil/galeri">Galeri</a></li>-->
+               <!--<li><a href="<?php echo base_URL()?>tampil/blog">Berita</a></li>-->
+               <li><a href="<?php echo base_URL()?>tampil">Berita</a></li>
                <li><a href="<?php echo base_URL()?>tampil/bukutamu">Kontak Kami</a></li>
                <li><a href="<?php echo base_URL()?>tampil/ide_saran">Ide & Saran</a></li>
                <li><a href="<?php echo base_URL()?>tampil/ekspresi">Ekspresi</a></li>

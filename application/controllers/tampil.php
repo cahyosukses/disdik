@@ -76,6 +76,17 @@ class Tampil extends My_Controller {
 		$this->load->model('rekap_m');
 
 		$web['title']	= '.:: Rekap Data Sekolah  ::.';
+
+		$web['kabupaten'] = $this->basecrud_m->get_where('kabupaten',array('id_propinsi' => 1));
+		$th_min_max = $this->db->query("SELECT MIN(tahun) as min_th, MAX(tahun) as max_th
+											   FROM sekolah_stats")->row();
+		$web['th_min_max'] = $th_min_max;
+
+		$tahun = $this->session->userdata('tahun');
+		if(!$tahun){
+			$this->session->set_userdata('tahun',$th_min_max->max_th);							
+		}
+
 		if(!empty($_POST)){
 
 			$this->form_validation->set_rules('tahun', 'Tahun', 'xss_clean');			
@@ -89,9 +100,7 @@ class Tampil extends My_Controller {
 
 		}
 
-		$web['kabupaten'] = $this->basecrud_m->get_where('kabupaten',array('id_propinsi' => 1));
-		$web['th_min_max'] = $this->db->query("SELECT MIN(tahun) as min_th, MAX(tahun) as max_th
-											   FROM sekolah_stats")->row();
+		
 
 		$web['data'] = $this->rekap_m->stats();
 
@@ -150,10 +159,10 @@ class Tampil extends My_Controller {
 		$sekolah = $this->basecrud_m->get_where('data_sekolah',array('id' => $id_sekolah))->row();
 		$kabupaten = $this->basecrud_m->get_where('kabupaten',array('id' => $sekolah->id_kabupaten))->row();
 
-		$data = "	<tr>
+		$data = "	<!--<tr>
 		              <td style=\"width:150px;background-color:#D9EDF7\">NSS</td>
 		              <td>". $sekolah->nss ."</td>  
-		            </tr>            
+		            </tr>-->            
 		            <tr>
 		              <td style=\"width:150px;background-color:#D9EDF7\">Nama</td>
 		              <td>". $sekolah->nama ."</td>  
@@ -299,6 +308,11 @@ class Tampil extends My_Controller {
 			if (!file_exists("./upload/download/" . $file->row()->nama_file)){
 				redirect('tampil');
 			}
+
+			//update view
+			$this->db->query("UPDATE produk_hukum_files 
+				              SET view_count = view_count + 1 
+				              WHERE id = '".$id."'");
 
 			$data = file_get_contents("./upload/download/" . $file->row()->nama_file); // Read the file's contents
 			$ext = pathinfo($file->row()->nama_file, PATHINFO_EXTENSION);
@@ -789,7 +803,11 @@ class Tampil extends My_Controller {
 		if (empty($awal) || $awal == 1) { $awal = 0; } { $awal = $awal; }
 		$akhir	= $config['per_page'];
 		
-		$web['blog'] 	= $this->db->query("SELECT * FROM berita WHERE publish = '1' ORDER BY id DESC LIMIT $awal, $akhir")->result();
+		$web['blog'] 	= $this->db->query("SELECT a.*,IF(a.sticky = 'Y',0,1) as order_sticky 
+			                                FROM berita a
+			                                WHERE publish = '1' 
+			                                ORDER BY order_sticky ASC, tglPost DESC 
+			                                LIMIT $awal, $akhir")->result();
 		
 		$web['page']	= $this->pagination->create_links();
 
@@ -1018,19 +1036,27 @@ class Tampil extends My_Controller {
         $u = $this->security->xss_clean($this->input->post('u'));
         $p = md5($this->security->xss_clean($this->input->post('p')));
          
-		$q_cek	= $this->db->query("SELECT * FROM admin WHERE u = '".$u."' AND p = '".$p."'");
+		//$q_cek	= $this->db->query("SELECT * FROM admin WHERE u = '".$u."' AND p = '".$p."' AND ");
+		$q_cek  = $this->basecrud_m->get_where('admin',
+												array('u' => $u,
+													  'p' => $p,
+													  'aktif' => 'Y',
+													  'terhapus' => 'N'
+			                                    )
+		                                      );
 		$j_cek	= $q_cek->num_rows();
 		$d_cek	= $q_cek->row();
 		
 		
         if($j_cek == 1) {
             $data = array(
-                    'user' => $d_cek->u,
-                    'pass' => $d_cek->p,
-					'validated' => true
+					'user_id'   =>	$d_cek->id,                                        
+					'user'      => $d_cek->u,                                        
+					'validated' => true,
+					'menu_list' => $d_cek->menu_list
                     );
             $this->session->set_userdata($data);
-            redirect('manage');
+            redirect('manage/index');
         } else {	
 			$web['info']	= "<div style='margin: 15px 15px -10px 15px; background: red; padding: 5px 0 5px 0; text-align: center'>Upss.. Username atau Passwod Salah</div>";
 			$this->load->view('login', $web);

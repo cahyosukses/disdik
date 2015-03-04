@@ -24,7 +24,7 @@
           <td style="padding-right:10px">
             <?php $tahun = $this->session->userdata('tahun');?>
             <select name="tahun" style="width:120px">
-              <option value="">Semua Tahun</option>
+              <!--<option value="">Semua Tahun</option>-->
               <?php $min = $th_min_max->min_th;
                     $max = $th_min_max->max_th;
                     for ($i= $min; $i <= $max ; $i++) { 

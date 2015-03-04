@@ -25,6 +25,11 @@
 	         
 	         ?>
 	   </p>
+
+	   <?php if(!IsNullOrEmptyString($baca->file_name)){ ?>
+       <p class="span11" style="margin-left: 0px"><b>Dokumen: </b><a href="<?php echo base_URL() . 'upload/post/' . $baca->file_name;?>"><i class="icon-download"></i>Download File</a></p>
+       <?php } ?>
+
 	   <?php
 	      } else {
 	      ?>
@@ -48,7 +53,13 @@
 	         	}
 	         }
 	         ?>
-	   </p>
+	   </p><br>
+
+	   <?php if(!IsNullOrEmptyString($baca->file_name)){ ?>
+       <p class="span11" style="margin-left: 0px"><b>Dokumen: </b><a href="<?php echo base_URL() . 'upload/post/' . $baca->file_name;?>"><i class="icon-download"></i>Download File</a></p>
+       <?php } ?>
+
+
 	   <?php
 	      }
 	      $kode 		= random_string('alnum', 5);

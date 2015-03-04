@@ -10,6 +10,23 @@ class MY_Controller extends CI_Controller{
         $this->_check_auth();
     }
     
+    private function _is_allowed($method){
+        
+        $this->db->where('method',$method);
+        $rs = $this->db->get('manage_menu')->row();
+
+        $id = $rs->id;
+        
+        $menu_list = explode(',',$this->session->userdata('menu_list'));
+        $result = FALSE;
+        
+        if(in_array($id,$menu_list)){
+            $result = TRUE;
+        }
+        
+        return $result;
+    }
+
     private function _check_auth(){
       
       if(!$this->session->userdata('validated')){
@@ -25,8 +42,11 @@ class MY_Controller extends CI_Controller{
         $method = $this->router->method; 
         
         if(!$curr_method){
+            
             $this->session->set_userdata('curr_method',$method);
+            
         }else{
+
             if($curr_method !== $method){
                 $this->session->unset_userdata('cari');
                 $this->session->unset_userdata('filter');
@@ -34,7 +54,14 @@ class MY_Controller extends CI_Controller{
                 $this->session->unset_userdata('tahun');
                 $curr_method = $this->session->set_userdata('curr_method',$method);                    
             }        
+
         }    
+
+        if ( ! in_array($this->router->class, $this->_open_controllers)){
+            if(!$this->_is_allowed($method)){
+                redirect(base_url() . 'manage/index' , 'reload'); //go back kids!                
+            }
+        }
 
         $this->output->set_header('Last-Modified: ' . gmdate("D, d M Y H:i:s") . ' GMT');  
         $this->output->set_header("Cache-Control: no-store, no-cache, must-revalidate, no-transform, max-age=0, post-check=0, pre-check=0");

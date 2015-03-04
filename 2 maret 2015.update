@@ -1,0 +1,44 @@
+ALTER TABLE `berita` ADD COLUMN `sticky` ENUM('Y','N') NOT NULL DEFAULT 'N' AFTER `publish`;
+ALTER TABLE `berita` ADD COLUMN `file_name` VARCHAR(100) NOT NULL AFTER `gambar`;
+
+
+
+-- Dumping structure for table disdik.manage_menu
+CREATE TABLE IF NOT EXISTS `manage_menu` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `sort` tinyint(4) NOT NULL DEFAULT '0',
+  `name` varchar(50) NOT NULL,
+  `method` varchar(50) NOT NULL,
+  `show` enum('Y','N') NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
+
+-- Dumping data for table disdik.manage_menu: ~19 rows (approximately)
+DELETE FROM `manage_menu`;
+
+INSERT INTO `manage_menu` (`id`, `sort`, `name`, `method`, `show`) VALUES
+	(1, 1, 'Beranda', 'index', 'Y'),
+	(2, 2, 'Profil', 'profil', 'Y'),
+	(3, 3, 'Data Sekolah', 'data_sekolah', 'Y'),
+	(4, 4, 'Produk Hukum', 'data_produk_hukum', 'Y'),
+	(5, 5, 'Post Berita', 'blog', 'Y'),
+	(6, 6, 'Kategori Berita', 'kategori_berita', 'Y'),
+	(7, 7, 'Komentar Berita', 'komentar', 'Y'),
+	(8, 8, 'Galeri Foto', 'galeri', 'Y'),
+	(9, 9, 'Buku Tamu', 'bukutamu', 'Y'),
+	(10, 10, 'Ide & Saran', 'ide_saran', 'Y'),
+	(11, 11, 'Ekspresi', 'ekspresi', 'Y'),
+	(12, 12, 'Link/Tautan', 'link', 'Y'),
+	(13, 13, 'Agenda', 'agenda', 'Y'),
+	(14, 15, 'Edit Profile', 'passwod', 'Y'),
+	(15, 16, 'Logout', 'logout', 'Y'),
+	(16, 0, '', 'prod_hukum_list', 'N'),
+	(17, 0, '', 'sekolah_stats', 'N'),
+	(18, 0, '', 'data_guru', 'N'),
+	(19, 0, '', 'data_siswa', 'N'),
+	(20, 14, 'Managemen User', 'user', 'Y');
+
+
+ALTER TABLE `admin` ADD COLUMN `menu_list` VARCHAR(50) NOT NULL AFTER `level`;
+ALTER TABLE `admin` ADD COLUMN `aktif` ENUM('Y','N') NOT NULL DEFAULT 'Y' AFTER `menu_list`;
+ALTER TABLE `admin`	ADD COLUMN `terhapus` ENUM('Y','N') NOT NULL DEFAULT 'N' AFTER `aktif`;	

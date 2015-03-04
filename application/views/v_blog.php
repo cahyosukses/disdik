@@ -9,7 +9,7 @@
          foreach ($blog as $b) { 
          	if (empty($b->gambar)) {
          ?>
-      <b><i><?php echo $b->judul?></i></b>
+      <b><i><?php echo $b->judul?></i> <?php if($b->sticky === 'Y'){ ?><span class="label label-important"><i class="icon-bullhorn"></i> Sticky Post</span> <?php } ?></b>
       <p style="margin-top: 0px; font-size: 12px">Posted by : <b><?php echo $b->oleh?></b>,  pada : <b><?php echo tgl_panjang($b->tglPost, "lm")?></b>,  Dibaca <b><?php echo $b->hits?></b> kali</p>
       <p><?php echo substr(strip_tags($b->isi), 0, 300)." ... "?> <a href="<?php echo base_URL()?>tampil/blog/baca/<?php echo $b->id?>/<?php echo getURLFriendly($b->judul)?>">[Read more]</a></p>
       <?php $pch_kat	= explode("-", $b->kategori); ?>
@@ -23,10 +23,11 @@
             }
             ?>
       </p>
+      
       <?php 
          } else {
          ?>
-      <b><i><?php echo $b->judul?></i></b>
+      <b><i><?php echo $b->judul?></i> <?php if($b->sticky === 'Y'){ ?><span class="label label-important"><i class="icon-bullhorn"></i> Sticky Post</span> <?php } ?></b>
       <p style="margin-top: 0px; font-size: 12px">Posted by : <b><?php echo $b->oleh?></b>,  pada : <b><?php echo tgl_panjang($b->tglPost, "lm")?></b>,  Dibaca <b><?php echo $b->hits?></b> kali</p>
       <p style="display: block;">
       <div class="span3 thumbnail" style="margin-left: 0px">		  	                       
@@ -48,6 +49,7 @@
             }
             ?>
       </p>
+     
       <?php
          }
          } 

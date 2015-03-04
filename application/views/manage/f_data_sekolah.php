@@ -60,7 +60,7 @@ if ($mode == "edt" || $mode == "edt_act") {
 	<legend><?php echo $title;?></legend>
 	<br>
 	<label style="width: 200px; float: left">NPSN</label><input class="input-xxlarge" type="text" name="npsn" placeholder="" value="<?php echo $npsn?>" required><br>	
-	<label style="width: 200px; float: left">NSS</label><input class="input-xxlarge" type="text" name="nss" placeholder="" value="<?php echo $nss?>" required><br>
+	<!--<label style="width: 200px; float: left">NSS</label><input class="input-xxlarge" type="text" name="nss" placeholder="" value="<?php echo $nss?>" required><br>-->
 	<label style="width: 200px; float: left">Nama</label><input class="input-xxlarge" type="text" name="nama" placeholder="" value="<?php echo $nama?>" required><br>
 	<label style="width: 200px; float: left">Kabupaten</label>
 	<select name="id_kabupaten">
