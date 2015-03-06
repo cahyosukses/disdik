@@ -8,6 +8,8 @@ if ($mode == "edt" || $mode == "edt_act") {
 	$nss                = $mode === 'edt' ? $data->nss : set_value('nss');
 	$nama               = $mode === 'edt' ? $data->nama : set_value('nama');
 	$id_kabupaten       = $mode === 'edt' ? $data->id_kabupaten : set_value('id_kabupaten');
+	$kelurahan          = $mode === 'edt' ? $data->kelurahan : set_value('kelurahan');
+	$kecamatan          = $mode === 'edt' ? $data->kecamatan : set_value('kecamatan');
 	$alamat             = $mode === 'edt' ? $data->alamat : set_value('alamat');
 	$kodepos            = $mode === 'edt' ? $data->kodepos : set_value('kodepos');
 	$no_telp            = $mode === 'edt' ? $data->no_telp : set_value('no_telp');
@@ -27,11 +29,13 @@ if ($mode == "edt" || $mode == "edt_act") {
 
 } else {	
 
-	$nama       = $mode === 'add' ? '' : set_value('nama');
+	$nama               = $mode === 'add' ? '' : set_value('nama');
 	$npsn               = $mode === 'add' ? '' : set_value('npsn');
 	$nss                = $mode === 'add' ? '' : set_value('nss');
 	$nama               = $mode === 'add' ? '' : set_value('nama');
-	$id_kabupaten       = $mode === 'add' ? '' : set_value('id_kabupaten');
+	$id_kabupaten       = $mode === 'add' ? '' : set_value('id_kabupaten');	
+	$kecamatan          = $mode === 'add' ? '' : set_value('kecamatan');
+	$kelurahan          = $mode === 'add' ? '' : set_value('kelurahan');	
 	$alamat             = $mode === 'add' ? '' : set_value('alamat');
 	$kodepos            = $mode === 'add' ? '' : set_value('kodepos');
 	$no_telp            = $mode === 'add' ? '' : set_value('no_telp');
@@ -46,10 +50,19 @@ if ($mode == "edt" || $mode == "edt_act") {
 	$jumlah_kelas       = $mode === 'add' ? '' : set_value('jumlah_kelas');
 	$status             = $mode === 'add' ? '' : set_value('status');
 	$website            = $mode === 'add' ? '' : set_value('website');
-
-	$act		= "add_act";
+	
+	$act                = "add_act";
 }
 ?>
+
+<div class="row-fluid">
+	<div class="span12">
+		<ul class="breadcrumb wellwhite">
+			<li><a href="<?php echo base_URL()?>manage/data_sekolah">Daftar Data Sekolah</a> <span class="divider">/</span></li>
+			<li>Tambah Data Sekolah</li>
+		</ul>
+	</div>
+</div>
 
 <?php if(isset($msg)){ ?>
 <div class='alert alert-error'><?php echo $msg;?></div>
@@ -69,6 +82,9 @@ if ($mode == "edt" || $mode == "edt_act") {
 	<?php }?>
 	</select><br>	
 	
+	<label style="width: 200px; float: left">Kecamatan</label><input class="input-xxlarge" type="text" name="kecamatan" placeholder="" value="<?php echo $kecamatan?>" ><br>
+	<label style="width: 200px; float: left">Kelurahan</label><input class="input-xxlarge" type="text" name="kelurahan" placeholder="" value="<?php echo $kelurahan?>" ><br>
+
 	<label style="width: 200px; float: left">Alamat</label><input class="input-xxlarge" type="text" name="alamat" placeholder="" value="<?php echo $alamat?>" ><br>
 	<label style="width: 200px; float: left">KodePOS</label><input class="input-xxlarge" type="text" name="kodepos" placeholder="" value="<?php echo $kodepos?>" ><br>
 	<label style="width: 200px; float: left">Nomor Telp</label><input class="input-xxlarge" type="text" name="no_telp" placeholder="" value="<?php echo $no_telp?>" ><br>
@@ -78,6 +94,7 @@ if ($mode == "edt" || $mode == "edt_act") {
 	<label style="width: 200px; float: left">Akreditasi</label><input class="input-xxlarge" type="text" name="akreditasi" placeholder="" value="<?php echo $akreditasi?>" ><br>
 	<label style="width: 200px; float: left">Jenjang</label>
 	<select name="jenjang">
+		<option <?php echo $jenjang === 'paud' ? 'selected': ''?> value="paud">PAUD</option>		
 		<option <?php echo $jenjang === 'tk' ? 'selected': ''?> value="tk">TK</option>	
 		<option <?php echo $jenjang === 'sd' ? 'selected': ''?> value="sd">SD</option>	
 		<option <?php echo $jenjang === 'mi' ? 'selected': ''?> value="mi">MI</option>	

@@ -1,5 +1,6 @@
 <legend>Daftar Data Sekolah</legend>
 <button class="btn btn-primary" type="button" onclick="window.open('<?php echo base_URL(); ?>manage/data_sekolah/add/', '_self')">Data Baru</button>
+<button class="btn btn-primary" type="button" onclick="window.open('<?php echo base_URL(); ?>manage/data_sekolah/import/', '_self')">Import Data</button>
 <br><br>
 <?php echo $this->session->flashdata("k");?>
 <table width="100%"  class="table table-condensed">

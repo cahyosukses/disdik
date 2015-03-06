@@ -1,0 +1,11 @@
+ALTER TABLE `data_sekolah`
+	ALTER `jumlah_ruang` DROP DEFAULT,
+	ALTER `jumlah_lahan` DROP DEFAULT,
+	ALTER `jumlah_gedung` DROP DEFAULT,
+	ALTER `jumlah_kelas` DROP DEFAULT;
+	
+ALTER TABLE `data_sekolah`
+	CHANGE COLUMN `jumlah_ruang` `jumlah_ruang` VARCHAR(50) NOT NULL AFTER `jenjang`,
+	CHANGE COLUMN `jumlah_lahan` `jumlah_lahan` VARCHAR(50) NOT NULL AFTER `jumlah_ruang`,
+	CHANGE COLUMN `jumlah_gedung` `jumlah_gedung` VARCHAR(50) NOT NULL AFTER `jumlah_lahan`,
+	CHANGE COLUMN `jumlah_kelas` `jumlah_kelas` VARCHAR(50) NOT NULL AFTER `jumlah_gedung`;

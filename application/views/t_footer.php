@@ -66,6 +66,7 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="<?php echo base_URL()?>assets/js/jquery.js"></script>
     <script src="<?php echo base_URL()?>assets/js/jquery.marquee/jquery.marquee.min.js"></script>
+    <script src="<?php echo base_URL()?>assets/js/news.box.js"></script>
     <script src="<?php echo base_URL()?>assets/calendar/jquery.eventCalendar.js"></script>
     <script src="<?php echo base_URL()?>assets/js/bootstrap-transition.js"></script>
     <script src="<?php echo base_URL()?>assets/js/bootstrap-alert.js"></script>
@@ -125,6 +126,24 @@
 	
 	$(function () {
 		$('#myTab a:first').tab('show');
+
+		$(".pengumuman").bootstrapNews({
+			newsPerPage: 3,
+			navigation: true,
+			autoplay: true,
+			direction:'up', // up or down
+			animationSpeed: 'normal',
+			newsTickerInterval: 3000, //4 secs
+			pauseOnHover: true,
+			onStop: null,
+			onPause: null,
+			onReset: null,
+			onPrev: null,
+			onNext: null,
+			onToDo: null
+		});
+
+
 	});
 
 	jQuery(document).ready(function() {

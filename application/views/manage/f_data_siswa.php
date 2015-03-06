@@ -36,7 +36,7 @@
 	<div class="span12">
 		<ul class="breadcrumb wellwhite">
 			<li><a href="<?php echo base_URL()?>manage/data_sekolah">Daftar Data Sekolah</a> <span class="divider">/</span></li>
-			<li><a href="<?php echo base_URL()?>manage/data_siswa/<?php echo $id_sekolah ?>"><?php echo $nama_sekolah?></a> <span class="divider">/</span></li>
+			<li><a href="<?php echo base_URL()?>manage/data_siswa/<?php echo $id_sekolah ?>">Siswa <?php echo $nama_sekolah?></a> <span class="divider">/</span></li>
 			<li><?php echo ($mode === 'edt' || $mode === 'edt_act') ? 'Edit' : 'Tambah';?> Data Siswa</li>
 		</ul>
 	</div>

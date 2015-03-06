@@ -21,7 +21,9 @@ class Datasekolah_m extends CI_Model
       $status = $this->session->userdata('status');
       $kabupaten = $this->session->userdata('id_kabupaten');
 
-      $this->db->select('a.id,a.npsn,a.nss,a.nama,c.nama as propinsi,b.nama as kabupaten,c.nama as propinsi,a.jenjang,a.status');
+      $this->db->select('a.id,a.npsn,a.nss,a.nama,c.nama as propinsi,
+                         b.nama as kabupaten,c.nama as propinsi,a.jenjang,
+                         a.kelurahan,a.kecamatan,a.status');
       $this->db->join('kabupaten b','a.id_kabupaten = b.id','left');
       $this->db->join('propinsi c','b.id_propinsi = c.id','left');      
       

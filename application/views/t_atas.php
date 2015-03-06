@@ -1,3 +1,7 @@
+<?php 
+   $fb_fanpage = $this->basecrud_m->get_where('settings',array('title' => 'fb_fanpage'))->row()->value;
+   $running_text = $this->basecrud_m->get_where('settings',array('title' => 'running_text'))->row()->value;
+?>
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -75,7 +79,7 @@
       <br>
       <small style="font-family: Times New Roman; font-size: 17px; margin: -40px 0 0 90px; display: inline; position: absolute">Alamat : Jl. Jend. A. Yani No.06 Telanaipura Jambi. Telp. (0741) 63197 Fax. (0741) 63197</small>
       <div style="margin-top: -40px; font-family: tahoma" class="pull-right">
-         <a href="http://www.facebook.com" target="_BLANK"><img src="<?php echo base_URL() . 'upload/galeri/facebook.png'?>"></a> 
+         <a href="<?php echo $fb_fanpage;?>" target="_BLANK"><img src="<?php echo base_URL() . 'upload/galeri/facebook.png'?>"></a> 
       </div>
       <div class="navbar">
          <div class="navbar-inner">
@@ -165,7 +169,7 @@
          <a class="left carousel-control" href="#myCarousel" data-slide="prev">&lsaquo;</a>
          <a class="right carousel-control" href="#myCarousel" data-slide="next">&rsaquo;</a>
          
-         <div class="marquee">Selamat Datang Pada Website Resmi Dinas Pendidikan Provinsi Jambi</div>
+         <div class="marquee"><?php echo $running_text;?></div>
          
       </div>
       
@@ -173,9 +177,52 @@
       
       <div class="row-fluid" style="padding-top:10px">
       <div class="span3">
+         
          <div class="wellwhite sidebar-nav">
             <ul class="nav nav-list">
-               <li class="nav-header" style="">Interaktif Menu</li>
+               <li class="nav-header" style=""><i class="icon-bullhorn"></i>Pengumuman</li>               
+            </ul> 
+               <div id="box-pengumuman">
+                  <div class="panel panel-default">
+                     <div class="panel-body">
+                        <div class="row-fluid">
+                           <div class="span12">
+                              <ul class="pengumuman">
+                                 <?php $p = $this->db->query("SELECT * FROM pengumuman WHERE publish = 'Y' ORDER BY tglPost DESC LIMIT 10");?>
+                                 <?php if($p->num_rows() == 0){ ?>
+                                 <li class="news-item">
+                                    <span class="label label-default">
+                                       <span class="icon-time"></span>                                       
+                                       00:00:00
+                                    </span><br>
+                                    <a href="" title="Belum Ada Data Pengumuman">Belum Ada Data Pengumuman</a>
+                                 </li>
+                                 <?php }else{ ?>
+                                 <?php foreach ($p->result() as $p_list){ ?>
+                                 <li class="news-item">
+                                    <span class="label label-default">
+                                    <span class="icon-time"></span>
+                                    <?php echo tgl_panjang($p_list->tglPost,'sm');?></span><br>
+                                    <a href="<?php echo base_URL() . 'tampil/pengumuman/detail/' . $p_list->id;?>" title="<?php echo $p_list->judul;?>"><?php echo $p_list->judul;?></a>
+                                 </li>
+                                 <?php } ?>     
+                                 <?php } ?>                            
+                              </ul>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="panel-footer">
+                        <a button href="<?php echo base_URL() . 'tampil/pengumuman';?>" type="button" class="btn btn-success btn-small" data-toggle="tooltip" data-placement="right" title="Klik untuk pengumuman lainya"><i class="icon-th-list"></i> Index Pengumuman
+                        </a>
+                     </div>
+                  </div>
+               </div>           
+         </div>
+
+         <div class="wellwhite sidebar-nav">
+            
+            <ul class="nav nav-list">
+               <li class="nav-header" style=""><i class="icon-list"></i>Interaktif Menu</li>
                <!--<li><a href="<?php echo base_URL()?>tampil/blog">Berita</a></li>-->
                <li><a href="<?php echo base_URL()?>tampil">Berita</a></li>
                <li><a href="<?php echo base_URL()?>tampil/bukutamu">Kontak Kami</a></li>
@@ -184,6 +231,7 @@
             </ul>
          </div>
          <!--/.well -->
+         
          <?php 
             if ($this->session->userdata('siswa_validated') != FALSE && $this->session->userdata('siswa_id') != "") {
             ?>
@@ -225,12 +273,12 @@
          -->
          <!--/.well -->
          <div class="wellwhite sidebar-nav">
-         <ul class="nav nav-list">
-               <li class="nav-header" style="">Agenda</li>               
+            <ul class="nav nav-list">
+               <li class="nav-header" style=""><i class="icon-calendar"></i>Agenda</li>               
             </ul>
-         <div id="eventCalendarHumanDate"></div>
-            
+            <div id="eventCalendarHumanDate"></div>            
          </div>
+
          <!--/.well -->
          <div class="span12">
             <ul id="myTab" class="nav nav-tabs">

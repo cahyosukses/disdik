@@ -29,12 +29,247 @@ class Manage extends MY_Controller {
 		$this->load->view('manage/tampil',$data);
 	}
 
+	function settings($act = null,$param=null){
+		
+		$this->load->model(array('basecrud_m','settings_m'));
+		
+		if($act === 'upload'){
+			
+			if (!empty($_FILES['img']['name']))
+			{
+				
+				$upload = array();
+				$upload['upload_path'] = './upload';
+				$upload['allowed_types'] = 'jpeg|jpg|png';
+				$upload['encrypt_name'] = TRUE;
+				
+				$this->load->library('upload', $upload);
+				
+				if (!$this->upload->do_upload('img'))
+				{
+					$data['msg'] = $this->upload->display_errors();
+					
+				} else
+				{
+					$success = $this->upload->data();
+					$value = $success['file_name'];
+					
+					$this->settings_m->update_by_title($param, array('value'=>$value));
+					redirect('manage/settings');
+				}
+			}
+			
+		}elseif($act === 'edt'){
+			
+			$value = $this->input->post('value');
+			$this->settings_m->update_by_title($param, array('value'=>$value));
+			exit(0);
+			
+		}
+		
+		
+		$data['setting'] = $this->basecrud_m->get_where('settings',array('show'=>'Y'));
+		$data['page'] = 'v_settings';			
+		$data['title'] = 'Data Settings';		
+		
+		$this->_generate_page($data);
+	}
+
+	public function pengumuman() {
+
+		//ambil variabel URL
+		$mau_ke					= $this->uri->segment(3);
+		$id						= $this->uri->segment(4);
+		
+		$date_now = date('Y-m-d H:i:s');
+
+		if($mau_ke === 'cari'){
+
+			$cari = $_POST['cari'];
+			$this->session->set_userdata('cari',$cari);
+			redirect('manage/pengumuman','reload');
+
+		}elseif ($mau_ke == "del") {
+			
+			$q_file		= $this->basecrud_m->get_where('pengumuman',array('id' => $id))->row();
+			$file		= $q_file->file_name;
+			//$this->db->query("DELETE FROM berita WHERE id = '$id'");
+			$this->basecrud_m->delete('pengumuman',array('id' => $id));
+			$path 		= './upload/post/'.$file;
+			@unlink($path);
+			
+			$this->session->set_flashdata("k", "<div class=\"alert alert-success\">pengumuman berhasil dihapuskan </div>");
+			redirect('manage/pengumuman');
+
+		} else if ($mau_ke == "pub") {
+			
+			$this->db->query("UPDATE pengumuman SET publish = 'Y' WHERE id = '$id'");
+			$this->session->set_flashdata("k", "<div class=\"alert alert-success\">Status pengumuman : Dipublikasikan </div>");
+			redirect('manage/pengumuman');
+
+		} else if ($mau_ke == "unpub") {
+			
+			$this->db->query("UPDATE pengumuman SET publish = 'N' WHERE id = '$id'");
+			$this->session->set_flashdata("k", "<div class=\"alert alert-success\">Status pengumuman : Draft </div>");
+			redirect('manage/pengumuman');
+
+		} else if ($mau_ke == "add") {
+
+			$m['page']	= "f_pengumuman";
+
+		} else if ($mau_ke == "edit") {
+			
+			$id_pengumuman         = $this->uri->segment(4);
+			$m['pengumuman_pilih'] = $this->basecrud_m->get_where('pengumuman',array('id' => $id))->row();
+			$m['page']             = "f_pengumuman";
+
+		} else if ($mau_ke == "act_add") {
+			
+			
+			
+			//konfigurasi upload file
+			
+			$this->load->library('upload');
+			
+			$config['upload_path'] 		= 'upload/post';
+			$config['allowed_types'] 	= 'pdf|doc|docx|xls|xlsx|rar|zip';			
+			$config['encrypt_name']     = TRUE;
+
+			$this->upload->initialize($config);
+			
+			if (!empty($_FILES['file_dokumen']['name'])) {
+
+				if ($this->upload->do_upload('file_dokumen')) {
+					//upload gambar ama dokumen	
+					$doc_data	 	= $this->upload->data();
+					$in = array(
+								'judul'     => $this->input->post('judul'),								
+								'file_name' => $doc_data['file_name'],
+								'isi'       => $this->input->post('isi'),
+								'tglPost'   => $date_now,								
+								'oleh'      => $this->session->userdata('user'),
+								'publish'   => 'Y'
+					);
+
+					$this->basecrud_m->insert('pengumuman',$in);
+					
+					$this->session->set_flashdata("k", "<div class=\"alert alert-success\">Pengumuman berhasil ditambahkan bersama dokumen</div>");
+					redirect('manage/pengumuman');
+				}else{
+					//error
+					$m['page']	= "f_pengumuman"; 
+					$this->session->set_flashdata("k", "<div class=\"alert alert-important\">".$this->upload->display_errors()."</div>");
+					redirect('manage/pengumuman/act_add');
+				}
+
+			} else {				
+				
+				//tanpa upload documen
+				$in = array(
+							'judul'     => $this->input->post('judul'),																
+							'isi'       => $this->input->post('isi'),
+							'tglPost'   => $date_now,							
+							'oleh'      => $this->session->userdata('user'),
+							'publish'   => 'Y'
+							);
+				$this->basecrud_m->insert('pengumuman',$in);
+				
+				$this->session->set_flashdata("k", "<div class=\"alert alert-success\">Pengumuman berhasil ditambahkan tanpa dokumen</div>");
+				redirect('manage/pengumuman');
+				
+			}
+			
+		} else if ($mau_ke == "act_edit") {
+
+			$this->load->library('upload');
+			
+			$config['upload_path'] 		= 'upload/post';
+			$config['allowed_types'] 	= 'pdf|doc|docx|xls|xlsx|rar|zip';			
+			$config['encrypt_name']     = TRUE;
+
+			$this->upload->initialize($config);
+			
+			$id_pengumuman = $this->input->post('id_data');
+
+			if (!empty($_FILES['file_dokumen']['name'])) {	
+				
+				if ($this->upload->do_upload('file_dokumen')) {
+					$doc_data	 	= $this->upload->data();
+
+					$q_file		= get_value("pengumuman", "id", $this->input->post('id_data'));
+					$file		= $q_file->file_name;
+					$path 		= './upload/post/'.$file;
+					@unlink($path);
+					
+					$this->basecrud_m->update('pengumuman',$id_pengumuman, 
+												array('judul' => addslashes($this->input->post('judul')),
+													  'file_name' => $doc_data['file_name'],
+													  'tglPost'	=> $date_now,
+													  'oleh' => $this->session->userdata('user'),
+													  'isi' => addslashes($this->input->post('isi'))
+												     )
+											);
+			
+					$this->session->set_flashdata("k", "<div class=\"alert alert-success\">Postingan berhasil diupdate bersama dokumen</div>");
+					redirect('manage/pengumuman');
+
+				}else{
+					//error
+					$m['page']	= "f_berita"; 
+					$this->session->set_flashdata("k", "<div class=\"alert alert-important\">".$this->upload->display_errors()."</div>");
+					redirect('manage/pengumuman/edit/'.$this->input->post('id_data'));
+				}
+
+			}else{
+
+				$this->basecrud_m->update('pengumuman',$id_pengumuman, 
+							array('judul' => addslashes($this->input->post('judul')),								  
+								  'tglPost'	=> $date_now,
+								  'oleh' => $this->session->userdata('user'),
+								  'isi' => addslashes($this->input->post('isi'))
+							     )
+						);
+				
+				$this->session->set_flashdata("k", "<div class=\"alert alert-success\">Pengumuman berhasil diedit tanpa dokumen</div>");
+				redirect('manage/pengumuman');
+				
+			}			
+
+		} else {
+
+			$this->load->model('pengumuman_m');
+
+			//pagination
+			$url = base_url() . 'manage/pengumuman/';
+			$res = $this->pengumuman_m->get('numrows');
+			$per_page = 10;
+			$config = paginate($url,$res,$per_page,3);
+			$this->pagination->initialize($config);
+
+			$this->pengumuman_m->limit = $per_page;
+			if($this->uri->segment(3) == TRUE){
+	        	$this->pengumuman_m->offset = $this->uri->segment(3);
+	        }else{
+	            $this->pengumuman_m->offset = 0;
+	        }	
+
+			$this->pengumuman_m->sort = "tglPost";
+	    	$this->pengumuman_m->order = 'DESC';
+	    	//end pagination
+	    	
+			$m['pengumuman'] = $this->pengumuman_m->get('pagging');				
+			$m['page'] = 'v_pengumuman';
+		}
+
+		$this->load->view('manage/tampil', $m);
+	}
+
 	function user($cmd = null,$param = null){
 
 		$this->load->model('user_m');
 
-		$admin_priv = '1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20';
-		$berita_priv = '1,5,6,7,14,15';
+		$admin_priv = '1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22';
+		$berita_priv = '1,5,6,7,8,17,18';
 
 		if($cmd === 'add'){
 
@@ -716,6 +951,19 @@ class Manage extends MY_Controller {
 		}
 	}
 
+	function _get_id_kab($kab){
+
+		$id_kab = null;
+		$r = $this->db->query("SELECT id FROM kabupaten WHERE nama LIKE '%$kab%'");
+		if($r->num_rows() == 0){
+			$id_kab = 0;
+		}else{
+			$id_kab = $r->row()->id;
+		}
+
+		return $id_kab;
+
+	}
 
 	function data_sekolah($cmd = null,$param = null){
 
@@ -743,6 +991,144 @@ class Manage extends MY_Controller {
 
 			redirect('manage/data_sekolah','reload');
 
+		}elseif($cmd === 'import'){
+			$data = array(
+							'page'      => 'i_data_sekolah',						 
+							'title'     => 'Import Data Sekolah'			
+						  );
+			$this->_generate_page($data);
+
+		}elseif($cmd === 'import_act'){
+
+			$data = array();
+			if(!empty($_POST)){
+				
+				$config['upload_path']   = './upload';
+				$config['allowed_types'] = 'xls';
+				$config['encrypt_name']  = TRUE;
+
+				$this->load->library('upload',$config);
+				
+				if (!$this->upload->do_upload('userfile')){
+					$data['msg'] =  $this->upload->display_errors();				
+				}else{
+					include_once ( APPPATH."libraries/excel_reader2.php");
+					$xl_data = new Spreadsheet_Excel_Reader($_FILES['userfile']['tmp_name']);
+					
+					$j = 0;
+					$new_rows = 0;
+					$updated_rows = 0;
+					
+					//baris data dimulai dari baris ke 2
+					for ($i = 18; $i <= ($xl_data->rowcount($sheet_index=0)); $i++){
+						//NPSN	, Nama Sekolah	, 
+						//Kabupaten	, Status, 
+						//Jenjang, Alamat, 
+						//KodePOS,	Telp ,	
+						//Faks ,	Email ,	
+						//Waktu Persekolahan	,Akreditasi ,	
+						//Jumlah Ruang , Jumlah Lahan, 
+						//Jumlah Gedung , Jumlah Kelas, 
+						//Link Website
+						
+						$npsn               = $xl_data->val($i, 1);
+						$nama_sekolah       = $xl_data->val($i, 2);
+						$kab                = $xl_data->val($i, 3);
+						$status             = $xl_data->val($i, 4);
+						$jenjang            = $xl_data->val($i, 5);
+						$kecamatan          = $xl_data->val($i, 6);
+						$kelurahan          = $xl_data->val($i, 7);
+						$alamat             = $xl_data->val($i, 8);
+
+						$kodepos            = $xl_data->val($i, 9);
+						$telp               = $xl_data->val($i, 10);
+						$faks               = $xl_data->val($i, 11);
+						$email              = $xl_data->val($i, 12);
+						$waktu_persekolahan = $xl_data->val($i, 13);
+						$akreditasi         = $xl_data->val($i, 14);
+						$jumlah_ruang       = $xl_data->val($i, 15);
+						$jumlah_lahan       = $xl_data->val($i, 16);
+						$jumlah_gedung      = $xl_data->val($i, 17);
+						$jumlah_kelas       = $xl_data->val($i, 18);
+						$link               = $xl_data->val($i, 19);
+						
+						$r = $this->basecrud_m->get_where('data_sekolah',array('npsn' => trim($npsn)));
+
+						if($r->num_rows() == 0){
+							//hanya data baru aja yang dimasukkin
+							$in = array( 
+										'npsn'               => trim($npsn),
+										'nama'               => trim($nama_sekolah),
+										'id_kabupaten'       => $this->_get_id_kab(trim($kab)),
+										'kecamatan'          => $kecamatan,
+										'kelurahan'          => $kelurahan,
+										'alamat'             => $alamat,
+										'kodepos'            => $kodepos,
+										'no_telp'            => $telp,
+										'no_faks'            => $faks,
+										'email'              => $email,
+										'waktu_persekolahan' => $waktu_persekolahan,
+										'akreditasi'         => $akreditasi,
+										'jenjang'            => strtolower(trim($jenjang)),
+										'jumlah_ruang'       => $jumlah_ruang,
+										'jumlah_lahan'       => $jumlah_lahan,
+										'jumlah_gedung'      => $jumlah_gedung,
+										'jumlah_kelas'       => $jumlah_kelas,
+										'status'             => strtolower(trim($status)),
+										'website'            => $link
+
+							);
+
+							$this->basecrud_m->insert('data_sekolah',$in);							
+							$new_rows++;
+						}else{
+							//lets update
+							$up = array( 								
+										'nama'               => trim($nama_sekolah),
+										'id_kabupaten'       => $this->_get_id_kab(trim($kab)),
+										'kecamatan'          => $kecamatan,
+										'kelurahan'          => $kelurahan,
+										'alamat'             => $alamat,
+										'kodepos'            => $kodepos,
+										'no_telp'            => $telp,
+										'no_faks'            => $faks,
+										'email'              => $email,
+										'waktu_persekolahan' => $waktu_persekolahan,
+										'akreditasi'         => $akreditasi,
+										'jenjang'            => strtolower(trim($jenjang)),
+										'jumlah_ruang'       => $jumlah_ruang,
+										'jumlah_lahan'       => $jumlah_lahan,
+										'jumlah_gedung'      => $jumlah_gedung,
+										'jumlah_kelas'       => $jumlah_kelas,
+										'status'             => strtolower(trim($status)),
+										'website'            => $link
+
+							);
+
+							$this->db->where('npsn', $npsn);
+        					$this->db->update('data_sekolah', $up);
+							
+							$updated_rows++;
+						}
+						
+						$j++;
+					}
+					
+					$success = $this->upload->data();
+					$file_name = $success['file_name'];
+
+					@unlink('./upload/'. $file_name);
+					$data['msg'] = 'Data berhasil dimasukkan dengan '. $new_rows . ' Data baru ' . 'dan ' . $updated_rows . ' Data Lama / Data Update'; 	
+					
+				}
+				
+			}
+			
+			$data['page'] = 'i_data_sekolah';
+			$data['title'] = 'Import Data Sekolah';
+			
+			$this->_generate_page($data);	
+
 		}elseif($cmd === 'add'){
 
 			$data = array(
@@ -760,6 +1146,8 @@ class Manage extends MY_Controller {
 			$this->form_validation->set_rules('nama', 'Nama Sekolah', 'xss_clean|required');
 			//$this->form_validation->set_rules('id_propinsi', 'Propinsi', 'xss_clean|required');
 			$this->form_validation->set_rules('id_kabupaten', 'Kabupaten / Kota', 'xss_clean|required');			
+			$this->form_validation->set_rules('kecamatan', 'Kecamatan', 'xss_clean');
+			$this->form_validation->set_rules('kelurahan', 'kelurahan', 'xss_clean');
 			$this->form_validation->set_rules('alamat', 'Alamat', 'xss_clean');
 			$this->form_validation->set_rules('kodepos', 'Kodepos', 'xss_clean');
 			$this->form_validation->set_rules('no_telp', 'Nomor Telephon', 'xss_clean');
@@ -778,11 +1166,13 @@ class Manage extends MY_Controller {
 			if ($this->form_validation->run() == TRUE) {				
 				
 				$in = array(
-							'npsn'				 => $this->input->post('npsn'),
-							//'nss'                => $this->input->post('nss'),
+							'npsn'               => $this->input->post('npsn'),
+							//'nss'              => $this->input->post('nss'),
 							'nama'               => $this->input->post('nama'),
-							//'id_propinsi'        => $this->input->post('id_propinsi'),							
+							//'id_propinsi'      => $this->input->post('id_propinsi'),							
 							'id_kabupaten'       => $this->input->post('id_kabupaten'),
+							'kecamatan'          => $this->input->post('kecamatan'),		
+							'kelurahan'          => $this->input->post('kelurahan'),		
 							'alamat'             => $this->input->post('alamat'),						    					        
 							'kodepos'            => $this->input->post('kodepos'),
 							'no_telp'            => $this->input->post('no_telp'),
@@ -831,6 +1221,8 @@ class Manage extends MY_Controller {
 			$this->form_validation->set_rules('nama', 'Nama Sekolah', 'xss_clean|required');
 			//$this->form_validation->set_rules('id_propinsi', 'Propinsi', 'xss_clean|required');
 			$this->form_validation->set_rules('id_kabupaten', 'Kabupaten / Kota', 'xss_clean|required');			
+			$this->form_validation->set_rules('kecamatan', 'Kecamatan', 'xss_clean');
+			$this->form_validation->set_rules('kelurahan', 'kelurahan', 'xss_clean');
 			$this->form_validation->set_rules('alamat', 'Alamat', 'xss_clean');
 			$this->form_validation->set_rules('kodepos', 'Kodepos', 'xss_clean');
 			$this->form_validation->set_rules('no_telp', 'Nomor Telephon', 'xss_clean');
@@ -854,6 +1246,8 @@ class Manage extends MY_Controller {
 							'nama'               => $this->input->post('nama'),
 							//'id_propinsi'        => $this->input->post('id_propinsi'),							
 							'id_kabupaten'       => $this->input->post('id_kabupaten'),
+							'kecamatan'          => $this->input->post('kecamatan'),		
+							'kelurahan'          => $this->input->post('kelurahan'),
 							'alamat'             => $this->input->post('alamat'),						    					        
 							'kodepos'            => $this->input->post('kodepos'),
 							'no_telp'            => $this->input->post('no_telp'),
@@ -925,7 +1319,107 @@ class Manage extends MY_Controller {
 	function sekolah_stats($id_sekolah,$cmd = null, $param = null){
 		$this->load->model(array('sekolahstats_m'));
 
-		if($cmd === 'add'){
+		if($cmd === 'import'){
+			$data = array(
+							'page'      => 'i_stats_sekolah',						 
+							'title'     => 'Import Data Statistik Sekolah'			
+						  );
+			$this->_generate_page($data);
+
+		}elseif($cmd === 'import_act'){
+
+			$data = array();
+			if(!empty($_POST)){
+				
+				$config['upload_path']   = './upload';
+				$config['allowed_types'] = 'xls';
+				$config['encrypt_name']  = TRUE;	
+
+				$this->load->library('upload',$config);
+				
+				if (!$this->upload->do_upload('userfile')){
+					$data['msg'] =  $this->upload->display_errors();				
+				}else{
+					include_once ( APPPATH."libraries/excel_reader2.php");
+					$xl_data = new Spreadsheet_Excel_Reader($_FILES['userfile']['tmp_name']);
+					
+					$j = 0;
+					$new_rows = 0;
+					$updated_rows = 0;
+					
+					//baris data dimulai dari baris ke 2
+					for ($i = 2; $i <= ($xl_data->rowcount($sheet_index=0)); $i++){
+						//tahun
+						//rombel
+						//murid
+						//guru
+						//ruang_kelas
+						//lulusan
+						
+						$tahun       = trim($xl_data->val($i, 1));
+						$rombel      = trim($xl_data->val($i, 2));
+						$murid       = trim($xl_data->val($i, 3));
+						$guru        = trim($xl_data->val($i, 4));
+						$ruang_kelas = trim($xl_data->val($i, 5));
+						$lulusan     = trim($xl_data->val($i, 6));
+						
+						$r = $this->basecrud_m->get_where('sekolah_stats',array('id_sekolah' => $id_sekolah,
+							                                                    'tahun'      => $tahun
+																				)
+														  );
+
+						if($r->num_rows() == 0){
+							//hanya data baru aja yang dimasukkin
+							$in = array( 
+										'id_sekolah'  => $id_sekolah,
+										'tahun'       => $tahun,
+										'rombel'      => $rombel,
+										'murid'       => $murid,
+										'guru'        => $guru,
+										'ruang_kelas' => $ruang_kelas,
+										'lulusan'     => $lulusan
+							);
+
+							$this->basecrud_m->insert('sekolah_stats',$in);							
+							$new_rows++;
+						}else{
+							//lets update
+							$up = array( 								
+										'tahun'       => $tahun,
+										'rombel'      => $rombel,
+										'murid'       => $murid,
+										'guru'        => $guru,
+										'ruang_kelas' => $ruang_kelas,
+										'lulusan'     => $lulusan
+
+							);
+
+							$this->db->where('id_sekolah', $id_sekolah);
+							$this->db->where('tahun', $tahun);
+        					$this->db->update('sekolah_stats', $up);
+							
+							$updated_rows++;
+						}
+						
+						$j++;
+					}
+					
+					$success = $this->upload->data();
+					$file_name = $success['file_name'];
+
+					@unlink('./upload/'. $file_name);
+					$data['msg'] = 'Data berhasil dimasukkan dengan '. $new_rows . ' Data baru ' . 'dan ' . $updated_rows . ' Data Lama / Data Update'; 	
+					
+				}
+				
+			}
+			
+			$data['page'] = 'i_stats_sekolah';
+			$data['title'] = 'Import Data Statistik Sekolah';
+			
+			$this->_generate_page($data);	
+
+		}elseif($cmd === 'add'){
 
 			$data = array(
 							'page'      => 'f_sekolah_stats',						 
@@ -1067,6 +1561,111 @@ class Manage extends MY_Controller {
 
 			$this->session->unset_userdata('cari');			
 			redirect('manage/data_guru/' . $id_sekolah ,'reload');
+
+		}elseif($cmd === 'import'){
+			$data = array(
+							'page'      => 'i_guru_sekolah',						 
+							'title'     => 'Import Data Guru Sekolah'			
+						  );
+			$this->_generate_page($data);
+
+		}elseif($cmd === 'import_act'){
+
+			$data = array();
+			if(!empty($_POST)){
+				
+				$config['upload_path']   = './upload';
+				$config['allowed_types'] = 'xls';
+				$config['encrypt_name']  = TRUE;
+
+				$this->load->library('upload',$config);
+				
+				if (!$this->upload->do_upload('userfile')){
+					$data['msg'] =  $this->upload->display_errors();				
+				}else{
+					include_once ( APPPATH."libraries/excel_reader2.php");
+					$xl_data = new Spreadsheet_Excel_Reader($_FILES['userfile']['tmp_name']);
+					
+					$j = 0;
+					$new_rows = 0;
+					$updated_rows = 0;
+					
+					//baris data dimulai dari baris ke 2
+					for ($i = 2; $i <= ($xl_data->rowcount($sheet_index=0)); $i++){
+						//nip
+						//nuptk
+						//nama
+						//status
+						//mapel
+						//jk
+						//alamat
+						
+						
+						$nip    = trim($xl_data->val($i, 1));
+						$nuptk  = trim($xl_data->val($i, 2));
+						$nama   = trim($xl_data->val($i, 3));
+						$status = strtolower(trim($xl_data->val($i, 4)));
+						$mapel  = trim($xl_data->val($i, 5));
+						$jk     = strtolower(trim($xl_data->val($i, 6)));
+						$alamat = trim($xl_data->val($i, 7));
+						
+						$r = $this->basecrud_m->get_where('data_guru',array('id_sekolah' => $id_sekolah,
+							                                                'nuptk'      => $nuptk
+																			)
+														  );
+
+						if($r->num_rows() == 0){
+							//hanya data baru aja yang dimasukkin
+							$in = array( 
+										'id_sekolah' => $id_sekolah,
+										'nip'        => $nip,
+										'nuptk'      => $nuptk,
+										'nama'       => $nama,
+										'status'     => $status,
+										'mapel'      => $mapel,
+										'jk'         => $jk,
+										'alamat'     => $alamat
+							);
+
+							$this->basecrud_m->insert('data_guru',$in);							
+							$new_rows++;
+						}else{
+							//lets update
+							$up = array( 								
+										'nip'        => $nip,
+										//'nuptk'      => $nuptk,
+										'nama'       => $nama,
+										'status'     => $status,
+										'mapel'      => $mapel,
+										'jk'         => $jk,
+										'alamat'     => $alamat
+
+							);
+
+							$this->db->where('id_sekolah', $id_sekolah);
+							$this->db->where('nuptk', $nuptk);
+        					$this->db->update('data_guru', $up);
+							
+							$updated_rows++;
+						}
+						
+						$j++;
+					}
+					
+					$success = $this->upload->data();
+					$file_name = $success['file_name'];
+
+					@unlink('./upload/'. $file_name);
+					$data['msg'] = 'Data berhasil dimasukkan dengan '. $new_rows . ' Data baru ' . 'dan ' . $updated_rows . ' Data Lama / Data Update'; 	
+					
+				}
+				
+			}
+			
+			$data['page'] = 'i_guru_sekolah';
+			$data['title'] = 'Import Data Guru Sekolah';
+			
+			$this->_generate_page($data);	
 
 		}elseif($cmd === 'add'){
 
@@ -1232,6 +1831,106 @@ class Manage extends MY_Controller {
 
 			$this->session->unset_userdata('cari');			
 			redirect('manage/data_siswa/' . $id_sekolah ,'reload');
+
+		}elseif($cmd === 'import'){
+			$data = array(
+							'page'      => 'i_siswa_sekolah',						 
+							'title'     => 'Import Data Siswa Sekolah'			
+						  );
+			$this->_generate_page($data);
+
+		}elseif($cmd === 'import_act'){
+
+			$data = array();
+			if(!empty($_POST)){
+				
+				$config['upload_path']   = './upload';
+				$config['allowed_types'] = 'xls';
+				$config['encrypt_name']  = TRUE;
+
+				$this->load->library('upload',$config);
+				
+				if (!$this->upload->do_upload('userfile')){
+					$data['msg'] =  $this->upload->display_errors();				
+				}else{
+					include_once ( APPPATH."libraries/excel_reader2.php");
+					$xl_data = new Spreadsheet_Excel_Reader($_FILES['userfile']['tmp_name']);
+					
+					$j = 0;
+					$new_rows = 0;
+					$updated_rows = 0;
+					
+					//baris data dimulai dari baris ke 2
+					for ($i = 2; $i <= ($xl_data->rowcount($sheet_index=0)); $i++){
+						//nisn
+						//nama
+						//jurusan
+						//kelas
+						//jk
+						//alamat
+						
+						$nisn    = trim($xl_data->val($i, 1));
+						$nama    = trim($xl_data->val($i, 2));
+						$jurusan = trim($xl_data->val($i, 3));						
+						$kelas   = trim($xl_data->val($i, 4));						
+						$jk      = strtolower(trim($xl_data->val($i, 5)));
+						$alamat  = trim($xl_data->val($i, 6));
+						
+						$r = $this->basecrud_m->get_where('data_siswa',array('id_sekolah' => $id_sekolah,
+							                                                 'nisn'         => $nisn
+																			)
+														  );
+
+						if($r->num_rows() == 0){
+							//hanya data baru aja yang dimasukkin
+							$in = array( 
+										'id_sekolah' => $id_sekolah,
+										'nisn'       => $nisn,										
+										'nama'       => $nama,
+										'jurusan'    => $jurusan,
+										'kelas'      => $kelas,
+										'jk'         => $jk,
+										'alamat'     => $alamat
+							);
+
+							$this->basecrud_m->insert('data_siswa',$in);							
+							$new_rows++;
+						}else{
+							//lets update
+							$up = array( 								
+										//'nisn'       => $nisn,										
+										'nama'       => $nama,
+										'jurusan'    => $jurusan,
+										'kelas'      => $kelas,
+										'jk'         => $jk,
+										'alamat'     => $alamat
+
+							);
+
+							$this->db->where('id_sekolah', $id_sekolah);
+							$this->db->where('nisn', $nisn);
+        					$this->db->update('data_siswa', $up);
+							
+							$updated_rows++;
+						}
+						
+						$j++;
+					}
+					
+					$success = $this->upload->data();
+					$file_name = $success['file_name'];
+
+					@unlink('./upload/'. $file_name);
+					$data['msg'] = 'Data berhasil dimasukkan dengan '. $new_rows . ' Data baru ' . 'dan ' . $updated_rows . ' Data Lama / Data Update'; 	
+					
+				}
+				
+			}
+			
+			$data['page'] = 'i_siswa_sekolah';
+			$data['title'] = 'Import Data Siswa Sekolah';
+			
+			$this->_generate_page($data);	
 
 		}elseif($cmd === 'add'){
 
@@ -1412,30 +2111,10 @@ class Manage extends MY_Controller {
 		
 	public function blog() {
 
-		/*
-		<img src="<?php echo base_url() . 'timthumb?src=/uploade/' . $img->img_name . '&h=292&w=866&zc=1';?>" alt="" width="866" height="292" />                            
-		 */
-
-		//$this->load->model(array('basecrud_m'));
-
-		/*
-		if(! $this->session->userdata('validated')){
-            redirect('tampil/login');
-        }
-        */
-		
-		
-		
-		
-
 		//ambil variabel URL
 		$mau_ke					= $this->uri->segment(3);
 		$id						= $this->uri->segment(4);
-		
-		//view tampilan website\
-		//$m['blog']		= $this->db->query("SELECT * FROM berita ORDER BY tglPost DESC")->result();
-		//$m['page']		= "v_berita";		
-		
+
 		if($mau_ke === 'cari'){
 
 			$cari = $_POST['cari'];
@@ -1525,7 +2204,7 @@ class Manage extends MY_Controller {
 										'isi'       => $this->input->post('isi'),
 										'tglPost'   => $date_now,
 										'kategori'  => $kat,
-										'oleh'      => 'admin',
+										'oleh'      => $this->session->userdata('user'),
 										'publish'   => '1',
 										'sticky'    => $this->input->post('sticky')
 										);
@@ -1547,7 +2226,7 @@ class Manage extends MY_Controller {
 									'isi'       => $this->input->post('isi'),
 									'tglPost'   => $date_now,
 									'kategori'  => $kat,
-									'oleh'      => 'admin',
+									'oleh'      => $this->session->userdata('user'),
 									'publish'   => '1',
 									'sticky'    => $this->input->post('sticky')
 									);
@@ -1582,7 +2261,7 @@ class Manage extends MY_Controller {
 									'isi'       => $this->input->post('isi'),
 									'tglPost'   => $date_now,
 									'kategori'  => $kat,
-									'oleh'      => 'admin',
+									'oleh'      => $this->session->userdata('user'),
 									'publish'   => '1',
 									'sticky'    => $this->input->post('sticky')
 									);
@@ -1603,7 +2282,7 @@ class Manage extends MY_Controller {
 								'isi'       => $this->input->post('isi'),
 								'tglPost'   => $date_now,
 								'kategori'  => $kat,
-								'oleh'      => 'admin',
+								'oleh'      => $this->session->userdata('user'),
 								'publish'   => '1',
 								'sticky'    => $this->input->post('sticky')
 								);
@@ -2276,14 +2955,13 @@ class Manage extends MY_Controller {
 		$this->load->view('manage/tampil', $m);
 	}
 	
-	/*
+	
 	public function komentar_by_post() {
 		
 		if(! $this->session->userdata('validated')){
             redirect('tampil/login');
         }
         
-		
 		//ambil variabel URL
 		$id						= $this->uri->segment(3);
 		
@@ -2292,7 +2970,7 @@ class Manage extends MY_Controller {
 		$m['page']		= "v_komen";		
 		$this->load->view('manage/tampil', $m);
 	}
-	*/
+	
 	
 	public function bukutamu() {
 		/*

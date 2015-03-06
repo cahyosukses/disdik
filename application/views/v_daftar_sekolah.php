@@ -32,6 +32,7 @@
             <?php $jenjang = $this->session->userdata('jenjang');?>
             <select name="jenjang" style="width:130px">
               <option value="">Semua jenjang</option>
+              <option <?php echo $jenjang === 'paud' ? 'selected': '';?> value="paud">PAUD</option>
               <option <?php echo $jenjang === 'tk' ? 'selected': '';?> value="tk">TK</option>
               <option <?php echo $jenjang === 'sd' ? 'selected': '';?> value="sd">SD</option>
               <option <?php echo $jenjang === 'mi' ? 'selected': '';?> value="mi">MI</option>
@@ -65,6 +66,8 @@
           <th style="text-align:left">NPSN</th>
           <th style="text-align:left">Nama</th>
           <th>Jenjang</th>
+          <th>Kecamatan</th>
+          <th>Kelurahan</th>          
           <th>Status</th>
           <th>Info</th>
           <th>Guru</th>
@@ -79,9 +82,11 @@
       <?php }else{ ?>
       <?php foreach ($data->result() as $b) { ?>
         <tr>
-          <td style="text-align:left"><?php echo $b->npsn;?></td>
-          <td style="text-align:left"><?php echo $b->nama;?></td>
+          <td style="text-align:left"><?php echo strtoupper($b->npsn);?></td>
+          <td style="text-align:left"><?php echo strtoupper($b->nama);?></td>
           <td style="text-align:center"><?php echo strtoupper($b->jenjang);?></td>
+          <td style="text-align:center"><?php echo strtoupper($b->kecamatan);?></td>
+          <td style="text-align:center"><?php echo strtoupper($b->kelurahan);?></td>          
           <td style="text-align:center"><?php echo strtoupper($b->status);?></td>
           <td style="text-align:center"><a href="#info" data-toggle="modal" onclick="get_info(<?php echo $b->id?>)">Info</a></td>
           <td style="text-align:center"><a href="#guru" data-toggle="modal" onclick="get_guru(<?php echo $b->id?>)">Guru</a></td>

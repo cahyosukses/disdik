@@ -1,0 +1,123 @@
+CREATE TABLE `pengumuman` (
+	`id` INT(4) NOT NULL AUTO_INCREMENT,
+	`judul` VARCHAR(255) NOT NULL,
+	`file_name` VARCHAR(100) NOT NULL,
+	`isi` MEDIUMTEXT NOT NULL,
+	`hits` INT(4) NOT NULL,
+	`tglPost` DATETIME NOT NULL,
+	`oleh` VARCHAR(30) NOT NULL,
+	`publish` ENUM('Y','N') NOT NULL DEFAULT 'N',
+	PRIMARY KEY (`id`)
+)
+COLLATE='latin1_swedish_ci'
+ENGINE=InnoDB
+AUTO_INCREMENT=1
+;
+
+-- Dumping structure for table disdik.manage_menu
+DROP TABLE IF EXISTS `manage_menu`;
+CREATE TABLE IF NOT EXISTS `manage_menu` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `sort` tinyint(4) NOT NULL DEFAULT '0',
+  `name` varchar(50) NOT NULL,
+  `method` varchar(50) NOT NULL,
+  `show` enum('Y','N') NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
+
+-- Dumping data for table disdik.manage_menu: ~19 rows (approximately)
+DELETE FROM `manage_menu`;
+/*!40000 ALTER TABLE `manage_menu` DISABLE KEYS */;
+INSERT INTO `manage_menu` (`id`, `sort`, `name`, `method`, `show`) VALUES
+	(1, 1, 'Beranda', 'index', 'Y'),
+	(2, 2, 'Profil', 'profil', 'Y'),
+	(3, 3, 'Data Sekolah', 'data_sekolah', 'Y'),
+	(4, 4, 'Produk Hukum', 'data_produk_hukum', 'Y'),
+	(5, 5, 'Pengumuman', 'pengumuman', 'Y'),
+	(6, 6, 'Post Berita', 'blog', 'Y'),
+	(7, 7, 'Kategori Berita', 'kategori_berita', 'Y'),
+	(8, 8, 'Komentar Berita', 'komentar', 'Y'),
+	(9, 9, 'Galeri Foto', 'galeri', 'Y'),
+	(10, 10, 'Buku Tamu', 'bukutamu', 'Y'),
+	(11, 11, 'Ide & Saran', 'ide_saran', 'Y'),
+	(12, 12, 'Ekspresi', 'ekspresi', 'Y'),
+	(13, 13, 'Link/Tautan', 'link', 'Y'),
+	(14, 14, 'Agenda', 'agenda', 'Y'),
+	(15, 15, 'Managemen User', 'user', 'Y'),
+	(16, 16, 'Web Settings', 'settings', 'Y'),
+	(17, 17, 'Edit Profile', 'passwod', 'Y'),
+	(18, 18, 'Logout', 'logout', 'Y'),
+	(19, 0, '', 'prod_hukum_list', 'N'),
+	(20, 0, '', 'sekolah_stats', 'N'),
+	(21, 0, '', 'data_guru', 'N'),
+	(22, 0, '', 'data_siswa', 'N');
+
+
+
+ALTER TABLE `admin`	ALTER `menu_list` DROP DEFAULT;
+ALTER TABLE `admin`	CHANGE COLUMN `menu_list` `menu_list` VARCHAR(100) NOT NULL AFTER `level`;
+ALTER TABLE `pengumuman` CHANGE COLUMN `hits` `hits` INT(4) NOT NULL DEFAULT '0' AFTER `isi`;
+
+ALTER TABLE `data_sekolah`
+	ADD COLUMN `kecamatan` VARCHAR(50) NOT NULL AFTER `jenjang`,
+	ADD COLUMN `kelurahan` VARCHAR(50) NOT NULL AFTER `kecamatan`;
+
+
+-- Dumping structure for table disdik.jenjang
+DROP TABLE IF EXISTS `jenjang`;
+CREATE TABLE IF NOT EXISTS `jenjang` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nama` varchar(50) DEFAULT NULL,
+  `alias` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+
+-- Dumping data for table disdik.jenjang: ~9 rows (approximately)
+DELETE FROM `jenjang`;
+
+INSERT INTO `jenjang` (`id`, `nama`, `alias`) VALUES
+	(1, 'paud', 'PAUD'),
+	(2, 'tk', 'TK'),
+	(3, 'sd', 'SD'),
+	(4, 'mi', 'MI'),
+	(5, 'smp', 'SMP'),
+	(6, 'mts', 'MTs'),
+	(7, 'sma', 'SMA'),
+	(8, 'smk', 'SMK'),
+	(9, 'ma', 'MA'),
+	(10, 'slb', 'SLB');
+
+ALTER TABLE `data_sekolah`
+	ALTER `jenjang` DROP DEFAULT,
+	ALTER `kecamatan` DROP DEFAULT;
+
+ALTER TABLE `data_sekolah`
+	CHANGE COLUMN `jenjang` `jenjang` VARCHAR(50) NOT NULL AFTER `id_kabupaten`,
+	CHANGE COLUMN `kecamatan` `kecamatan` VARCHAR(50) NOT NULL AFTER `jenjang`;
+
+ALTER TABLE `data_sekolah`
+	ALTER `jenjang` DROP DEFAULT,
+	ALTER `kelurahan` DROP DEFAULT;
+	
+ALTER TABLE `data_sekolah`
+	CHANGE COLUMN `kelurahan` `kelurahan` VARCHAR(50) NOT NULL AFTER `kecamatan`,
+	CHANGE COLUMN `jenjang` `jenjang` VARCHAR(50) NOT NULL AFTER `akreditasi`;	
+
+
+-- Dumping structure for table disdik.settings
+DROP TABLE IF EXISTS `settings`;
+CREATE TABLE IF NOT EXISTS `settings` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(50) DEFAULT NULL,
+  `tipe` enum('small-text','big-text','image') DEFAULT 'small-text',
+  `value` text,
+  `show` enum('Y','N') DEFAULT 'Y',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+-- Dumping data for table disdik.settings: ~0 rows (approximately)
+DELETE FROM `settings`;
+
+INSERT INTO `settings` (`id`, `title`, `tipe`, `value`, `show`) VALUES
+	(1, 'running_text', 'small-text', 'Selamat Datang Pada Website Resmi Dinas Pendidikan Provinsi Jambi', 'Y'),
+	(2, 'fb_fanpage', 'small-text', 'http://www.facebook.com', 'Y');

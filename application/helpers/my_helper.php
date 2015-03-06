@@ -28,9 +28,10 @@ function getGambar($idAlbum) {
     return $str;
 }
 
-function tgl_panjang($tgl, $tipe) {
+function tgl_panjang($tgl, $tipe,$time = false) {
 	$tgl_pc 		= explode(" ", $tgl);
 	$tgl_depan		= $tgl_pc[0];
+	$waktu          = $tgl_pc[1];
 	
 	$tgl_depan_pc	= explode("-", $tgl_depan);
 	$tgl			= $tgl_depan_pc[2];
@@ -64,7 +65,9 @@ function tgl_panjang($tgl, $tipe) {
 		else if ($bln == "11") { $bln_txt = "Nov"; }  
 		else if ($bln == "12") { $bln_txt = "Des"; }  	
 	}
-	return $tgl." ".$bln_txt." ".$thn;
+
+	$tm = $time ? " " . $waktu : "";
+	return $tgl." ".$bln_txt." ".$thn . $tm;
 }
 
 function gambarSmall($up_data, $jenis) {

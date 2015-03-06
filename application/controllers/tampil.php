@@ -41,6 +41,62 @@ class Tampil extends My_Controller {
 		$this->blog();
 	}
 
+	function pengumuman($cmd = null, $param = null){
+
+		$this->load->model('pengumuman_m');
+		
+		$web['title']	= '.:: Daftar Pengumuman  ::.';
+		$this->load->view('t_atas', $web);
+
+		if($cmd === 'cari'){
+
+			$this->form_validation->set_rules('cari', 'Kata kunci pencarian', 'xss_clean');
+
+			if ($this->form_validation->run() == TRUE) {	
+				$this->session->set_userdata('cari',$this->input->post('cari'));
+			}
+
+			redirect('tampil/pengumuman');
+
+		}elseif($cmd === 'detail'){
+
+			$r = $this->basecrud_m->get_where('pengumuman',array('id' => $param));
+			if($r->num_rows() == 0){
+				$this->load->view('invalid', $web);	
+			}else{
+				$this->db->query("UPDATE pengumuman SET hits = hits + 1 WHERE id = '".$param."'");
+				$web['data'] = 	$r->row();
+				$this->load->view('v_pengumuman_det', $web);	
+			}
+			
+			
+		}else{
+			//pagination
+			$url = base_url() . 'tampil/pengumuman/';
+			$res = $this->pengumuman_m->get('numrows');
+			$per_page = 10;
+			$config = paginate($url,$res,$per_page,3);
+			$this->pagination->initialize($config);
+
+			$this->pengumuman_m->limit = $per_page;
+			if($this->uri->segment(3) == TRUE){
+	        	$this->pengumuman_m->offset = $this->uri->segment(3);
+	        }else{
+	            $this->pengumuman_m->offset = 0;
+	        }	
+
+			$this->pengumuman_m->sort = 'tglPost';
+	    	$this->pengumuman_m->order = 'DESC';
+	    	//end pagination
+	    	
+			$web['data'] = $this->pengumuman_m->get('pagging');
+			$this->load->view('v_pengumuman', $web);
+		}
+
+		$this->load->view('t_footer');
+
+	}
+
 	public function profil() {
 		
 		$web['title']	= '.:: Profil Website Dinas Pendidikan Provinsi Jambi  ::.';
@@ -167,19 +223,27 @@ class Tampil extends My_Controller {
 		            </tr>-->            
 		            <tr>
 		              <td style=\"width:150px;background-color:#D9EDF7\">Nama</td>
-		              <td>". $sekolah->nama ."</td>  
-		            </tr>            
+		              <td>". strtoupper($sekolah->nama) ."</td>  
+		            </tr> 
+		            <tr>
+		              <td style=\"width:150px;background-color:#D9EDF7\">Kecamatan</td>
+		              <td>". strtoupper($sekolah->kecamatan) ."</td>  
+		            </tr>  
+		            <tr>
+		              <td style=\"width:150px;background-color:#D9EDF7\">Kelurahan</td>
+		              <td>". strtoupper($sekolah->kelurahan) ."</td>  
+		            </tr>             
 		            <tr>
 		              <td style=\"width:150px;background-color:#D9EDF7\">Alamat</td>
 		              <td>". $sekolah->alamat ."</td>  
 		            </tr>            
 		            <tr>
 		              <td style=\"width:150px;background-color:#D9EDF7\">Kabupaten / Kota</td>
-		              <td>". $kabupaten->nama ."</td>  
+		              <td>". strtoupper($kabupaten->nama) ."</td>  
 		            </tr>            
 		            <tr>
 		              <td style=\"width:150px;background-color:#D9EDF7\">Propinsi</td>
-		              <td>Jambi</td>  
+		              <td>JAMBI</td>  
 		            </tr>            
 		            <tr>
 		              <td style=\"width:150px;background-color:#D9EDF7\">Kode Pos</td>
@@ -1061,7 +1125,7 @@ class Tampil extends My_Controller {
 		
         if($j_cek == 1) {
             $data = array(
-					'user_id'   =>	$d_cek->id,                                        
+					'user_id'   => $d_cek->id,                                        
 					'user'      => $d_cek->u,                                        
 					'validated' => true,
 					'menu_list' => $d_cek->menu_list
