@@ -5,7 +5,7 @@
   }  
 </style>
 
-<div class="span9">
+
 	<ul class="breadcrumb wellwhite">
 			<li><a href="<?php echo base_URL()?>">Beranda</a> <span class="divider">/</span></li>
 			<li>Data dan Informasi <span class="divider">/</span></li>
@@ -18,7 +18,7 @@
 			
       <table>
         <tr>  
-          <td style="padding-right:10px">Filter</td>           
+          <td style="padding-right:10px">Wilayah</td>           
           <td style="padding-right:10px">
             <?php $id_kabupaten = $this->session->userdata('id_kabupaten');?>
             <select name="id_kabupaten" style="width:250px">
@@ -28,9 +28,13 @@
               <?php }?>
             </select>
           </td>
-          <td style="padding-right:10px">
+            
+        </tr> 
+        <tr>
+          <td style="padding-right:10px">Jenjang</td>   
+          <td style="padding-right:10px">         
             <?php $jenjang = $this->session->userdata('jenjang');?>
-            <select name="jenjang" style="width:130px">
+            <select name="jenjang" style="width:250px">
               <option value="">Semua jenjang</option>
               <option <?php echo $jenjang === 'paud' ? 'selected': '';?> value="paud">PAUD</option>
               <option <?php echo $jenjang === 'tk' ? 'selected': '';?> value="tk">TK</option>
@@ -43,20 +47,24 @@
               <option <?php echo $jenjang === 'ma' ? 'selected': '';?> value="ma">MA</option>
               <option <?php echo $jenjang === 'slb' ? 'selected': '';?> value="slb">SLB</option>
             </select>
-          </td>
+          </td>           
+        </tr>  
+        <tr>
+          <td style="padding-right:10px">Status</td>   
           <td style="padding-right:10px">
             <?php $status = $this->session->userdata('status');?>
-            <select name="status" style="width:120px">
+            <select name="status" style="width:250px">
               <option value="">Semua Status</option>
               <option <?php echo $status === 'negeri' ? 'selected': '';?> value="negeri">Negeri</option>
               <option <?php echo $status === 'swasta' ? 'selected': '';?> value="swasta">Swasta</option>
             </select>
           </td>  
-          <td><button type="submit" class="btn pull-right">Cari Data</button></td>        
-        </tr>        
+        </tr>     
         <tr>
-          <td></td>
-          
+          <td style="padding-right:10px"></td>   
+          <td style="padding-right:10px">
+            <button type="submit" class="btn pull-right">Cari Data</button>
+          </td>      
         </tr>
       </table> 
 		</form>
@@ -65,13 +73,13 @@
         <tr>
           <th style="text-align:left">NPSN</th>
           <th style="text-align:left">Nama</th>
-          <th>Jenjang</th>
+          <!--<th>Jenjang</th> -->
           <th>Kecamatan</th>
           <th>Kelurahan</th>          
-          <th>Status</th>
-          <th>Info</th>
+          <!--<th>Status</th> -->
+          <!--<th>Info</th>
           <th>Guru</th>
-          <th>Siswa</th>              
+          <th>Siswa</th>-->              
         </tr>
       </thead>
       <tbody>
@@ -83,14 +91,20 @@
       <?php foreach ($data->result() as $b) { ?>
         <tr>
           <td style="text-align:left"><?php echo strtoupper($b->npsn);?></td>
-          <td style="text-align:left"><?php echo strtoupper($b->nama);?></td>
-          <td style="text-align:center"><?php echo strtoupper($b->jenjang);?></td>
+          <td style="text-align:left">              
+              <?php echo strtoupper($b->nama);?><br>              
+              <b><?php echo strtoupper($b->jenjang) . ' ' . strtoupper($b->status) ?></b><br>
+              <a href="#info" data-toggle="modal" onclick="get_info(<?php echo $b->id?>)">INFO</a> | <a href="#guru" data-toggle="modal" onclick="get_guru(<?php echo $b->id?>)">GURU</a> | <a href="#siswa" data-toggle="modal" onclick="get_siswa(<?php echo $b->id?>)">SISWA</a>
+          </td>
+          <!--<td style="text-align:center"><?php echo strtoupper($b->jenjang);?></td>-->
           <td style="text-align:center"><?php echo strtoupper($b->kecamatan);?></td>
           <td style="text-align:center"><?php echo strtoupper($b->kelurahan);?></td>          
-          <td style="text-align:center"><?php echo strtoupper($b->status);?></td>
+          <!--<td style="text-align:center"><?php echo strtoupper($b->status);?></td>-->
+          <!--
           <td style="text-align:center"><a href="#info" data-toggle="modal" onclick="get_info(<?php echo $b->id?>)">Info</a></td>
           <td style="text-align:center"><a href="#guru" data-toggle="modal" onclick="get_guru(<?php echo $b->id?>)">Guru</a></td>
           <td style="text-align:center"><a href="#siswa" data-toggle="modal" onclick="get_siswa(<?php echo $b->id?>)">Siswa</a></td>              
+          -->
         </tr>            
       <?php } ?>
       <?php } ?>
@@ -249,7 +263,7 @@
     </div>
     
   </div> <!--end modal guru -->
-</div><!--/span--> 
+<!--/span--> 
 
 <script>
   

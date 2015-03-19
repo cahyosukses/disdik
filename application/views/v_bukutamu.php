@@ -14,7 +14,7 @@ if ($this->uri->segment(3) == "edit" || $this->uri->segment(3) == "act_edit") {
 	$act	= "act_tambah";
 }*/
 ?>
- <div class="span9">
+
 		<ul class="breadcrumb wellwhite">
 			<li><a href="<?php echo base_URL()?>">Beranda</a> <span class="divider">/</span></li>
 			<li><a href="<?php echo base_URL()?>tampil/bukutamu">Kontak Kami</a> </li>
@@ -22,7 +22,7 @@ if ($this->uri->segment(3) == "edit" || $this->uri->segment(3) == "act_edit") {
 		</ul>
 
 		<div class="span12 wellwhite" style="margin-left: 0px">
-		  <div class="span5">
+		  <div class="span12">
 			<legend>Contact Us</legend>
 			<ul>
 				<li>Alamat : <b><br>
@@ -34,7 +34,7 @@ if ($this->uri->segment(3) == "edit" || $this->uri->segment(3) == "act_edit") {
 		  <div class="span1">
 		  </div>
 
-		  <div class="span6">
+		  <div class="span12">
 		  <legend style="margin-bottom: 10px">Tinggalkan pesan Anda disini</legend>
 			<?php echo $this->session->flashdata("k");?>
             
@@ -50,5 +50,5 @@ if ($this->uri->segment(3) == "edit" || $this->uri->segment(3) == "act_edit") {
 			
 			</div>
 		</div>
-		 </div><!--/span-->
+<!--/span-->
 		

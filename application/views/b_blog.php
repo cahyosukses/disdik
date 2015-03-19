@@ -1,4 +1,3 @@
-<div class="span9">
 	<ul class="breadcrumb wellwhite">
 	   <li><a href="<?php echo base_URL()?>">Beranda</a> <span class="divider">/</span></li>
 	   <li><a href="<?php echo base_URL()?>tampil/blog">Blogpost</a> <span class="divider">/</span></li>
@@ -64,8 +63,8 @@
 	      }
 	      $kode 		= random_string('alnum', 5);
 	      ?>
-	   <div class="span4" id="komentar">
-	      <legend>Postkan komentar</legend>
+	   <div class="span12" id="komentar">
+	      <legend>Post komentar</legend>
 	      <?php echo $this->session->flashdata("k");?>
 	      <form action="<?php echo base_URL()?>tampil/post_komen" method="post" onsubmit="return cek_kode_sama()" name="f_komen">
 	         <input type="hidden" name="id" value="<?php echo $baca->id?>">
@@ -82,7 +81,7 @@
 	            </tr>
 	            <tr>
 	               <td>
-	                  <input type="text" class="span7" name="kode"  placeholder="Kode disamping.." required>
+	                  <input type="text" class="span5" name="kode"  placeholder="Kode" required>
 	                  <span style="display: inline; margin-left: 20px; background: #e8e8e8; padding: 12px 10px 3px 10px; font-family: courier; font-weight: bold; "><?php echo $kode?></span>
 	               </td>
 	            </tr>
@@ -93,7 +92,7 @@
 	      </form>
 	   </div>
 	   <div class="span1"></div>
-	   <div class="span6">
+	   <div class="span12">
 	      <legend>Daftar komentar</legend>
 	      <div style="overflow: auto; height: 350px">
 	         <?php 
@@ -106,7 +105,7 @@
 	      </div>
 	   </div>
 	</div>
-</div>
+	
 <script type="text/javascript">
    function cek_kode_sama() {
    	var f = document.f_komen;

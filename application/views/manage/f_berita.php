@@ -8,6 +8,7 @@ if ($mode == "edit" || $mode == "act_edit") {
 	$gambar		= $berita_pilih->gambar;
 	$isi		= $mode === 'edit' ? $berita_pilih->isi : set_value('isi');
 	$sticky		= $mode === 'edit' ? $berita_pilih->sticky : set_value('sticky');
+	$slideshow  = $mode === 'edit' ? $berita_pilih->slideshow : set_value('slideshow');
 	$kategori	= $berita_pilih->kategori;
 
 } else {
@@ -17,6 +18,7 @@ if ($mode == "edit" || $mode == "act_edit") {
 	$gambar		= "";
 	$isi		= $mode === 'add' ? '' : set_value('isi');
 	$sticky	    = $mode === 'add' ? '' : set_value('sticky');
+	$slideshow  = $mode === 'add' ? '' : set_value('slideshow');
 	$kategori	= "";
 }
 ?>
@@ -33,7 +35,14 @@ if ($mode == "edit" || $mode == "act_edit") {
 	<select name="sticky">
 		<option <?php echo $sticky === 'N' ? 'selected':'';?> value="N">Tidak</option>
 		<option <?php echo $sticky === 'Y' ? 'selected':'';?> value="Y">Ya</option>
+	</select><br>		
+
+	<label style="width: 150px; float: left">SlideShow</label>	
+	<select name="slideshow" id="select-slideshow">
+		<option <?php echo $slideshow === 'N' ? 'selected':'';?> value="N">Tidak</option>	
+		<option <?php echo $slideshow === 'Y' ? 'selected':'';?> value="Y">Ya</option>
 	</select><br>
+	
 	
 	<label style="width: 135px; height: 10px; float: left; display: block">File Gambar</label><input style="float: left; display: block" class="search-query" type="file" name="file_gambar"><br><br>
 	<label style="width: 135px; height: 10px; float: left; display: block">File Dokumen</label><input style="float: left; display: block" class="search-query" type="file" name="file_dokumen"><br><br>

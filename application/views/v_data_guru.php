@@ -1,4 +1,4 @@
-<div class="span9">
+
 		<ul class="breadcrumb wellwhite">
 			<li><a href="<?php echo base_URL()?>">Beranda</a> <span class="divider">/</span></li>
 			<li>Data Guru </li>			
@@ -38,4 +38,4 @@
 				</table>
 		 
 		</div>
-</div><!--/span-->
+<!--/span-->

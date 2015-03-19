@@ -6,7 +6,7 @@ class Tampil extends My_Controller {
 	function __construct() {
 		parent::__construct();
 		
-		date_default_timezone_set("Asia/Jakarta"); 
+		//date_default_timezone_set("Asia/Jakarta"); 
 
 		$this->load->library(array('Pagination','image_lib', 'session', 'form_validation'));
 		$this->load->helper(array('form', 'url', 'file','paginate'));
@@ -29,6 +29,10 @@ class Tampil extends My_Controller {
 		
 	}
 	
+	function _generate_page($data){
+		$this->load->view('v_page',$data);
+	}
+
 	public function index() {
 		/*$web['title']	= 'Dinas Pendidikan Provinsi Jambi';
 		$web['haldep']	= $this->db->query("SELECT * FROM haldep")->row();
@@ -43,10 +47,9 @@ class Tampil extends My_Controller {
 
 	function pengumuman($cmd = null, $param = null){
 
-		$this->load->model('pengumuman_m');
-		
+		$this->load->model('pengumuman_m');		
 		$web['title']	= '.:: Daftar Pengumuman  ::.';
-		$this->load->view('t_atas', $web);
+		//$this->load->view('t_atas', $web);
 
 		if($cmd === 'cari'){
 
@@ -66,7 +69,8 @@ class Tampil extends My_Controller {
 			}else{
 				$this->db->query("UPDATE pengumuman SET hits = hits + 1 WHERE id = '".$param."'");
 				$web['data'] = 	$r->row();
-				$this->load->view('v_pengumuman_det', $web);	
+				//$this->load->view('v_pengumuman_det', $web);	
+				$web['page_name'] = 'v_pengumuman_det';
 			}
 			
 			
@@ -90,10 +94,12 @@ class Tampil extends My_Controller {
 	    	//end pagination
 	    	
 			$web['data'] = $this->pengumuman_m->get('pagging');
-			$this->load->view('v_pengumuman', $web);
+			//$this->load->view('v_pengumuman', $web);
+			$web['page_name'] = 'v_pengumuman';
 		}
 
-		$this->load->view('t_footer');
+		//$this->load->view('t_footer');
+		$this->_generate_page($web);
 
 	}
 
@@ -113,9 +119,11 @@ class Tampil extends My_Controller {
 			$web['show_map'] = 'SHOW-ME';
 		}
 
-		$this->load->view('t_atas', $web);
-		$this->load->view('v_profil', $web);
-		$this->load->view('t_footer');
+		//$this->load->view('t_atas', $web);
+		//$this->load->view('v_profil', $web);
+		//$this->load->view('t_footer');
+		$web['page_name'] = 'v_profil';
+		$this->_generate_page($web);
 	}
 
 	/*
@@ -158,13 +166,13 @@ class Tampil extends My_Controller {
 
 		}
 
-		
-
 		$web['data'] = $this->rekap_m->stats();
 
-		$this->load->view('t_atas', $web);
-		$this->load->view('v_rekap_sekolah', $web);
-		$this->load->view('t_footer');
+		//$this->load->view('t_atas', $web);
+		//$this->load->view('v_rekap_sekolah', $web);
+		//$this->load->view('t_footer');
+		$web['page_name'] = 'v_rekap_sekolah';
+		$this->_generate_page($web);
 	}
 
 	/***************************************************************************/
@@ -210,6 +218,108 @@ class Tampil extends My_Controller {
 
 		echo $data;
 	}
+
+	function aduan_apresiasi_pdf($tipe,$id){
+		// As PDF creation takes a bit of memory, we're saving the created file in /downloads/reports/
+		
+		#complete serverpath must be given like
+	    #example "/apache/htdocs/myfile.pdf" ( not "http:xyz.com/myfile.pdf" )
+	    $DelFilePath = FCPATH . "/upload/" . $tipe . "_" . $id . ".pdf";	
+	     
+	    # delete file if exists
+	    if (file_exists($DelFilePath)) { unlink ($DelFilePath); }
+
+		$pdfFilePath = FCPATH . "/upload/" . $tipe . "_" . $id . ".pdf";			
+		$data = array();
+
+		if($tipe === 'aduan'){
+			$data['isi'] = $this->basecrud_m->get_where('aduan',array('id' => $id))->row();
+		}else{
+			$data['isi'] = $this->basecrud_m->get_where('apresiasi',array('id' => $id))->row();
+		}
+		
+		 
+		if (file_exists($pdfFilePath) == FALSE)
+		{
+		    ini_set('memory_limit','32M'); // boost the memory limit if it's low <img src="https://davidsimpson.me/wp-includes/images/smilies/icon_wink.gif" alt=";)" class="wp-smiley">
+		    if($tipe === 'aduan'){
+		    	$html = $this->load->view('pdf_aduan', $data, true); // render the view into HTML
+		    }else{
+		    	$html = $this->load->view('pdf_apresiasi', $data, true); // render the view into HTML
+		    }			    
+		     
+		    $this->load->library('pdf');
+		    $pdf = $this->pdf->load();
+		    $pdf->SetFooter($_SERVER['HTTP_HOST'].'|{PAGENO}|'.date(DATE_RFC822)); // Add a footer for good measure <img src="https://davidsimpson.me/wp-includes/images/smilies/icon_wink.gif" alt=";)" class="wp-smiley">
+		    $pdf->WriteHTML($html); // write the HTML into the PDF
+		    $pdf->Output($pdfFilePath, 'F'); // save to file because we can
+		}
+		 
+		redirect("/upload/" . $tipe . "_" . $id . ".pdf"); 
+	}
+
+	function aduan_apresiasi_detail(){		
+		
+		$id   = $_GET['id'];
+		$tipe = $_GET['tipe'];
+
+		$data = "";
+		if($tipe === 'aduan'){
+			$rs = $this->basecrud_m->get_where('aduan',array('id' => $id));
+			if($rs->num_rows() > 0){
+				$data = 
+				     "<tr>
+		                <td style=\"width:100px\">Topik Aduan</td> 
+		                <td>" . $rs->row()->topik . "</td>   
+		              </tr>            
+		              <tr>
+		                <td>Nama Pengirim</td> 
+		                <td>" . $rs->row()->nama_pengadu . "</td>   
+		              </tr>            
+		              <tr>
+		                 <td>Judul Program</td>     
+		                 <td>" .$rs->row()->judul_program . "</td>   
+		              </tr>
+		              <tr>
+		                 <td>Stasiun Program</td>   
+		                 <td>" . $rs->row()->stasiun_program . "</td>   
+		              </tr>
+		              <tr>
+		                 <td>Pesan Aduan</td>
+		                 <td>" . $rs->row()->pesan . "</td>   
+		              </tr>";
+	        }
+		}else{
+			$rs = $this->basecrud_m->get_where('apresiasi',array('id' => $id));
+			if($rs->num_rows() > 0){
+				$data = 
+				    "<tr>
+		                <td style=\"width:100px\">Topik Aduan</td> 
+		                <td>" . $rs->row()->topik . "</td>   
+		              </tr>            
+		              <tr>
+		                <td>Nama Pengirim</td> 
+		                <td>" . $rs->row()->nama_pengirim . "</td>   
+		              </tr>            
+		              <tr>
+		                 <td>Judul Program</td>     
+		                 <td>" . $rs->row()->judul_program . "</td>   
+		              </tr>
+		              <tr>
+		                 <td>Stasiun Program</td>   
+		                 <td>" . $rs->row()->stasiun_program . "</td>   
+		              </tr>
+		              <tr>
+		                 <td>Pesan Aduan</td>
+		                 <td>" . $rs->row()->pesan . "</td>   
+		              </tr>";
+	        }
+		}
+
+		echo $data;	
+	}
+
+
 
 	function sekolah_get_info(){
 
@@ -319,6 +429,8 @@ class Tampil extends My_Controller {
 				$this->session->set_userdata('id_kabupaten',$this->input->post('id_kabupaten'));
 			}
 
+			redirect('tampil/daftar_sekolah','reload');
+
 		}
 
 		//pagination
@@ -342,9 +454,12 @@ class Tampil extends My_Controller {
     	$web['title']	= '.:: Daftar Nama dan Alamat Sekolah  ::.';
 		$web['data'] = $this->datasekolah_m->get('pagging');
 		$web['kabupaten'] = $this->basecrud_m->get_where('kabupaten',array('id_propinsi' => 1));
-		$this->load->view('t_atas', $web);
-		$this->load->view('v_daftar_sekolah', $web);
-		$this->load->view('t_footer');
+		
+		//$this->load->view('t_atas', $web);
+		//$this->load->view('v_daftar_sekolah', $web);
+		//$this->load->view('t_footer');
+		$web['page_name'] = 'v_daftar_sekolah';
+		$this->_generate_page($web);
 	}
 
 
@@ -385,6 +500,28 @@ class Tampil extends My_Controller {
 			$name = str_replace($replace_me,"_",$file->row()->judul) . '.' . $ext;
 
 			force_download($name, $data); 		
+
+		}elseif($tipe === 'newsletter'){
+
+			$file = $this->basecrud_m->get_where('newsletter',array('id' => $id));
+			if($file->num_rows() == 0){
+				redirect('tampil');
+			}
+
+			if (!file_exists("./upload/download/" . $file->row()->file)){
+				redirect('tampil');
+			}
+
+			//update view
+			$this->db->query("UPDATE newsletter 
+				              SET view_count = view_count + 1 
+				              WHERE id = '".$id."'");
+
+			$data = file_get_contents("./upload/download/" . $file->row()->file); // Read the file's contents
+			$ext = pathinfo($file->row()->file, PATHINFO_EXTENSION);
+			$name = str_replace($replace_me,"_",$file->row()->judul) . '.' . $ext;
+
+			force_download($name, $data); 
 		}
 	}
 
@@ -424,11 +561,12 @@ class Tampil extends My_Controller {
 		
 		$header = $this->db->query("SELECT * FROM data_produk_hukum WHERE id = '$id'");
 
-		$this->load->view('t_atas', $web);
+		//$this->load->view('t_atas', $web);
 
 		if($header->num_rows() == 0){
 
-			$this->load->view('invalid');
+			//$this->load->view('invalid');
+			$web['page_name'] = 'invalid';
 
 		}else{
 
@@ -452,10 +590,12 @@ class Tampil extends My_Controller {
 	    	
 			$web['data'] = $this->produk_hukum_m->get($id,'pagging');
 			$web['data_produk_hukum']	= $header->row();		
-			$this->load->view('v_data_produk_hukum', $web);
+			//$this->load->view('v_data_produk_hukum', $web);
+			$web['page_name'] = 'v_data_produk_hukum';
 		}		
 
-		$this->load->view('t_footer');
+		//$this->load->view('t_footer');		
+		$this->_generate_page($web);
 
 	}
 
@@ -491,13 +631,13 @@ class Tampil extends My_Controller {
 		}
 	}
 
-	function ide_saran($cmd = null,$param = null){
+	function aduan($cmd = null,$param = null){
 
 
-		$this->load->model('ide_saran_m');
+		$this->load->model('aduan_m');
 
-		$web['title']		= "Ide Dan Saran Pengunjung";
-		$this->load->view('t_atas', $web);
+		$web['title']		= "Pojok Aduan";
+		//$this->load->view('t_atas', $web);
 
 		$date_now = date('Y-m-d H:i:s');
 
@@ -508,7 +648,383 @@ class Tampil extends My_Controller {
 
 			$cap = $this->_captcha();
 			$web['captcha_image'] = $cap['image'];
-			$this->load->view('f_ide_saran', $web);
+			//$this->load->view('f_ide_saran', $web);
+			$web['page_name'] = 'f_aduan';
+		
+
+		}elseif($cmd === 'add_act'){
+
+			$this->form_validation->set_rules('topik', 'Topik', 'xss_clean|required');
+			$this->form_validation->set_rules('nama_pengadu', 'Nama Lengkap Pengadu', 'xss_clean');			
+			$this->form_validation->set_rules('email_pengadu', 'Email', 'xss_clean|valid_email');			
+			$this->form_validation->set_rules('judul_program', 'Judul Program', 'xss_clean');
+			$this->form_validation->set_rules('tgl_tayang_program', 'Tanggal Tayang', 'xss_clean|required');
+			$this->form_validation->set_rules('jam_tayang_program', 'Jam Tayang', 'xss_clean|required');
+			$this->form_validation->set_rules('stasiun_program', 'Stasiun Program', 'xss_clean|required');
+			$this->form_validation->set_rules('pesan', 'Pesan pengaduan', 'xss_clean|required');
+			$this->form_validation->set_rules('captcha_word','Captcha','xss_clean|required|callback_check_captcha');
+			
+			if ($this->form_validation->run() == TRUE) {				
+				
+				$nama = $this->input->post('nama_pengadu');
+				if(strtolower($nama) === 'administrator' || strtolower($nama) === 'admin'){
+					$nama = 'Guest';
+				}
+
+
+				$in = array(
+					'topik'              => $this->input->post('topik'),
+					'nama_pengadu'       => $nama,
+					'email_pengadu'      => $this->input->post('email_pengadu'),
+					'judul_program'      => $this->input->post('judul_program'),
+					'tgl_tayang_program' => $this->input->post('tgl_tayang_program'),
+					'jam_tayang_program' => $this->input->post('jam_tayang_program'),
+					'stasiun_program'    => $this->input->post('stasiun_program'),
+					'pesan'              => $this->input->post('pesan'),
+					'inserted_at'        => $date_now
+				);				
+
+				$this->basecrud_m->insert('aduan',$in);
+				$this->session->set_flashdata("k", "<div class='alert alert-success'>Pengaduan terkirim dan Menunggu untuk di Moderasi</div>");
+				redirect('tampil/aduan','reload');
+			
+			}else{
+
+				$cap = $this->_captcha();
+				$web['captcha_image'] = $cap['image'];
+				$web['msg'] = validation_errors();							
+				//$this->load->view('f_ide_saran', $web);
+				$web['page_name'] = 'f_aduan';
+				
+			}
+
+		}/*elseif($cmd === 'reply'){
+
+			$r = $this->basecrud_m->get_where('aduan',array('id' => $param));
+			if($r->num_rows() == 0){
+
+				//$this->load->view('invalid', $web);	
+				$web['page_name'] = 'invalid';
+				
+			}else{
+				$web['post'] = $this->db->query("SELECT nama_pengadu,topik,DATE(inserted_at) as tgl
+					                             FROM aduan
+					                             WHERE id = $param")->row();
+				
+				$web['tanggapan'] = $this->db->query("SELECT nama,komentar,DATE(inserted_at) as tgl 
+					                                  FROM aduan_tanggapan 
+					                                  WHERE id_aduan = $param AND tampil = 'Y'
+					                                  ORDER BY inserted_at ASC");
+				
+			
+				$cap = $this->_captcha();
+				$web['captcha_image'] = $cap['image'];
+				//$this->load->view('f_ide_saran_tanggapan', $web);	
+				$web['page_name'] = 'f_aduan_tanggapan';
+		
+			}
+
+			
+
+		}elseif($cmd === 'reply_add'){
+
+			$r = $this->basecrud_m->get_where('aduan',array('id' => $param));
+			if($r->num_rows() == 0){
+
+				//$this->load->view('invalid', $web);	
+				$web['page_name'] = 'invalid';
+				
+			}else{
+				$this->form_validation->set_rules('nama', 'Nama', 'xss_clean|required');
+				$this->form_validation->set_rules('email', 'Email', 'xss_clean|valid_email');			
+				$this->form_validation->set_rules('alamat', 'Alamat', 'xss_clean');			
+				$this->form_validation->set_rules('website', 'Website', 'xss_clean');
+				$this->form_validation->set_rules('komentar', 'Komentar', 'xss_clean|required');
+				$this->form_validation->set_rules('captcha_word','Captcha','xss_clean|required|callback_check_captcha');
+				
+				if ($this->form_validation->run() == TRUE) {				
+					
+					//$date_now = date('Y-m-d H:i:s');
+					$nama = $this->input->post('nama');
+					
+					if(strtolower($nama) === 'administrator' || strtolower($nama) === 'admin'){
+						$nama = 'Guest';
+					}
+
+				
+					$in = array(
+						'id_ide_saran' => $param,
+						'nama'         => $nama,
+						'email'        => $this->input->post('email'),
+						'alamat'       => $this->input->post('alamat'),
+						'website'      => $this->input->post('website'),
+						'komentar'     => $this->input->post('komentar'),
+						'inserted_at'  => $date_now
+					);				
+
+					$this->basecrud_m->insert('aduan_tanggapan',$in);
+					$this->session->set_flashdata("k", "<div class='alert alert-success'>Tanggapan terkirim dan Menunggu untuk di Moderasi</div>");
+					redirect('tampil/ide_saran/reply/' . $param,'reload');
+				
+				}else{		
+
+					$web['post'] = $this->db->query("SELECT nama_pengadu,topik,DATE(inserted_at) as tgl
+					                             	FROM aduan
+					                             	WHERE id = $param")->row();
+
+					$web['tanggapan'] = $this->db->query("SELECT nama,komentar,DATE(inserted_at) as tgl 
+						                                  FROM aduan_tanggapan 
+						                                  WHERE id_aduan = $param AND tampil = 'Y'
+						                                  ORDER BY inserted_at ASC");
+					$cap = $this->_captcha();
+					$web['captcha_image'] = $cap['image'];			
+					$web['msg'] = validation_errors();							
+				}
+
+				//$this->load->view('f_ide_saran_tanggapan', $web);
+				$web['page_name'] = 'f_aduan_tanggapan';
+		
+			}			
+
+		}*/else{
+
+			//pagination
+			$url = base_url() . 'tampil/aduan/';
+			$res = $this->aduan_m->get('numrows');
+			$per_page = 10;
+			$config = paginate($url,$res,$per_page,3);
+			$this->pagination->initialize($config);
+
+			$this->aduan_m->limit = $per_page;
+			if($this->uri->segment(3) == TRUE){
+	        	$this->aduan_m->offset = $this->uri->segment(3);
+	        }else{
+	            $this->aduan_m->offset = 0;
+	        }	
+
+			$this->aduan_m->sort = 'inserted_at';
+	    	$this->aduan_m->order = 'DESC';
+	    	//end pagination
+	    	
+			$web['data'] = $this->aduan_m->get('pagging');				
+			//$this->load->view('v_ide_saran', $web);
+			$web['page_name'] = 'v_aduan';
+		
+
+		}
+
+		//$this->load->view('t_footer');
+		
+		$this->_generate_page($web);
+	}
+
+	function apresiasi($cmd = null,$param = null){
+
+
+		$this->load->model('apresiasi_m');
+
+		$web['title']		= "Pojok Apresiasi";
+		//$this->load->view('t_atas', $web);
+
+		$date_now = date('Y-m-d H:i:s');
+
+		//$cap = $this->_captcha();
+		//$web['captcha_image'] = $cap['image'];
+		
+		if($cmd === 'add'){
+
+			$cap = $this->_captcha();
+			$web['captcha_image'] = $cap['image'];
+			//$this->load->view('f_ide_saran', $web);
+			$web['page_name'] = 'f_apresiasi';
+		
+
+		}elseif($cmd === 'add_act'){
+
+			$this->form_validation->set_rules('topik', 'Topik', 'xss_clean|required');
+			$this->form_validation->set_rules('nama_pengirim', 'Nama Lengkap Pengirim', 'xss_clean');			
+			$this->form_validation->set_rules('email_pengirim', 'Email Pengirim', 'xss_clean|valid_email');			
+			$this->form_validation->set_rules('judul_program', 'Judul Program', 'xss_clean');
+			$this->form_validation->set_rules('tgl_tayang_program', 'Tanggal Tayang', 'xss_clean|required');
+			$this->form_validation->set_rules('jam_tayang_program', 'Jam Tayang', 'xss_clean|required');
+			$this->form_validation->set_rules('stasiun_program', 'Stasiun Program', 'xss_clean|required');
+			$this->form_validation->set_rules('pesan', 'Pesan pengaduan', 'xss_clean|required');
+			$this->form_validation->set_rules('captcha_word','Captcha','xss_clean|required|callback_check_captcha');
+			
+			if ($this->form_validation->run() == TRUE) {				
+				
+				$nama = $this->input->post('nama_pengirim');
+				if(strtolower($nama) === 'administrator' || strtolower($nama) === 'admin'){
+					$nama = 'Guest';
+				}
+
+
+				$in = array(
+					'topik'              => $this->input->post('topik'),
+					'nama_pengirim'      => $nama,
+					'email_pengirim'     => $this->input->post('email_pengirim'),
+					'judul_program'      => $this->input->post('judul_program'),
+					'tgl_tayang_program' => $this->input->post('tgl_tayang_program'),
+					'jam_tayang_program' => $this->input->post('jam_tayang_program'),
+					'stasiun_program'    => $this->input->post('stasiun_program'),
+					'pesan'              => $this->input->post('pesan'),
+					'inserted_at'        => $date_now
+				);				
+
+				$this->basecrud_m->insert('apresiasi',$in);
+				$this->session->set_flashdata("k", "<div class='alert alert-success'>Apresiasi terkirim dan Menunggu untuk di Moderasi</div>");
+				redirect('tampil/apresiasi','reload');
+			
+			}else{
+
+				$cap = $this->_captcha();
+				$web['captcha_image'] = $cap['image'];
+				$web['msg'] = validation_errors();							
+				//$this->load->view('f_ide_saran', $web);
+				$web['page_name'] = 'f_apresiasi';
+				
+			}
+
+		}/*elseif($cmd === 'reply'){
+
+			$r = $this->basecrud_m->get_where('aduan',array('id' => $param));
+			if($r->num_rows() == 0){
+
+				//$this->load->view('invalid', $web);	
+				$web['page_name'] = 'invalid';
+				
+			}else{
+				$web['post'] = $this->db->query("SELECT nama_pengadu,topik,DATE(inserted_at) as tgl
+					                             FROM aduan
+					                             WHERE id = $param")->row();
+				
+				$web['tanggapan'] = $this->db->query("SELECT nama,komentar,DATE(inserted_at) as tgl 
+					                                  FROM aduan_tanggapan 
+					                                  WHERE id_aduan = $param AND tampil = 'Y'
+					                                  ORDER BY inserted_at ASC");
+				
+			
+				$cap = $this->_captcha();
+				$web['captcha_image'] = $cap['image'];
+				//$this->load->view('f_ide_saran_tanggapan', $web);	
+				$web['page_name'] = 'f_aduan_tanggapan';
+		
+			}
+
+			
+
+		}elseif($cmd === 'reply_add'){
+
+			$r = $this->basecrud_m->get_where('aduan',array('id' => $param));
+			if($r->num_rows() == 0){
+
+				//$this->load->view('invalid', $web);	
+				$web['page_name'] = 'invalid';
+				
+			}else{
+				$this->form_validation->set_rules('nama', 'Nama', 'xss_clean|required');
+				$this->form_validation->set_rules('email', 'Email', 'xss_clean|valid_email');			
+				$this->form_validation->set_rules('alamat', 'Alamat', 'xss_clean');			
+				$this->form_validation->set_rules('website', 'Website', 'xss_clean');
+				$this->form_validation->set_rules('komentar', 'Komentar', 'xss_clean|required');
+				$this->form_validation->set_rules('captcha_word','Captcha','xss_clean|required|callback_check_captcha');
+				
+				if ($this->form_validation->run() == TRUE) {				
+					
+					//$date_now = date('Y-m-d H:i:s');
+					$nama = $this->input->post('nama');
+					
+					if(strtolower($nama) === 'administrator' || strtolower($nama) === 'admin'){
+						$nama = 'Guest';
+					}
+
+				
+					$in = array(
+						'id_ide_saran' => $param,
+						'nama'         => $nama,
+						'email'        => $this->input->post('email'),
+						'alamat'       => $this->input->post('alamat'),
+						'website'      => $this->input->post('website'),
+						'komentar'     => $this->input->post('komentar'),
+						'inserted_at'  => $date_now
+					);				
+
+					$this->basecrud_m->insert('aduan_tanggapan',$in);
+					$this->session->set_flashdata("k", "<div class='alert alert-success'>Tanggapan terkirim dan Menunggu untuk di Moderasi</div>");
+					redirect('tampil/ide_saran/reply/' . $param,'reload');
+				
+				}else{		
+
+					$web['post'] = $this->db->query("SELECT nama_pengadu,topik,DATE(inserted_at) as tgl
+					                             	FROM aduan
+					                             	WHERE id = $param")->row();
+
+					$web['tanggapan'] = $this->db->query("SELECT nama,komentar,DATE(inserted_at) as tgl 
+						                                  FROM aduan_tanggapan 
+						                                  WHERE id_aduan = $param AND tampil = 'Y'
+						                                  ORDER BY inserted_at ASC");
+					$cap = $this->_captcha();
+					$web['captcha_image'] = $cap['image'];			
+					$web['msg'] = validation_errors();							
+				}
+
+				//$this->load->view('f_ide_saran_tanggapan', $web);
+				$web['page_name'] = 'f_aduan_tanggapan';
+		
+			}			
+
+		}*/else{
+
+			//pagination
+			$url = base_url() . 'tampil/apresiasi/';
+			$res = $this->apresiasi_m->get('numrows');
+			$per_page = 10;
+			$config = paginate($url,$res,$per_page,3);
+			$this->pagination->initialize($config);
+
+			$this->apresiasi_m->limit = $per_page;
+			if($this->uri->segment(3) == TRUE){
+	        	$this->apresiasi_m->offset = $this->uri->segment(3);
+	        }else{
+	            $this->apresiasi_m->offset = 0;
+	        }	
+
+			$this->apresiasi_m->sort = 'inserted_at';
+	    	$this->apresiasi_m->order = 'DESC';
+	    	//end pagination
+	    	
+			$web['data'] = $this->apresiasi_m->get('pagging');				
+			//$this->load->view('v_ide_saran', $web);
+			$web['page_name'] = 'v_apresiasi';
+		
+
+		}
+
+		//$this->load->view('t_footer');
+		
+		$this->_generate_page($web);
+	}
+
+	function ide_saran($cmd = null,$param = null){
+
+
+		$this->load->model('ide_saran_m');
+
+		$web['title']		= "Ide Dan Saran Pengunjung";
+		//$this->load->view('t_atas', $web);
+
+		$date_now = date('Y-m-d H:i:s');
+
+		//$cap = $this->_captcha();
+		//$web['captcha_image'] = $cap['image'];
+		
+		if($cmd === 'add'){
+
+			$cap = $this->_captcha();
+			$web['captcha_image'] = $cap['image'];
+			//$this->load->view('f_ide_saran', $web);
+			$web['page_name'] = 'f_ide_saran';
+		
 
 		}elseif($cmd === 'add_act'){
 
@@ -545,7 +1061,8 @@ class Tampil extends My_Controller {
 				$cap = $this->_captcha();
 				$web['captcha_image'] = $cap['image'];
 				$web['msg'] = validation_errors();							
-				$this->load->view('f_ide_saran', $web);
+				//$this->load->view('f_ide_saran', $web);
+				$web['page_name'] = 'f_ide_saran';
 				
 			}
 
@@ -554,7 +1071,8 @@ class Tampil extends My_Controller {
 			$r = $this->basecrud_m->get_where('ide_saran',array('id' => $param));
 			if($r->num_rows() == 0){
 
-				$this->load->view('invalid', $web);	
+				//$this->load->view('invalid', $web);	
+				$web['page_name'] = 'invalid';
 				
 			}else{
 				$web['post'] = $this->db->query("SELECT nama,topik,DATE(inserted_at) as tgl
@@ -568,7 +1086,9 @@ class Tampil extends My_Controller {
 
 				$cap = $this->_captcha();
 				$web['captcha_image'] = $cap['image'];
-				$this->load->view('f_ide_saran_tanggapan', $web);	
+				//$this->load->view('f_ide_saran_tanggapan', $web);	
+				$web['page_name'] = 'f_ide_saran_tanggapan';
+		
 			}
 
 			
@@ -578,7 +1098,8 @@ class Tampil extends My_Controller {
 			$r = $this->basecrud_m->get_where('ide_saran',array('id' => $param));
 			if($r->num_rows() == 0){
 
-				$this->load->view('invalid', $web);	
+				//$this->load->view('invalid', $web);	
+				$web['page_name'] = 'invalid';
 				
 			}else{
 				$this->form_validation->set_rules('nama', 'Nama', 'xss_clean|required');
@@ -614,7 +1135,6 @@ class Tampil extends My_Controller {
 				
 				}else{		
 
-
 					$web['post'] = $this->db->query("SELECT nama,topik,DATE(inserted_at) as tgl
 					                             	FROM ide_saran
 					                             	WHERE id = $param")->row();
@@ -628,7 +1148,9 @@ class Tampil extends My_Controller {
 					$web['msg'] = validation_errors();							
 				}
 
-				$this->load->view('f_ide_saran_tanggapan', $web);
+				//$this->load->view('f_ide_saran_tanggapan', $web);
+				$web['page_name'] = 'f_ide_saran_tanggapan';
+		
 			}			
 
 		}else{
@@ -652,11 +1174,15 @@ class Tampil extends My_Controller {
 	    	//end pagination
 	    	
 			$web['data'] = $this->ide_saran_m->get('pagging');				
-			$this->load->view('v_ide_saran', $web);
+			//$this->load->view('v_ide_saran', $web);
+			$web['page_name'] = 'v_ide_saran';
+		
 
 		}
 
-		$this->load->view('t_footer');
+		//$this->load->view('t_footer');
+		
+		$this->_generate_page($web);
 	}
 
 	function ekspresi($cmd = null,$param = null){
@@ -664,7 +1190,7 @@ class Tampil extends My_Controller {
 		$this->load->model('ekspresi_m');
 
 		$web['title']		= "Ekspresi Pengunjung";
-		$this->load->view('t_atas', $web);
+		//$this->load->view('t_atas', $web);
 
 		$date_now = date('Y-m-d H:i:s');
 
@@ -672,7 +1198,9 @@ class Tampil extends My_Controller {
 
 			$cap = $this->_captcha();
 			$web['captcha_image'] = $cap['image'];
-			$this->load->view('f_ekspresi', $web);
+			//$this->load->view('f_ekspresi', $web);
+			$web['page_name'] = 'f_ekspresi';
+		
 
 		}elseif($cmd === 'add_act'){
 
@@ -710,7 +1238,8 @@ class Tampil extends My_Controller {
 				$cap = $this->_captcha();
 				$web['captcha_image'] = $cap['image'];
 				$web['msg'] = validation_errors();							
-				$this->load->view('f_ekspresi', $web);
+				//$this->load->view('f_ekspresi', $web);
+				$web['page_name'] = 'f_ekspresi';
 				
 			}
 
@@ -719,7 +1248,8 @@ class Tampil extends My_Controller {
 			$r = $this->basecrud_m->get_where('ekspresi',array('id' => $param));
 			if($r->num_rows() == 0){
 
-				$this->load->view('invalid', $web);	
+				//$this->load->view('invalid', $web);	
+				$web['page_name'] = 'invalid';
 				
 			}else{
 				$web['post'] = $this->db->query("SELECT nama,judul,isi_ekspresi,DATE(inserted_at) as tgl
@@ -733,7 +1263,8 @@ class Tampil extends My_Controller {
 
 				$cap = $this->_captcha();
 				$web['captcha_image'] = $cap['image'];
-				$this->load->view('f_ekspresi_tanggapan', $web);
+				//$this->load->view('f_ekspresi_tanggapan', $web);
+				$web['page_name'] = 'f_ekspresi_tanggapan';
 
 			}
 			
@@ -784,7 +1315,8 @@ class Tampil extends My_Controller {
 				$web['msg'] = validation_errors();			
 			}
 
-			$this->load->view('f_ekspresi_tanggapan', $web);
+			//$this->load->view('f_ekspresi_tanggapan', $web);
+			$web['page_name'] = 'f_ekspresi_tanggapan';
 		
 		}else{
 
@@ -807,11 +1339,13 @@ class Tampil extends My_Controller {
 	    	//end pagination
 	    	
 			$web['data'] = $this->ekspresi_m->get('pagging');				
-			$this->load->view('v_ekspresi', $web);
+			//$this->load->view('v_ekspresi', $web);
+			$web['page_name'] = 'v_ekspresi';
 
 		}
 
-		$this->load->view('t_footer');
+		//$this->load->view('t_footer');		
+		$this->_generate_page($web);
 	}
 	/************************************************************************/
 
@@ -846,8 +1380,7 @@ class Tampil extends My_Controller {
 	*/
 
 	public function blog() {
-		$web['title']	= '.:: Official Website Dinas Pendidikan Provinsi Jambi ::.';
-		
+		$web['title']	= '.:: Official Website Dinas Pendidikan Provinsi Jambi ::.';		
 		
 		$ke				= $this->uri->segment(3);
 		$id_berita		= $this->uri->segment(4);
@@ -856,10 +1389,10 @@ class Tampil extends My_Controller {
 		$total_rows		= $this->db->query("SELECT * FROM berita WHERE publish = '1'")->num_rows();
 		
 		
-		$url	= base_URL().'tampil/blog/page/';
-		$total_rows	= $total_rows;
-		$uri_segment	= 4;
-		$per_page 	= 5; 
+		$url         = base_URL().'tampil/blog/page/';
+		$total_rows  = $total_rows;
+		$uri_segment = 4;
+		$per_page    = 5; 
 		
 		$config = paginate($url,$total_rows,$per_page,$uri_segment);
 		$this->pagination->initialize($config); 
@@ -896,15 +1429,19 @@ class Tampil extends My_Controller {
 				
 				$web['title']		= $web['baca']->judul." - Website Website Dinas Pendidikan Provinsi Jambi";
 				$web['meta']		=  meta($meta);
-				$this->load->view('t_atas', $web);
-				$this->load->view('b_blog', $web);
+				//$this->load->view('t_atas', $web);
+				//$this->load->view('b_blog', $web);
+				$web['page_name'] = 'b_blog';
+				
 			}
 		} else {
-			$this->load->view('t_atas', $web);
-			$this->load->view('v_blog', $web);
+			//$this->load->view('t_atas', $web);
+			//$this->load->view('v_blog', $web);
+			$web['page_name'] = 'v_blog';
 		}
 		
-		$this->load->view('t_footer');
+		//$this->load->view('t_footer');
+		$this->_generate_page($web);
 	}
 	
 	public function kategori() {
@@ -927,13 +1464,18 @@ class Tampil extends My_Controller {
 		if (empty($awal) || $awal == 1) { $awal = 0; } { $awal = $awal; }
 		$akhir	= $config['per_page'];
 		
-		$web['blog'] 		= $this->db->query("SELECT * FROM berita WHERE publish = '1' AND kategori LIKE '%".$this->uri->segment(3)."%' ORDER BY id DESC LIMIT $awal, $akhir")->result();
-		
+		$web['blog'] 	= $this->db->query("SELECT a.*,IF(a.sticky = 'Y',0,1) as order_sticky 
+			                                FROM berita a
+			                                WHERE publish = '1' AND kategori LIKE '%".$this->uri->segment(3)."%' ORDER BY order_sticky ASC, tglPost DESC 
+			                                LIMIT $awal, $akhir")->result();
+
 		$web['page']	= $this->pagination->create_links();
 
-		$this->load->view('t_atas', $web);
-		$this->load->view('v_blog', $web);
-		$this->load->view('t_footer');
+		//$this->load->view('t_atas', $web);
+		//$this->load->view('v_blog', $web);
+		//$this->load->view('t_footer');
+		$web['page_name'] = 'v_blog';
+		$this->_generate_page($web);
 	}
 	
 	public function post_komen() {
@@ -951,32 +1493,46 @@ class Tampil extends My_Controller {
 			redirect('tampil/blog/baca/'.$id."#komentar");
 		}
 	}
+	
+	function galeri_video(){
+		$web['title']	= '.:: Album Foto Galeri Website Dinas Pendidikan Provinsi Jambi ::.';
+		$ke				= $this->uri->segment(3);
+		$idu			= $this->uri->segment(4);
+		$web['data']	= $this->db->query("SELECT * FROM galeri_video ORDER BY id DESC")->result();		
+		$web['page_name'] = 'v_galeri_video';				
 		
+		$this->_generate_page($web);
+	}	
+
 	public function galeri() {
 		$web['title']	= '.:: Album Foto Galeri Website Dinas Pendidikan Provinsi Jambi ::.';
 		$ke				= $this->uri->segment(3);
 		$idu			= $this->uri->segment(4);
 		$web['data']	= $this->db->query("SELECT * FROM galeri_album ORDER BY id DESC")->result();		
 		
-		$this->load->view('t_atas', $web);
+		//$this->load->view('t_atas', $web);
 
 		if ($ke == "lihat") {
 
 			$gal = $this->basecrud_m->get_where('galeri_album',array('id' => $idu));
 			if($gal->num_rows() == 0){
-				$this->load->view('invalid', $web);	
+				//$this->load->view('invalid', $web);	
+				$web['page_name'] = 'invalid';		
 			}else{
 				$web['datdet']	= $this->db->query("SELECT * FROM galeri WHERE id_album = '$idu'")->result();
 				$web['datalb']	= $this->db->query("SELECT * FROM galeri_album WHERE id = '$idu'")->row();
-				$this->load->view('v_galeri_detil', $web);	
+				//$this->load->view('v_galeri_detil', $web);	
+				$web['page_name'] = 'v_galeri_detil';		
 			}
 
 			
 		} else {
-			$this->load->view('v_galeri', $web);
+			//$this->load->view('v_galeri', $web);
+			$web['page_name'] = 'v_galeri';
 		}
 		
-		$this->load->view('t_footer');
+		//$this->load->view('t_footer');		
+		$this->_generate_page($web);
 	}
 		
 	public function bukutamu() {
@@ -985,8 +1541,7 @@ class Tampil extends My_Controller {
 		$ke					= $this->uri->segment(3);
 		
 		
-		$this->load->view('t_atas', $web);
-		
+		//$this->load->view('t_atas', $web);
 		
 		/*if ($ke == "edit") {
 			$web['det_pesan']	= $this->db->query("SELECT * FROM pesan WHERE id = '".$this->uri->segment(4)."'")->row();
@@ -1010,10 +1565,12 @@ class Tampil extends My_Controller {
 		
 
 		else {		
-			$this->load->view('v_bukutamu', $web);
+			//$this->load->view('v_bukutamu', $web);
+			$web['page_name'] = 'v_bukutamu';		
 		}		
 		
-		$this->load->view('t_footer');
+		//$this->load->view('t_footer');		
+		$this->_generate_page($web);
 	}
 	
 
@@ -1061,9 +1618,11 @@ class Tampil extends My_Controller {
 	public function hasil_poll() {
 		$web['title']		= ".:: Hasil Polling Website Dinas Pendidikan Provinsi Jambi ::. ";
 		
-		$this->load->view('t_atas', $web);	
-		$this->load->view('v_poll');	
-		$this->load->view('t_footer');	
+		//$this->load->view('t_atas', $web);	
+		//$this->load->view('v_poll');	
+		//$this->load->view('t_footer');	
+		$web['page_name'] = 'v_poll';
+		$this->_generate_page($web);
 	}
 
 	/*****************************************************************/
@@ -1087,17 +1646,21 @@ class Tampil extends My_Controller {
 		//$web['cari_download'] 		= $this->db->query("SELECT * FROM download WHERE nama LIKE '%".$q."%' OR ket LIKE '%".$q."%' ")->result();
 		//$web['cari_portofolio'] 	= $this->db->query("SELECT * FROM portofolio WHERE nama LIKE '%".$q."%' OR ket LIKE '%".$q."%' ")->result();
 	
-		$this->load->view('t_atas', $web);
-		$this->load->view('v_cari', $web);
-		$this->load->view('t_footer');
+		//$this->load->view('t_atas', $web);
+		//$this->load->view('v_cari', $web);
+		//$this->load->view('t_footer');
+		$web['page_name'] = 'v_cari';
+		$this->_generate_page($web);
 	}
 		
 	//invalid post id
 	public function invalid() {
 		$web['title']		= "Invalid ID ";
-		$this->load->view('t_atas', $web);
-		$this->load->view('invalid');
-		$this->load->view('t_footer');
+		//$this->load->view('t_atas', $web);
+		//$this->load->view('invalid');
+		//$this->load->view('t_footer');
+		$web['page_name'] = 'invalid';
+		$this->_generate_page($web);
 	}
 	
 	/* UNTUK LOGIN ADMIN */

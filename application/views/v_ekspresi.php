@@ -1,4 +1,4 @@
- <div class="span9">
+
 	<ul class="breadcrumb wellwhite">
 		<li><a href="<?php echo base_URL()?>">Beranda</a> <span class="divider">/</span></li>
 		<li><a href="<?php echo base_URL()?>tampil/ekspresi">Ekspresi</a></li>
@@ -20,7 +20,7 @@
 	
 	<div class="row-fluid">
 		<div class="span3"><br>
-		<i class="icon-user"></i> <b><?php echo $d->nama;?></b> 
+		<i class="icon-user"></i> <b><?php echo ucwords($d->nama);?></b> 
 	      <br>
 	      <?php echo $d->inserted_at?>
 	  
@@ -31,16 +31,15 @@
 				<a href="<?php echo base_URL() . 'tampil/ekspresi/reply/' . $d->id?>">
 					<p><?php echo substr($d->isi_ekspresi, 0,80) . '...'?></p>
 				</a>			       
-		 		<span class="label label-default"><span class="icon-comment icon-white"></span>
-		 		<?php $reply = $this->db->query("SELECT nama,DATE(inserted_at) as tgl FROM ekspresi_tanggapan WHERE id_ekspresi = $d->id AND tampil = 'Y' ORDER BY inserted_at DESC")?>  
-		 		<?php if($reply->num_rows() == 0){ ?>
-		 		Tanggapan  (0), Silahkan memberikan tanggapan untuk ekspresi ini</span>
-		 		<a href="<?php echo base_URL() . 'tampil/ekspresi/reply/' . $d->id?>" class="btn btn-primary btn-mini pull-right" style="margin-left:10px">Detail</a>
-		 		<?php }else{ ?>
-		 		Tanggapan  (<?php echo $reply->num_rows()?>) , terakhir oleh : <?php echo ucfirst($reply->row()->nama);?> | Tanggal :<?php echo $reply->row()->tgl?> </span>
-		 		<a href="<?php echo base_URL() . 'tampil/ekspresi/reply/' . $d->id?>" class="btn btn-primary btn-mini pull-right" style="margin-left:10px">Detail</a>
-		 		<?php } ?>
-		 		
+		 		<span class="label label-default">
+		 			<span class="icon-comment icon-white"></span>
+			 		<?php $reply = $this->db->query("SELECT nama,DATE(inserted_at) as tgl FROM ekspresi_tanggapan WHERE id_ekspresi = $d->id AND tampil = 'Y' ORDER BY inserted_at DESC")?>  
+			 		<?php if($reply->num_rows() == 0){ ?>			 		
+			 		<a href="<?php echo base_URL() . 'tampil/ekspresi/reply/' . $d->id?>" style="color:#FFF">Tanggapan  (0), Silahkan berikan tanggapan untuk ekspresi ini</a>
+			 		<?php }else{ ?>			 		
+			 		<a href="<?php echo base_URL() . 'tampil/ekspresi/reply/' . $d->id?>" style="color:#FFF">Tanggapan  (<?php echo $reply->num_rows()?>) , terakhir oleh : <?php echo ucfirst(strlen($reply->row()->nama) > 5 ? substr($reply->row()->nama,0,5) . '...' : $reply->row()->nama);?> | Tanggal :<?php echo $reply->row()->tgl?> </a>
+			 		<?php } ?>
+		 		 </span>
 		 	</div>
 		</div>
 	</div>
@@ -56,4 +55,3 @@
 		</div>
   	</center>
 
-</div>

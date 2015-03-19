@@ -1,4 +1,4 @@
-<div class="span9">
+
 		<ul class="breadcrumb wellwhite">
 			<li><a href="<?php echo base_URL()?>">Beranda</a> <span class="divider">/</span></li>
 			<li>Data dan Informasi <span class="divider">/</span></li>
@@ -12,4 +12,4 @@
 		  <p><?php echo $data_informasi->isi?></p>
 
 		</div>
- </div><!--/span-->
+<!--/span-->

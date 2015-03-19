@@ -1,4 +1,4 @@
-<div class="span9">	
+
 	<span class="btn btn-success btn-small disabled">DETAIL PENGUMUMAN</span>
 	<span class="label label-default"> 
 		<span class="glyphicon glyphicon-time"></span> Update: <?php echo tgl_panjang($data->tglPost,'sm',true);?>, Diposting : <?php echo $data->oleh;?>, dilihat : <?php echo $data->hits;?> kali
@@ -12,6 +12,3 @@
 	 <?php } ?>
 
 	  <br>
-	 
-
-</div>

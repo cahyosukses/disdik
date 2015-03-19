@@ -1,4 +1,4 @@
-<div class="span9">	
+
 	<span class="btn btn-success btn-small disabled">INDEX PENGUMUMAN</span>
 	<h3>Index Pengumuman</h3>
  	<hr>
@@ -19,4 +19,3 @@
 	        <ul><?php echo $this->pagination->create_links();?> </ul>
 	    </div>
   	</center>
-</div>

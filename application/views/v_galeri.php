@@ -1,4 +1,4 @@
- <div class="span9">
+
 		<ul class="breadcrumb wellwhite">
 			<li><a href="<?php echo base_URL()?>">Beranda</a> <span class="divider">/</span></li>
 			<li>Galeri</li>
@@ -11,13 +11,13 @@
               <?php
 			  foreach ($data as $d) {
 			  ?>
-			  <li class="span4" style="margin-left: 0px; margin-right: 9px">
-				<div class="thumbnail" style="height: 250px">
+			  <li class="span4" style="margin-left: 0px; margin-right: 8px">
+				<div class="thumbnail" style="height: 230px">
 					<?php 
 					$sampul	= get_value("galeri", "id_album", $d->id);
 					?>
 				 <a href="<?php echo base_URL()?>tampil/galeri/lihat/<?php echo $d->id?>">
-                  <img src="<?php echo base_URL()?>timthumb?src=/upload/galeri/<?php echo $sampul->file . '&w=204&h=190&zc=0'?>" style="width:204px;height: 190px" class="span12" alt="<?php echo $d->nama?>">
+                  <img src="<?php echo base_URL()?>timthumb?src=/upload/galeri/<?php echo $sampul->file . '&w=204&h=170&zc=0'?>" style="width:204px;height: 170px" class="span12" alt="<?php echo $d->nama?>">
                  </a>
 				 <div class="caption">
                     <h6 style="text-align: center; margin-top: 0">Album <?php echo $d->nama?><br>
@@ -39,4 +39,4 @@
             </ul>
           </div>
 		</div>
- </div><!--/span-->
+<!--/span-->

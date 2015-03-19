@@ -26,6 +26,7 @@
       <td style="text-align: center"><?php echo $i; ?></td>
       <td><?php echo $b->judul ?> 
           <?php if($b->sticky === 'Y'){ ?><span class="label label-important">Sticky</span> <?php } ?>
+          <?php if($b->slideshow === 'Y'){ ?><span class="label label-success">Slideshow</span> <?php } ?>
       </td>
       <td>
       	<?php $select_kat = explode('-',$b->kategori);?>

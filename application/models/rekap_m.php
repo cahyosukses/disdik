@@ -30,6 +30,7 @@ class Rekap_m extends CI_Model
 
         $rs = $this->db->query("
                     SELECT a.alias as jenjang,
+                        (IFNULL(SUM(c.lembaga),0)) as lembaga,
                         (IFNULL(SUM(c.rombel),0)) as rombel,
                         (IFNULL(SUM(c.murid),0)) as murid,
                         (IFNULL(SUM(c.guru),0)) as guru,   

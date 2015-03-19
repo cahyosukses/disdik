@@ -23,16 +23,16 @@
                 <td><?php echo $r->title;?></td>                                                
                 <td><?php echo $r->tipe;?></td>
                 <td>
-                  <?php if($r->tipe === 'big-text'){?>
+                <?php if($r->tipe === 'big-text'){?>
                   <textarea id="<?php echo $r->title;?>" class="update_me" style="width: 100%;height: 100%"><?php echo $r->value;?></textarea>
-                  <?php }elseif($r->tipe === 'small-text'){ ?>
+                <?php }elseif($r->tipe === 'small-text'){ ?>
                   <input id="<?php echo $r->title;?>" class="update_me" style="width: 100%;height: 100%" type="text" value="<?php echo $r->value;?>">
-                  <?php }elseif($r->tipe === 'image'){ ?>
-                  <img style="margin-bottom: 10px" src="<?php echo base_url(); ?>timthumb?src=/upload/<?php echo $r->value;?>&h=100&w=250&zc=0">
+                <?php }elseif($r->tipe === 'image'){ ?>
+                  <img style="margin-bottom: 10px" src="<?php echo base_url(); ?>timthumb?src=/upload/<?php echo $r->value;?>&h=<?php echo $r->img_height?>&w=<?php echo $r->img_width?>&zc=0">
                   <form action="<?php echo base_url() . 'manage/settings/upload/' . $r->title;?>" method="POST" enctype="multipart/form-data">                                
                          <input class="upload" name="img" onchange="this.form.submit()" multiple="" type="file">                                       
                    </form>
-                  <?php } ?>
+                <?php } ?>
                   
                 </td>
              </tr>

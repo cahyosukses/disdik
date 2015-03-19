@@ -7,7 +7,7 @@ class Manage extends MY_Controller {
 	function __construct()
     {
         parent::__construct();
-        date_default_timezone_set("Asia/Jakarta"); 
+        //date_default_timezone_set("Asia/Jakarta"); 
         $this->load->model(array('basecrud_m'));
     }
 
@@ -268,8 +268,8 @@ class Manage extends MY_Controller {
 
 		$this->load->model('user_m');
 
-		$admin_priv = '1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22';
-		$berita_priv = '1,5,6,7,8,17,18';
+		$admin_priv = '1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25';
+		$berita_priv = '1,5,6,7,8,20,21';
 
 		if($cmd === 'add'){
 
@@ -386,6 +386,202 @@ class Manage extends MY_Controller {
 	    	
 			$data['data'] = $this->user_m->get('pagging');				
 			$data['page'] = 'v_user';
+
+		}
+
+		$this->_generate_page($data);
+	}
+
+	function aduan($cmd = null,$param = null){
+		$this->load->model('aduan_m');
+
+		$data = array();
+		$data['title']		= "Pojok Aduan";
+		
+		if($cmd === 'cari'){
+
+			$filter = $_POST['filter'];
+			$this->session->set_userdata('filter',$filter);
+			redirect('manage/aduan','reload');
+
+		}elseif($cmd === 'set_tampil'){
+
+			$tampil = $_POST['tampil'];
+			$id 	= $_POST['id'];
+			$this->basecrud_m->update('aduan',$id,array('tampil' => $tampil));
+			exit(0);
+
+		}/*elseif($cmd === 'reply_set_tampil'){
+
+			$tampil = $_POST['tampil'];
+			$id 	= $_POST['id'];
+			$this->basecrud_m->update('ide_saran_tanggapan',$id,array('tampil' => $tampil));
+			exit(0);
+
+		}elseif($cmd === 'reply'){
+
+			
+			$data['post'] = $this->db->query("SELECT nama,topik,DATE(inserted_at) as tgl
+				                             FROM ide_saran
+				                             WHERE id = $param")->row();
+
+			$data['tanggapan'] = $this->db->query("SELECT id,nama,komentar,tampil,DATE(inserted_at) as tgl 
+				                                  FROM ide_saran_tanggapan 
+				                                  WHERE id_ide_saran = $param 
+				                                  ORDER BY inserted_at ASC");
+
+			if(!empty($_POST)){
+				
+				$this->form_validation->set_rules('komentar', 'Komentar', 'required');
+				
+				if ($this->form_validation->run() == TRUE) {				
+					
+					$date_now = date('Y-m-d H:i:s');
+					
+					$in = array(
+						'id_ide_saran' => $param,
+						'nama'         => 'Administrator',						
+						'komentar'     => $this->input->post('komentar'),
+						'tampil'	   => 'Y',
+						'inserted_at'  => $date_now
+					);				
+
+					$this->basecrud_m->insert('ide_saran_tanggapan',$in);
+					$this->session->set_flashdata("k", "<div class='alert alert-success'>Tanggapan terkirim</div>");
+					redirect('manage/ide_saran/reply/' . $param,'reload');
+				
+				}else{					
+					$web['msg'] = validation_errors();							
+				}
+			}
+
+			$data['page'] = 'f_ide_saran_tanggapan';
+
+		}*/elseif($cmd === 'del'){
+
+			$this->basecrud_m->delete('aduan',array('id' => $param));
+			redirect('manage/aduan','reload');
+
+		}else{
+
+			//pagination
+			$url = base_url() . 'manage/aduan/';
+			$res = $this->aduan_m->get('numrows','TRUE');
+			$per_page = 10;
+			$config = paginate($url,$res,$per_page,3);
+			$this->pagination->initialize($config);
+
+			$this->aduan_m->limit = $per_page;
+			if($this->uri->segment(3) == TRUE){
+	        	$this->aduan_m->offset = $this->uri->segment(3);
+	        }else{
+	            $this->aduan_m->offset = 0;
+	        }	
+
+			$this->aduan_m->sort = 'inserted_at';
+	    	$this->aduan_m->order = 'DESC';
+	    	//end pagination
+	    	
+			$data['data'] = $this->aduan_m->get('pagging','TRUE');				
+			$data['page'] = 'v_aduan';
+
+		}
+
+		$this->_generate_page($data);
+	}
+
+	function apresiasi($cmd = null,$param = null){
+		$this->load->model('apresiasi_m');
+
+		$data = array();
+		$data['title']		= "Ruang Apresiasi";
+		
+		if($cmd === 'cari'){
+
+			$filter = $_POST['filter'];
+			$this->session->set_userdata('filter',$filter);
+			redirect('manage/apresiasi','reload');
+
+		}elseif($cmd === 'set_tampil'){
+
+			$tampil = $_POST['tampil'];
+			$id 	= $_POST['id'];
+			$this->basecrud_m->update('apresiasi',$id,array('tampil' => $tampil));
+			exit(0);
+
+		}/*elseif($cmd === 'reply_set_tampil'){
+
+			$tampil = $_POST['tampil'];
+			$id 	= $_POST['id'];
+			$this->basecrud_m->update('ide_saran_tanggapan',$id,array('tampil' => $tampil));
+			exit(0);
+
+		}elseif($cmd === 'reply'){
+
+			
+			$data['post'] = $this->db->query("SELECT nama,topik,DATE(inserted_at) as tgl
+				                             FROM ide_saran
+				                             WHERE id = $param")->row();
+
+			$data['tanggapan'] = $this->db->query("SELECT id,nama,komentar,tampil,DATE(inserted_at) as tgl 
+				                                  FROM ide_saran_tanggapan 
+				                                  WHERE id_ide_saran = $param 
+				                                  ORDER BY inserted_at ASC");
+
+			if(!empty($_POST)){
+				
+				$this->form_validation->set_rules('komentar', 'Komentar', 'required');
+				
+				if ($this->form_validation->run() == TRUE) {				
+					
+					$date_now = date('Y-m-d H:i:s');
+					
+					$in = array(
+						'id_ide_saran' => $param,
+						'nama'         => 'Administrator',						
+						'komentar'     => $this->input->post('komentar'),
+						'tampil'	   => 'Y',
+						'inserted_at'  => $date_now
+					);				
+
+					$this->basecrud_m->insert('ide_saran_tanggapan',$in);
+					$this->session->set_flashdata("k", "<div class='alert alert-success'>Tanggapan terkirim</div>");
+					redirect('manage/ide_saran/reply/' . $param,'reload');
+				
+				}else{					
+					$web['msg'] = validation_errors();							
+				}
+			}
+
+			$data['page'] = 'f_ide_saran_tanggapan';
+
+		}*/elseif($cmd === 'del'){
+
+			$this->basecrud_m->delete('apresiasi',array('id' => $param));
+			redirect('manage/apresiasi','reload');
+
+		}else{
+
+			//pagination
+			$url = base_url() . 'manage/apresiasi/';
+			$res = $this->apresiasi_m->get('numrows','TRUE');
+			$per_page = 10;
+			$config = paginate($url,$res,$per_page,3);
+			$this->pagination->initialize($config);
+
+			$this->apresiasi_m->limit = $per_page;
+			if($this->uri->segment(3) == TRUE){
+	        	$this->apresiasi_m->offset = $this->uri->segment(3);
+	        }else{
+	            $this->apresiasi_m->offset = 0;
+	        }	
+
+			$this->apresiasi_m->sort = 'inserted_at';
+	    	$this->apresiasi_m->order = 'DESC';
+	    	//end pagination
+	    	
+			$data['data'] = $this->apresiasi_m->get('pagging','TRUE');				
+			$data['page'] = 'v_apresiasi';
 
 		}
 
@@ -863,6 +1059,97 @@ class Manage extends MY_Controller {
 		}
 	}
 	
+	function galeri_video($cmd = null,$param = null){
+		
+
+		if($cmd === 'add'){
+
+			$data = array(
+							'page'      => 'f_gal_video',						 
+							'title'     => 'Tambah Video'
+						  );
+			$this->_generate_page($data);
+
+		}elseif($cmd === 'add_act'){
+			//simpen			
+			$this->form_validation->set_rules('video_id', 'Video ID', 'xss_clean|required|is_unique[galeri_video.video_id]');
+			$this->form_validation->set_rules('judul', 'Judul Video', 'xss_clean|required');
+			
+			if ($this->form_validation->run() == TRUE) {				
+				
+				$in = array(
+							'video_id'	=> $this->input->post('video_id'),
+							'judul'	=> $this->input->post('judul')
+				);
+				
+
+				$this->basecrud_m->insert('galeri_video',$in);
+				redirect('manage/galeri_video','reload');
+			
+			}else{
+				
+				$data = array(
+								'msg'       => validation_errors(),
+								'page'      => 'f_gal_video',							  
+								'title'     => 'Tambah Video'
+				);
+				$this->_generate_page($data);
+				
+			}
+		}elseif($cmd === 'edt'){
+
+			$data = array(
+							'page'      => 'f_gal_video',						 
+							'title'     => 'Edit Video',
+							'data' 		=> $this->basecrud_m->get_where('galeri_video',array('id' => $param))->row()
+						  );
+			$this->_generate_page($data);
+
+		}elseif($cmd === 'edt_act'){
+
+			$this->form_validation->set_rules('video_id', 'Video ID', 'xss_clean|required');
+			$this->form_validation->set_rules('judul', 'Judul Video', 'xss_clean|required');
+			
+			
+			if ($this->form_validation->run() == TRUE) {				
+				
+				$up = array(
+							'video_id'	=> $this->input->post('video_id'),
+							'judul'	=> $this->input->post('judul')
+							);
+				
+
+				$this->basecrud_m->update('galeri_video',$param,$up);
+				redirect('manage/galeri_video','reload');
+			
+			}else{
+				
+				$data = array(
+								'msg'       => validation_errors(),
+								'page'      => 'f_gal_video',							  
+								'title'     => 'Tambah Video',								
+								'data'   	=> $this->basecrud_m->get_where('galeri_video',array('id' => $param))
+				);
+				
+				$this->_generate_page($data);
+				
+			}
+
+		}elseif($cmd === 'del'){
+
+			$this->basecrud_m->delete('galeri_video',array('id'=>$param));
+			redirect('manage/galeri_video','reload');			
+
+		}else{
+			
+			$data = array('page'	=> 'v_gal_video',
+						  'title'	=> 'Data Galeri Video',
+					      'data'	=>	$this->basecrud_m->get('galeri_video')
+					      );
+			$this->_generate_page($data);
+		}
+	}
+
 
 	function kategori_berita($cmd = null,$param = null){
 		
@@ -2108,6 +2395,296 @@ class Manage extends MY_Controller {
 
 		$this->load->view('manage/tampil', $m);
 	}
+
+	public function newsletter() {
+
+		//ambil variabel URL
+		$mau_ke					= $this->uri->segment(3);
+		$id						= $this->uri->segment(4);
+
+		if($mau_ke === 'cari'){
+
+			$cari = $_POST['cari'];
+			$this->session->set_userdata('cari',$cari);
+			redirect('manage/newsletter','reload');
+
+		}elseif ($mau_ke == "del") {
+			
+			$q_gbr		= get_value("newsletter", "id", $id);
+			$gbr		= $q_gbr->img;
+			$file		= $q_gbr->file;
+			$this->db->query("DELETE FROM newsletter WHERE id = '$id'");
+			$gambar 	= './upload/'.$gbr;
+			$file 	    = './upload/download/'.$file;
+			@unlink($gambar);
+			@unlink($file);
+			
+			$this->session->set_flashdata("k", "<div class=\"alert alert-success\">Postingan berhasil dihapuskan </div>");
+			redirect('manage/newsletter');
+
+		} else if ($mau_ke == "add") {
+
+			$m['page']	= "f_newsletter";
+
+		} else if ($mau_ke == "edit") {
+			
+			$id_news			= $this->uri->segment(4);
+			$m['berita_pilih']	= $this->db->query("SELECT * FROM newsletter WHERE id = '".$id_news."'")->row();	
+			$m['page']			= "f_newsletter";
+
+		} else if ($mau_ke == "act_add") {
+			
+			$date_now = date('Y-m-d H:i:s');
+			$this->load->library('upload');
+			
+			$config['upload_path'] 		= 'upload';
+			$config['allowed_types'] 	= 'gif|jpg|png|jpeg|bmp';
+			$config['max_size']			= '6000';
+			$config['max_width']  		= '6000';
+			$config['max_height']  		= '6000';
+			$config['encrypt_name']     = TRUE;
+
+			$this->upload->initialize($config);
+			
+			if (!empty($_FILES['file_gambar']['name'])) {
+
+				if ($this->upload->do_upload('file_gambar')) {
+					$img_data	 	= $this->upload->data();
+					
+					//konfigurasi upload file
+					$config['upload_path'] 		= 'upload/download';
+					$config['allowed_types'] 	= 'pdf|rar|zip';					
+					$config['encrypt_name']     = TRUE;
+							
+					$this->upload->initialize($config);
+
+					if (!empty($_FILES['file_dokumen']['name'])) {
+						if ($this->upload->do_upload('file_dokumen')) {
+							//upload gambar ama dokumen	
+							$doc_data	 	= $this->upload->data();
+							$in = array(
+										'judul'      => $this->input->post('judul'),
+										'keterangan' => $this->input->post('keterangan'),
+										'img'        => $img_data['file_name'],
+										'file'       => $doc_data['file_name']										
+										);
+							$this->basecrud_m->insert('newsletter',$in);
+							
+							$this->session->set_flashdata("k", "<div class=\"alert alert-success\">Postingan berhasil ditambahkan bersama gambarnya dan dokumen</div>");
+							redirect('manage/newsletter');
+						}else{
+							//error
+							$m['page']	= "f_newsletter"; 
+							$this->session->set_flashdata("k", "<div class=\"alert alert-important\">".$this->upload->display_errors()."</div>");
+							redirect('manage/newsletter/act_add');
+						}
+					}else{
+						//upload gambar doang
+						$in = array(
+									'judul'     => $this->input->post('judul'),
+									'keterangan' => $this->input->post('keterangan'),
+									'img'    => $img_data['file_name']									
+									);
+						$this->basecrud_m->insert('newsletter',$in);
+						
+						$this->session->set_flashdata("k", "<div class=\"alert alert-success\">Postingan berhasil ditambahkan bersama gambarnya Tanpa dokumen</div>");
+						redirect('manage/newsletter');
+					}				
+
+				} else {
+					$m['page']	= "f_newsletter";
+					$this->session->set_flashdata("k", "<div class=\"alert alert-important\">".$this->upload->display_errors()."</div>");
+					redirect('manage/newsletter/act_add');
+				}
+
+			} else {
+
+				//konfigurasi upload file
+				$config['upload_path'] 		= 'upload/download';
+				$config['allowed_types'] 	= 'pdf|rar|zip';					
+				$config['encrypt_name']     = TRUE;
+						
+				$this->upload->initialize($config);
+				
+				if (!empty($_FILES['file_dokumen']['name'])) {
+					if ($this->upload->do_upload('file_dokumen')) {
+						//upload dokumen	
+						$doc_data	 	= $this->upload->data();
+						$in = array(
+									'judul'     => $this->input->post('judul'),								
+									'keterangan' => $this->input->post('keterangan'),
+									'file' => $doc_data['file_name']									
+									);
+						$this->basecrud_m->insert('newsletter',$in);
+						
+						$this->session->set_flashdata("k", "<div class=\"alert alert-success\">Postingan berhasil ditambahkan bersama dokumen Tanpa gambar</div>");
+						redirect('manage/newsletter');
+					}else{
+						//error 
+						$m['page']	= "f_newsletter";
+						$this->session->set_flashdata("k", "<div class=\"alert alert-important\">".$this->upload->display_errors(). $_FILES['file_dokumen']['type'] . "</div>");
+						redirect('manage/newsletter/act_add');
+					}
+				}else{
+					//tanpa upload gambar ama documen
+					$in = array(
+								'judul'     => $this->input->post('judul'),
+								'keterangan' => $this->input->post('keterangan')
+								);
+					$this->basecrud_m->insert('newsletter',$in);
+					
+					$this->session->set_flashdata("k", "<div class=\"alert alert-success\">Postingan berhasil ditambahkan Tanpa gambar dan dokumen</div>");
+					redirect('manage/newsletter');
+				}	
+
+			}
+			
+		} else if ($mau_ke == "act_edit") {
+			
+			$this->load->library('upload');
+			
+			$config['upload_path'] 		= 'upload';
+			$config['allowed_types'] 	= 'gif|jpg|png|jpeg|bmp';
+			$config['max_size']			= '6000';
+			$config['max_width']  		= '6000';
+			$config['max_height']  		= '6000';
+			$config['encrypt_name']     = TRUE;
+
+			$this->upload->initialize($config);
+			
+			if (!empty($_FILES['file_gambar']['name'])) {	
+				
+				if ($this->upload->do_upload('file_gambar')) {
+					$img_data	 	= $this->upload->data();					
+					
+					$q_gbr		= get_value("newsletter", "id", $id);					
+					$gbr		= $q_gbr->img;
+					$path 		= './upload/'.$gbr;
+					@unlink($path);
+
+					//konfigurasi upload file
+					$config['upload_path'] 		= 'upload/download';
+					$config['allowed_types'] 	= 'pdf|rar|zip';					
+					$config['encrypt_name']     = TRUE;
+							
+					$this->upload->initialize($config);
+
+					if (!empty($_FILES['file_dokumen']['name'])) {
+						if ($this->upload->do_upload('file_dokumen')) {
+							//upload gambar ama dokumen	
+							$doc_data	 	= $this->upload->data();
+
+							$q_file		= get_value("newsletter", "id", $id);					
+							$file		= $q_gbr->file;
+							$path 		= './upload/download/'.$file;
+							@unlink($path);
+
+							$this->db->query("  UPDATE newsletter 
+												SET judul      = '".addslashes($this->input->post('judul'))."', 
+													keterangan = '".addslashes($this->input->post('keterangan'))."'
+													img        = '".$img_data['file_name']."', 
+													file       = '".$doc_data['file_name']."'
+											    WHERE id = '" . $id ."'");
+					
+							$this->session->set_flashdata("k", "<div class=\"alert alert-success\">Postingan berhasil diupdate bersama gambar dan dokumen</div>");
+							redirect('manage/newsletter');
+
+						}else{
+							//error
+							$m['page']	= "f_newsletter"; 
+							$this->session->set_flashdata("k", "<div class=\"alert alert-important\">".$this->upload->display_errors()."</div>");
+							redirect('manage/newsletter/edit/'. $id);
+						}
+					}else{
+						//upload gambar doang
+						$this->db->query("UPDATE newsletter 
+										  SET  judul      = '".addslashes($this->input->post('judul'))."', 
+										       keterangan = '".addslashes($this->input->post('keterangan'))."',										       
+										       img        = '".$img_data['file_name']."'
+										  WHERE id = '" . $id . "'");
+					
+						$this->session->set_flashdata("k", "<div class=\"alert alert-success\">Postingan berhasil diupdate bersama gambar tanpa dokumen</div>");
+						redirect('manage/newsletter');
+					}
+					
+					
+				} else {
+					$m['page']	= "f_newsletter"; 
+					$this->session->set_flashdata("k", "<div class=\"alert alert-error\">".$this->upload->display_errors()."</div>");
+					redirect('manage/newsletter/edit/' . $id);
+				}
+
+			} else {
+
+				//konfigurasi upload file
+				$config['upload_path'] 		= 'upload/download';
+				$config['allowed_types'] 	= 'pdf|rar|zip';					
+				$config['encrypt_name']     = TRUE;
+						
+				$this->upload->initialize($config);
+
+				if (!empty($_FILES['file_dokumen']['name'])) {
+					if ($this->upload->do_upload('file_dokumen')) {
+						//upload dokumen	
+						$doc_data	 	= $this->upload->data();
+
+						$this->db->query("UPDATE newsletter 
+										  SET  judul = '".addslashes($this->input->post('judul'))."', 
+										       keterangan = '".addslashes($this->input->post('keterangan'))."', 
+										       slideshow  = '".addslashes($this->input->post('slideshow'))."', 
+										       file = '".$doc_data['file_name']."'
+										  WHERE id = '"  . $id . "'");
+					
+						$this->session->set_flashdata("k", "<div class=\"alert alert-success\">Postingan berhasil diupdate bersama dokumen tanpa gambar</div>");
+						redirect('manage/newsletter');
+
+					}else{
+						$m['page']	= "f_newsletter"; 
+						$this->session->set_flashdata("k", "<div class=\"alert alert-error\">".$this->upload->display_errors()."</div>");
+						redirect('manage/newsletter/edit/' . $id);
+					}
+				}else{
+
+					$this->db->query("UPDATE newsletter 
+						              SET  judul = '".addslashes($this->input->post('judul'))."', 
+						                   keterangan = '".addslashes($this->input->post('keterangan'))."'
+						              WHERE id = '" . $id . "'");
+					
+					$this->session->set_flashdata("k", "<div class=\"alert alert-success\">Postingan berhasil diedit tanpa gambar dan dokumen</div>");
+					redirect('manage/newsletter');
+				}	
+			}			
+
+		} else {
+
+			$this->load->model('newsletter_m');
+
+			//pagination
+			$url = base_url() . 'manage/newsletter/';
+			$res = $this->newsletter_m->get('numrows');
+			$per_page = 3;
+			$config = paginate($url,$res,$per_page,3);
+			$this->pagination->initialize($config);
+
+			$this->newsletter_m->limit = $per_page;
+			if($this->uri->segment(3) == TRUE){
+	        	$this->newsletter_m->offset = $this->uri->segment(3);
+	        }else{
+	            $this->newsletter_m->offset = 0;
+	        }	
+
+			$this->newsletter_m->sort = "id";
+	    	$this->newsletter_m->order = 'ASC';
+	    	//end pagination
+	    	
+			$m['blog'] = $this->newsletter_m->get('pagging');				
+			$m['page'] = 'v_newsletter';
+
+			//$m['page']	= "v_berita";
+		}
+
+		$this->load->view('manage/tampil', $m);
+	}
 		
 	public function blog() {
 
@@ -2206,7 +2783,8 @@ class Manage extends MY_Controller {
 										'kategori'  => $kat,
 										'oleh'      => $this->session->userdata('user'),
 										'publish'   => '1',
-										'sticky'    => $this->input->post('sticky')
+										'sticky'    => $this->input->post('sticky'),
+										'slideshow' => $this->input->post('slideshow')
 										);
 							$this->basecrud_m->insert('berita',$in);
 							
@@ -2228,7 +2806,8 @@ class Manage extends MY_Controller {
 									'kategori'  => $kat,
 									'oleh'      => $this->session->userdata('user'),
 									'publish'   => '1',
-									'sticky'    => $this->input->post('sticky')
+									'sticky'    => $this->input->post('sticky'),
+									'slideshow' => $this->input->post('slideshow')
 									);
 						$this->basecrud_m->insert('berita',$in);
 						
@@ -2263,7 +2842,8 @@ class Manage extends MY_Controller {
 									'kategori'  => $kat,
 									'oleh'      => $this->session->userdata('user'),
 									'publish'   => '1',
-									'sticky'    => $this->input->post('sticky')
+									'sticky'    => $this->input->post('sticky'),
+									'slideshow' => $this->input->post('slideshow')
 									);
 						$this->basecrud_m->insert('berita',$in);
 						
@@ -2284,7 +2864,8 @@ class Manage extends MY_Controller {
 								'kategori'  => $kat,
 								'oleh'      => $this->session->userdata('user'),
 								'publish'   => '1',
-								'sticky'    => $this->input->post('sticky')
+								'sticky'    => $this->input->post('sticky'),
+								'slideshow' => $this->input->post('slideshow')
 								);
 					$this->basecrud_m->insert('berita',$in);
 					
@@ -2337,14 +2918,15 @@ class Manage extends MY_Controller {
 							//upload gambar ama dokumen	
 							$doc_data	 	= $this->upload->data();
 
-							$this->db->query("UPDATE berita 
-											  SET  judul = '".addslashes($this->input->post('judul'))."', 
-											       sticky = '".addslashes($this->input->post('sticky'))."', 
-											       gambar = '".$img_data['file_name']."', 
-											       file_name = '".$doc_data['file_name']."',
-											       isi = '".addslashes($this->input->post('isi'))."' 
-											       $kat_update 
-											  WHERE id = '".$this->input->post('id_data')."'");
+							$this->db->query("  UPDATE berita 
+												SET judul = '".addslashes($this->input->post('judul'))."', 
+													sticky     = '".addslashes($this->input->post('sticky'))."', 
+													slideshow  = '".addslashes($this->input->post('slideshow'))."', 
+													gambar     = '".$img_data['file_name']."', 
+													file_name  = '".$doc_data['file_name']."',
+													isi        = '".addslashes($this->input->post('isi'))."' 
+												    $kat_update 
+											    WHERE id = '".$this->input->post('id_data')."'");
 					
 							$this->session->set_flashdata("k", "<div class=\"alert alert-success\">Postingan berhasil diupdate bersama gambar dan dokumen</div>");
 							redirect('manage/blog');
@@ -2359,7 +2941,8 @@ class Manage extends MY_Controller {
 						//upload gambar doang
 						$this->db->query("UPDATE berita 
 										  SET  judul = '".addslashes($this->input->post('judul'))."', 
-										       sticky = '".addslashes($this->input->post('sticky'))."', 
+										       sticky = '".addslashes($this->input->post('sticky'))."',
+										       slideshow  = '".addslashes($this->input->post('slideshow'))."',  
 										       gambar = '".$img_data['file_name']."', 											       
 										       isi = '".addslashes($this->input->post('isi'))."' 
 										       $kat_update 
@@ -2393,6 +2976,7 @@ class Manage extends MY_Controller {
 						$this->db->query("UPDATE berita 
 										  SET  judul = '".addslashes($this->input->post('judul'))."', 
 										       sticky = '".addslashes($this->input->post('sticky'))."', 
+										       slideshow  = '".addslashes($this->input->post('slideshow'))."', 
 										       file_name = '".$doc_data['file_name']."', 											       
 										       isi = '".addslashes($this->input->post('isi'))."' 
 										       $kat_update 
@@ -2411,6 +2995,7 @@ class Manage extends MY_Controller {
 					$this->db->query("UPDATE berita 
 						              SET  judul = '".addslashes($this->input->post('judul'))."', 
 						                   sticky = '".addslashes($this->input->post('sticky'))."', 
+						                   slideshow  = '".addslashes($this->input->post('slideshow'))."', 
 						                   isi = '".addslashes($this->input->post('isi'))."' 
 						                   $kat_update 
 						              WHERE id = '".$this->input->post('id_data')."'");

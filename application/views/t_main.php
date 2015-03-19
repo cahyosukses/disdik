@@ -1,4 +1,4 @@
-<div class="span9">
+
    <?php echo $this->session->flashdata("k"); ?>
    <!--
    <div class="span12 wellwhite" style="margin-left: 0px">
@@ -19,6 +19,6 @@
          }
          ?>
    </div>
-</div>
+
 <!--/span-->
 

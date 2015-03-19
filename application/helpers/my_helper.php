@@ -31,12 +31,14 @@ function getGambar($idAlbum) {
 function tgl_panjang($tgl, $tipe,$time = false) {
 	$tgl_pc 		= explode(" ", $tgl);
 	$tgl_depan		= $tgl_pc[0];
-	$waktu          = $tgl_pc[1];
+	$waktu          = $time ? $tgl_pc[1] : '';
 	
 	$tgl_depan_pc	= explode("-", $tgl_depan);
 	$tgl			= $tgl_depan_pc[2];
 	$bln			= $tgl_depan_pc[1];
 	$thn			= $tgl_depan_pc[0];
+	
+	$bln_txt = "";
 	
 	if ($tipe == "lm") {
 		if ($bln == "01") { $bln_txt = "Januari"; }  

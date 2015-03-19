@@ -1,4 +1,4 @@
-<div class="span9">
+
 		<ul class="breadcrumb wellwhite">
 			<li><a href="<?php echo base_URL()?>">Beranda</a> <span class="divider">/</span></li>
 			<li>Profil <span class="divider">/</span></li>
@@ -16,7 +16,7 @@
 		  <div id="directions-panel"></div>	
 		  
 		  <?php if(isset($show_map)){ ?>
-		  <div id="googleMap" style="width:674px;height:400px;"></div>	
+		  <div id="googleMap" style="width:496px;height:400px;"></div>	
 		  <?php } ?>
 		</div>
- </div><!--/span-->
+<!--/span-->

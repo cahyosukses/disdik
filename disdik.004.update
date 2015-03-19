@@ -120,4 +120,4 @@ DELETE FROM `settings`;
 
 INSERT INTO `settings` (`id`, `title`, `tipe`, `value`, `show`) VALUES
 	(1, 'running_text', 'small-text', 'Selamat Datang Pada Website Resmi Dinas Pendidikan Provinsi Jambi', 'Y'),
-	(2, 'fb_fanpage', 'small-text', 'http://www.facebook.com', 'Y');
+	(2, 'fb_fanpage', 'small-text', 'https://www.facebook.com/pages/Dinas-Pendidikan-Provinsi-Jambi/117994094968453', 'Y');
