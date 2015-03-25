@@ -25,6 +25,12 @@ if ($mode == "edt" || $mode == "edt_act") {
 	$status             = $mode === 'edt' ? $data->status : set_value('status');
 	$website            = $mode === 'edt' ? $data->website : set_value('website');
 
+	$rombel      = $mode === 'edt' ? $data->rombel : set_value('rombel');
+	$murid       = $mode === 'edt' ? $data->murid : set_value('murid');
+	$guru        = $mode === 'edt' ? $data->guru : set_value('guru');
+	//$ruang_kelas = $mode === 'edt' ? $data->ruang_kelas : set_value('ruang_kelas');
+	$lulusan     = $mode === 'edt' ? $data->lulusan : set_value('lulusan');
+
 	$act                = 'edt_act/' . $idp;
 
 } else {	
@@ -50,6 +56,12 @@ if ($mode == "edt" || $mode == "edt_act") {
 	$jumlah_kelas       = $mode === 'add' ? '' : set_value('jumlah_kelas');
 	$status             = $mode === 'add' ? '' : set_value('status');
 	$website            = $mode === 'add' ? '' : set_value('website');
+
+	$rombel      = $mode === 'add' ? '' : set_value('rombel');
+	$murid       = $mode === 'add' ? '' : set_value('murid');
+	$guru        = $mode === 'add' ? '' : set_value('guru');
+	//$ruang_kelas = $mode === 'add' ? '' : set_value('ruang_kelas');
+	$lulusan     = $mode === 'add' ? '' : set_value('lulusan');
 	
 	$act                = "add_act";
 }
@@ -116,6 +128,11 @@ if ($mode == "edt" || $mode == "edt_act") {
 	</select><br>
 	<label style="width: 200px; float: left">Website</label><input class="input-xxlarge" type="text" name="website" placeholder="" value="<?php echo $website?>" ><br>
 
+	<label style="width: 200px; float: left">Jumlah Rombel</label><input class="input-large" type="text" name="rombel" placeholder="" value="<?php echo $rombel?>"><br>	
+	<label style="width: 200px; float: left">Jumlah Murid</label><input class="input-large" type="text" name="murid" value="<?php echo $murid?>"><br>
+	<label style="width: 200px; float: left">Jumlah Guru</label><input class="input-large" type="text" name="guru" value="<?php echo $guru?>"><br>			
+	<label style="width: 200px; float: left">Jumlah Lulusan</label><input class="input-large" type="text" name="lulusan" value="<?php echo $lulusan?>"><br>
+	
 	<label style="width: 200px; float: left"></label><button type="submit" class="btn btn-primary">Submit</button>
 	</fieldset>
 </form>

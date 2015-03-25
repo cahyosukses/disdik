@@ -12,7 +12,7 @@
       <th width="10%" style="text-align: left">Status</th>
       <th width="5%" style="text-align: left">Guru</th>
       <th width="5%" style="text-align: left">Siswa</th>
-      <th width="10%" style="text-align: left">Statistik</th>
+      <!--<th width="10%" style="text-align: left">Statistik</th>-->
       <th width="15%">Control</th>
    </tr>
    <?php $i = 0 ?>
@@ -30,7 +30,7 @@
       <td><?php echo ucfirst($b->status)?></td>
       <td><a href="<?php echo base_URL() . 'manage/data_guru/' . $b->id;?>">Guru</a></td>
       <td><a href="<?php echo base_URL() . 'manage/data_siswa/' . $b->id;?>">Siswa</a></td>
-      <td><a href="<?php echo base_URL() . 'manage/sekolah_stats/' . $b->id;?>">Statistik</a></td>
+      <!--<td><a href="<?php echo base_URL() . 'manage/sekolah_stats/' . $b->id;?>">Statistik</a></td>-->
       <td style="text-align: center">
          <a href="<?php echo base_URL(); ?>manage/data_sekolah/edt/<?php echo $b->id?>"><span class="icon-pencil">&nbsp;&nbsp;</span></a>  
          <a href="<?php echo base_URL(); ?>manage/data_sekolah/del/<?php echo $b->id ?>" onclick="return confirm('Anda YAKIN menghapus data ini ?');"><span class="icon-remove">&nbsp;&nbsp;</span></a>

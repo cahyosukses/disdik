@@ -1449,6 +1449,11 @@ class Manage extends MY_Controller {
 			$this->form_validation->set_rules('jumlah_kelas', 'Jumlah Kelas', 'xss_clean');
 			$this->form_validation->set_rules('status', 'Status', 'xss_clean');
 			$this->form_validation->set_rules('website', 'Website', 'xss_clean');
+
+			$this->form_validation->set_rules('rombel', 'Jumlah Rombongan Belajar', 'xss_clean');
+			$this->form_validation->set_rules('murid', 'Jumlah Murid', 'xss_clean');
+			$this->form_validation->set_rules('guru', 'Jumlah Guru', 'xss_clean');	
+			$this->form_validation->set_rules('lulusan', 'Jumlah Lulusan', 'xss_clean');
 			
 			if ($this->form_validation->run() == TRUE) {				
 				
@@ -1473,7 +1478,12 @@ class Manage extends MY_Controller {
 							'jumlah_gedung'      => $this->input->post('jumlah_gedung'),
 							'jumlah_kelas'       => $this->input->post('jumlah_kelas'),
 							'status'             => $this->input->post('status'),
-							'website'            => $this->input->post('website')
+							'website'            => $this->input->post('website'),
+
+							'rombel'             => $this->input->post('rombel'),
+							'murid'              => $this->input->post('murid'),							
+							'guru'               => $this->input->post('guru'),							
+							'lulusan'            => $this->input->post('lulusan')
 							);
 				
 
@@ -1524,6 +1534,11 @@ class Manage extends MY_Controller {
 			$this->form_validation->set_rules('jumlah_kelas', 'Jumlah Kelas', 'xss_clean');
 			$this->form_validation->set_rules('status', 'Status', 'xss_clean');
 			$this->form_validation->set_rules('website', 'Website', 'xss_clean');
+
+			$this->form_validation->set_rules('rombel', 'Jumlah Rombongan Belajar', 'xss_clean');
+			$this->form_validation->set_rules('murid', 'Jumlah Murid', 'xss_clean');
+			$this->form_validation->set_rules('guru', 'Jumlah Guru', 'xss_clean');	
+			$this->form_validation->set_rules('lulusan', 'Jumlah Lulusan', 'xss_clean');
 			
 			if ($this->form_validation->run() == TRUE) {				
 				
@@ -1548,7 +1563,12 @@ class Manage extends MY_Controller {
 							'jumlah_gedung'      => $this->input->post('jumlah_gedung'),
 							'jumlah_kelas'       => $this->input->post('jumlah_kelas'),
 							'status'             => $this->input->post('status'),
-							'website'            => $this->input->post('website')
+							'website'            => $this->input->post('website'),
+							
+							'rombel'             => $this->input->post('rombel'),
+							'murid'              => $this->input->post('murid'),							
+							'guru'               => $this->input->post('guru'),							
+							'lulusan'            => $this->input->post('lulusan')
 							);
 				
 

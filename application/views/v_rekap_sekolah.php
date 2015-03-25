@@ -26,22 +26,7 @@
           </td>  
           <td></td>        
         </tr>        
-        <tr>
-          <td style="padding-right:10px">Tahun</td>  
-          <td>
-            <?php $tahun = $this->session->userdata('tahun');?>
-            
-            <select name="tahun" style="width:250px">
-              <!--<option value="">Semua Tahun</option>-->
-              <?php $min = $th_min_max->min_th;
-                    $max = $th_min_max->max_th;
-                    for ($i= $min; $i <= $max ; $i++) { 
-              ?>
-              <option <?php echo $tahun == $i ? 'selected': '';?> value="<?php echo $i?>"><?php echo $i; ?></option>
-              <?php } ?>
-            </select>
-          </td>
-        </tr>
+        
         <tr>
           <td></td>        
           <td>
@@ -65,7 +50,7 @@
             </tr>
           </thead>
           <tbody>
-          <?php if(empty($min)){ ?>
+          <?php if(empty($data)){ ?>
           <tr><td colspan='6' align='center'>Data Belum Ada</td></tr>
           <?php }else{ ?>
           <?php foreach ($data->result() as $d){ ?>
@@ -76,8 +61,7 @@
               <td style="text-align:center"><?php echo $d->murid?></td>  
               <td style="text-align:center"><?php echo $d->guru?></td>  
               <td style="text-align:center"><?php echo $d->ruang_kelas?></td>  
-              <td style="text-align:center"><?php echo $d->lulusan?></td>  
-              
+              <td style="text-align:center"><?php echo $d->lulusan?></td>              
             </tr>            
             <?php }?>
             <?php } ?>

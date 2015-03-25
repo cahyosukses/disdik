@@ -144,33 +144,19 @@ class Tampil extends My_Controller {
 		$web['title']	= '.:: Rekap Data Sekolah  ::.';
 
 		$web['kabupaten'] = $this->basecrud_m->get_where('kabupaten',array('id_propinsi' => 1));
-		$th_min_max = $this->db->query("SELECT MIN(tahun) as min_th, MAX(tahun) as max_th
-											   FROM sekolah_stats")->row();
-		$web['th_min_max'] = $th_min_max;
-
-		$tahun = $this->session->userdata('tahun');
-		if(!$tahun){
-			$this->session->set_userdata('tahun',$th_min_max->max_th);							
-		}
+		
 
 		if(!empty($_POST)){
-
-			$this->form_validation->set_rules('tahun', 'Tahun', 'xss_clean');			
+			
 			$this->form_validation->set_rules('id_kabupaten', 'Kabupaten', 'xss_clean');
 
-			if ($this->form_validation->run() == TRUE) {	
-
-				$this->session->set_userdata('tahun',$this->input->post('tahun'));				
+			if ($this->form_validation->run() == TRUE) {					
 				$this->session->set_userdata('id_kabupaten',$this->input->post('id_kabupaten'));
 			}
 
 		}
 
-		$web['data'] = $this->rekap_m->stats();
-
-		//$this->load->view('t_atas', $web);
-		//$this->load->view('v_rekap_sekolah', $web);
-		//$this->load->view('t_footer');
+		$web['data'] = $this->rekap_m->stats();		
 		$web['page_name'] = 'v_rekap_sekolah';
 		$this->_generate_page($web);
 	}

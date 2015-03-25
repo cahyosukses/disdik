@@ -1,0 +1,9 @@
+ALTER TABLE `data_sekolah`
+	ADD COLUMN `lembaga` TINYINT(4) NOT NULL DEFAULT '1' AFTER `website`,
+	ADD COLUMN `rombel` TINYINT(4) NOT NULL DEFAULT '0' AFTER `lembaga`,
+	ADD COLUMN `murid` TINYINT(4) NOT NULL DEFAULT '0' AFTER `rombel`,
+	ADD COLUMN `guru` TINYINT(4) NOT NULL DEFAULT '0' AFTER `murid`,
+	ADD COLUMN `ruang_kelas` TINYINT(4) NOT NULL DEFAULT '0' AFTER `guru`,
+	ADD COLUMN `lulusan` TINYINT(4) NOT NULL DEFAULT '0' AFTER `ruang_kelas`;
+
+ALTER TABLE `data_sekolah` DROP COLUMN `ruang_kelas`;

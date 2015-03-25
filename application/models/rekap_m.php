@@ -14,7 +14,8 @@ class Rekap_m extends CI_Model
     }
 
     function stats(){
-         
+        
+        /* 
         $ses_tahun        = $this->session->userdata('tahun');
         $ses_id_kabupaten = $this->session->userdata('id_kabupaten');
 
@@ -41,6 +42,30 @@ class Rekap_m extends CI_Model
                     LEFT JOIN (SELECT * FROM sekolah_stats $tahun) c ON b.id = c.id_sekolah 
                     GROUP BY a.id");
         return $rs;
+        */
+       
+        $ses_id_kabupaten = $this->session->userdata('id_kabupaten');
+        
+        $id_kabupaten = "";
+        
+        if($ses_id_kabupaten){          
+          $id_kabupaten = 'WHERE id_kabupaten = ' . $ses_id_kabupaten;
+        }
+
+        $rs = $this->db->query("
+                    SELECT a.alias as jenjang,
+                        (IFNULL(SUM(b.lembaga),0)) as lembaga,
+                        (IFNULL(SUM(b.rombel),0)) as rombel,
+                        (IFNULL(SUM(b.murid),0)) as murid,
+                        (IFNULL(SUM(b.guru),0)) as guru,   
+                        (IFNULL(SUM(b.jumlah_ruang),0)) as ruang_kelas,
+                        (IFNULL(SUM(b.lulusan),0)) as lulusan   
+                    FROM jenjang a
+                    LEFT JOIN (SELECT * FROM data_sekolah $id_kabupaten) b ON a.nama = b.jenjang                    
+                    GROUP BY a.id");
+        return $rs;
+
+
     }
 
     
