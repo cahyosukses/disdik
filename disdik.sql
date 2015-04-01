@@ -16,7 +16,6 @@ USE `disdik`;
 
 
 -- Dumping structure for table disdik.admin
-DROP TABLE IF EXISTS `admin`;
 CREATE TABLE IF NOT EXISTS `admin` (
   `id` int(1) NOT NULL AUTO_INCREMENT,
   `u` varchar(15) NOT NULL,
@@ -34,13 +33,12 @@ CREATE TABLE IF NOT EXISTS `admin` (
 DELETE FROM `admin`;
 /*!40000 ALTER TABLE `admin` DISABLE KEYS */;
 INSERT INTO `admin` (`id`, `u`, `p`, `nama`, `email`, `level`, `menu_list`, `aktif`, `terhapus`) VALUES
-	(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 'Admin', 'admin@admin.com', '1', '1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26', 'Y', 'N'),
-	(2, 'user1', '24c9e15e52afc47c225b757e7bee1f9d', 'user poster berita', '', '2', '1,5,6,7,8,21,22', 'Y', 'N');
+	(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 'Admin', 'admin@admin.com', '1', '1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27', 'Y', 'N'),
+	(2, 'user1', '24c9e15e52afc47c225b757e7bee1f9d', 'user poster berita', '', '2', '1,5,6,7,8,22,23', 'Y', 'N');
 /*!40000 ALTER TABLE `admin` ENABLE KEYS */;
 
 
 -- Dumping structure for table disdik.aduan
-DROP TABLE IF EXISTS `aduan`;
 CREATE TABLE IF NOT EXISTS `aduan` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `topik` varchar(50) NOT NULL,
@@ -57,7 +55,7 @@ CREATE TABLE IF NOT EXISTS `aduan` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
--- Dumping data for table disdik.aduan: ~2 rows (approximately)
+-- Dumping data for table disdik.aduan: ~0 rows (approximately)
 DELETE FROM `aduan`;
 /*!40000 ALTER TABLE `aduan` DISABLE KEYS */;
 INSERT INTO `aduan` (`id`, `topik`, `nama_pengadu`, `email_pengadu`, `judul_program`, `tgl_tayang_program`, `jam_tayang_program`, `stasiun_program`, `pesan`, `tampil`, `inserted_at`, `updated_at`) VALUES
@@ -67,7 +65,6 @@ INSERT INTO `aduan` (`id`, `topik`, `nama_pengadu`, `email_pengadu`, `judul_prog
 
 
 -- Dumping structure for table disdik.agenda
-DROP TABLE IF EXISTS `agenda`;
 CREATE TABLE IF NOT EXISTS `agenda` (
   `id` int(3) NOT NULL AUTO_INCREMENT,
   `tgl` date NOT NULL,
@@ -86,7 +83,6 @@ INSERT INTO `agenda` (`id`, `tgl`, `ket`, `tempat`) VALUES
 
 
 -- Dumping structure for table disdik.apresiasi
-DROP TABLE IF EXISTS `apresiasi`;
 CREATE TABLE IF NOT EXISTS `apresiasi` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `topik` varchar(50) NOT NULL,
@@ -103,17 +99,16 @@ CREATE TABLE IF NOT EXISTS `apresiasi` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
--- Dumping data for table disdik.apresiasi: ~2 rows (approximately)
+-- Dumping data for table disdik.apresiasi: ~0 rows (approximately)
 DELETE FROM `apresiasi`;
 /*!40000 ALTER TABLE `apresiasi` DISABLE KEYS */;
 INSERT INTO `apresiasi` (`id`, `topik`, `nama_pengirim`, `email_pengirim`, `judul_program`, `tgl_tayang_program`, `jam_tayang_program`, `stasiun_program`, `pesan`, `tampil`, `inserted_at`, `updated_at`) VALUES
-	(1, 'topik apresiasi', 'nama pengirim', 'email@pengirim.com', 'judul program', '0000-00-00', '12.00 WIB', 'stasiun program', 'pesan apresiasi', 'Y', '2015-03-14 12:28:02', '2015-03-15 02:48:34'),
-	(2, '12345678901234567890123456789012345678901234567890', 'nama pengirim', '', 'judul', '2014-01-01', '12.00WIB', 'indosiar', 'xxxx', 'Y', '2015-03-14 18:12:07', '2015-03-15 02:48:33');
+	(1, 'topik apresiasi', 'nama pengirim', 'email@pengirim.com', 'judul program', '0000-00-00', '12.00 WIB', 'stasiun program', 'pesan apresiasi', 'Y', '2015-03-14 12:28:02', '2015-03-31 08:21:30'),
+	(2, '12345678901234567890123456789012345678901234567890', 'nama pengirim', '', 'judul', '2014-01-01', '12.00WIB', 'indosiar', 'xxxx', 'Y', '2015-03-14 18:12:07', '2015-03-31 08:43:56');
 /*!40000 ALTER TABLE `apresiasi` ENABLE KEYS */;
 
 
 -- Dumping structure for table disdik.berita
-DROP TABLE IF EXISTS `berita`;
 CREATE TABLE IF NOT EXISTS `berita` (
   `id` int(4) NOT NULL AUTO_INCREMENT,
   `judul` varchar(255) NOT NULL,
@@ -145,12 +140,11 @@ INSERT INTO `berita` (`id`, `judul`, `gambar`, `file_name`, `isi`, `hits`, `tglP
 	(15, 'Kegiatan Pelatihan TIK', '', '', 'PELATIHAN', 0, '2012-12-30 23:44:59', '3-', 'admin', 1, 'N', 'N'),
 	(16, 'Beasiswa 2015', '70b4f9ce5812e63cbb6a98ae06275085.jpg', '', '<p>Info beasiswa</p>', 7, '2012-12-30 23:45:29', '2', 'admin', 1, 'N', 'Y'),
 	(17, 'Kegiatan HUT KE-58 Provinsi Jambi', 'IMG_4432.JPG', '', '<div><strong>Bola.net </strong>- Ketika beberapa klub sudah antusias bersiap menyambut jendela transfer musim dingin guna memperkuat diri, Sir Alex Ferguson malah kalem.</div>\n<div>&nbsp;</div>\n<div>Gaffer Manchester United itu mengaku tidak pernah suka dengan penambahan amunisi di tengah musim, dan ia punya alasan tersendiri akan hal tersebut.</div>\n<div>&nbsp;</div>\n<div>"Bursa transfer Januari tidak pernah menjadi bursa transfer terbaik dan itu telah terbukti selama bertahun-tahun dengan sangat sedikitnya transfer-transfer besar terjadi," ucapnya.</div>\n<div>&nbsp;</div>\n<div>Fergie mengacu pada kondisi beberapa tahun terakhir, ketika sangat jarang terjadi pembelian-pembelian yang sukses pada Januari.</div>\n<div>&nbsp;</div>\n<div>Justru yang lebih sering terjadi adalah pembelian pemain dengan biaya besar namun tidak sukses di kemudian hari.</div>\n<div>&nbsp;</div>\n<div>Hasilnya, kemungkinan klub-klub panik dengan prospek memiliki tim yang tidak maksimal sampai Mei dengan sekelompok pemain yang gagal memenuhi harapan.</div>\n<div>&nbsp;</div>\n<div>"Semua transfer besar terjadi pada musim panas," imbuh pria yang sudah bekerja di Old Trafford sejak 26 tahun silam tersebut. (dym/lex)</div>', 41, '2012-11-30 23:46:06', '2', 'admin', 1, 'N', 'Y'),
-	(26, 'framework xxx', 'ac45e60c6e330951aab8faba1c0d8303.jpg', '601baceeb1b9ae63765b073c6e3666c4.pdf', '<p>sasa</p>', 33, '2015-03-03 00:32:44', '1-2', 'admin', 1, 'N', 'Y');
+	(26, 'framework xxx', 'ac45e60c6e330951aab8faba1c0d8303.jpg', '601baceeb1b9ae63765b073c6e3666c4.pdf', '<p>sasa</p>', 34, '2015-03-03 00:32:44', '1-2', 'admin', 1, 'N', 'Y');
 /*!40000 ALTER TABLE `berita` ENABLE KEYS */;
 
 
 -- Dumping structure for table disdik.berita_komen
-DROP TABLE IF EXISTS `berita_komen`;
 CREATE TABLE IF NOT EXISTS `berita_komen` (
   `id` int(4) NOT NULL AUTO_INCREMENT,
   `id_berita` int(4) NOT NULL,
@@ -171,7 +165,6 @@ INSERT INTO `berita_komen` (`id`, `id_berita`, `nama`, `email`, `komentar`, `tgl
 
 
 -- Dumping structure for table disdik.data_guru
-DROP TABLE IF EXISTS `data_guru`;
 CREATE TABLE IF NOT EXISTS `data_guru` (
   `id` int(3) NOT NULL AUTO_INCREMENT,
   `id_sekolah` int(11) NOT NULL,
@@ -188,7 +181,7 @@ CREATE TABLE IF NOT EXISTS `data_guru` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
--- Dumping data for table disdik.data_guru: ~3 rows (approximately)
+-- Dumping data for table disdik.data_guru: ~2 rows (approximately)
 DELETE FROM `data_guru`;
 /*!40000 ALTER TABLE `data_guru` DISABLE KEYS */;
 INSERT INTO `data_guru` (`id`, `id_sekolah`, `nip`, `nuptk`, `nama`, `status`, `mapel`, `jk`, `alamat`, `foto`, `aktif`, `terhapus`) VALUES
@@ -199,7 +192,6 @@ INSERT INTO `data_guru` (`id`, `id_sekolah`, `nip`, `nuptk`, `nama`, `status`, `
 
 
 -- Dumping structure for table disdik.data_informasi
-DROP TABLE IF EXISTS `data_informasi`;
 CREATE TABLE IF NOT EXISTS `data_informasi` (
   `id` int(2) NOT NULL AUTO_INCREMENT,
   `judul` varchar(200) NOT NULL,
@@ -217,7 +209,6 @@ INSERT INTO `data_informasi` (`id`, `judul`, `isi`) VALUES
 
 
 -- Dumping structure for table disdik.data_produk_hukum
-DROP TABLE IF EXISTS `data_produk_hukum`;
 CREATE TABLE IF NOT EXISTS `data_produk_hukum` (
   `id` int(2) NOT NULL AUTO_INCREMENT,
   `judul` varchar(200) NOT NULL,
@@ -241,7 +232,6 @@ INSERT INTO `data_produk_hukum` (`id`, `judul`, `terhapus`, `isi`) VALUES
 
 
 -- Dumping structure for table disdik.data_sekolah
-DROP TABLE IF EXISTS `data_sekolah`;
 CREATE TABLE IF NOT EXISTS `data_sekolah` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `npsn` varchar(50) NOT NULL,
@@ -264,6 +254,11 @@ CREATE TABLE IF NOT EXISTS `data_sekolah` (
   `jumlah_kelas` varchar(50) NOT NULL,
   `status` varchar(50) NOT NULL,
   `website` varchar(50) NOT NULL,
+  `lembaga` tinyint(4) NOT NULL DEFAULT '1',
+  `rombel` tinyint(4) NOT NULL DEFAULT '0',
+  `murid` tinyint(4) NOT NULL DEFAULT '0',
+  `guru` tinyint(4) NOT NULL DEFAULT '0',
+  `lulusan` tinyint(4) NOT NULL DEFAULT '0',
   `terhapus` enum('Y','N') NOT NULL DEFAULT 'N',
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
@@ -272,16 +267,15 @@ CREATE TABLE IF NOT EXISTS `data_sekolah` (
 -- Dumping data for table disdik.data_sekolah: ~4 rows (approximately)
 DELETE FROM `data_sekolah`;
 /*!40000 ALTER TABLE `data_sekolah` DISABLE KEYS */;
-INSERT INTO `data_sekolah` (`id`, `npsn`, `nss`, `nama`, `id_kabupaten`, `kecamatan`, `kelurahan`, `alamat`, `kodepos`, `no_telp`, `no_faks`, `email`, `waktu_persekolahan`, `akreditasi`, `jenjang`, `jumlah_ruang`, `jumlah_lahan`, `jumlah_gedung`, `jumlah_kelas`, `status`, `website`, `terhapus`, `updated_at`) VALUES
-	(1, '11111111', '11111', 'ini adalah nama sekolah', 2, 'kecamatan', 'kelurahan', '', '', '', '', '', '', '', 'paud', '10', '0', '0', '0', 'negeri', '', 'N', '2015-03-06 15:50:56'),
-	(2, '22222', '11111', 'nama', 2, '', '', '', '', '', '', '', '', '', 'sd', '10', '0', '0', '0', 'negeri', '', 'N', '2015-03-06 15:56:03'),
-	(3, '22222', '11111', 'nama', 2, '', '', '', '', '', '', '', '', '', 'sd', '10', '0', '0', '0', 'negeri', '', 'N', '2015-03-02 15:24:19'),
-	(6, '1122334455', '', 'Nama Sekolah', 10, '', '', '', '', '', '', '', '', '', 'ma', '', '', '', '', 'swasta', '', 'N', '2015-03-05 13:40:12');
+INSERT INTO `data_sekolah` (`id`, `npsn`, `nss`, `nama`, `id_kabupaten`, `kecamatan`, `kelurahan`, `alamat`, `kodepos`, `no_telp`, `no_faks`, `email`, `waktu_persekolahan`, `akreditasi`, `jenjang`, `jumlah_ruang`, `jumlah_lahan`, `jumlah_gedung`, `jumlah_kelas`, `status`, `website`, `lembaga`, `rombel`, `murid`, `guru`, `lulusan`, `terhapus`, `updated_at`) VALUES
+	(1, '11111111', '11111', 'ini adalah nama sekolah', 2, 'kecamatan', 'kelurahan', '', '', '', '', '', '', '', 'paud', '10', '0', '0', '0', 'negeri', '', 1, 100, 0, 0, 0, 'N', '2015-03-25 13:09:22'),
+	(2, '22222', '11111', 'nama', 2, '', '', '', '', '', '', '', '', '', 'sd', '10', '0', '0', '0', 'negeri', '', 1, 0, 0, 0, 0, 'N', '2015-03-25 13:00:47'),
+	(3, '22222', '11111', 'nama', 2, '', '', '', '', '', '', '', '', '', 'sd', '10', '0', '0', '0', 'negeri', '', 1, 0, 0, 0, 0, 'N', '2015-03-02 15:24:19'),
+	(6, '1122334455', '', 'Nama Sekolah', 10, '', '', '', '', '', '', '', '', '', 'ma', '', '', '', '', 'swasta', '', 1, 0, 0, 0, 0, 'N', '2015-03-05 13:40:12');
 /*!40000 ALTER TABLE `data_sekolah` ENABLE KEYS */;
 
 
 -- Dumping structure for table disdik.data_siswa
-DROP TABLE IF EXISTS `data_siswa`;
 CREATE TABLE IF NOT EXISTS `data_siswa` (
   `id` int(3) NOT NULL AUTO_INCREMENT,
   `id_sekolah` int(11) NOT NULL,
@@ -298,7 +292,7 @@ CREATE TABLE IF NOT EXISTS `data_siswa` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
--- Dumping data for table disdik.data_siswa: ~5 rows (approximately)
+-- Dumping data for table disdik.data_siswa: ~4 rows (approximately)
 DELETE FROM `data_siswa`;
 /*!40000 ALTER TABLE `data_siswa` DISABLE KEYS */;
 INSERT INTO `data_siswa` (`id`, `id_sekolah`, `nisn`, `nama`, `jurusan`, `kelas`, `jk`, `alamat`, `foto`, `pass`, `terhapus`, `updated_at`) VALUES
@@ -311,7 +305,6 @@ INSERT INTO `data_siswa` (`id`, `id_sekolah`, `nisn`, `nama`, `jurusan`, `kelas`
 
 
 -- Dumping structure for table disdik.ekspresi
-DROP TABLE IF EXISTS `ekspresi`;
 CREATE TABLE IF NOT EXISTS `ekspresi` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nama` varchar(50) NOT NULL,
@@ -336,7 +329,6 @@ INSERT INTO `ekspresi` (`id`, `nama`, `email`, `alamat`, `website`, `judul`, `is
 
 
 -- Dumping structure for table disdik.ekspresi_tanggapan
-DROP TABLE IF EXISTS `ekspresi_tanggapan`;
 CREATE TABLE IF NOT EXISTS `ekspresi_tanggapan` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_ekspresi` int(11) NOT NULL,
@@ -356,7 +348,7 @@ DELETE FROM `ekspresi_tanggapan`;
 /*!40000 ALTER TABLE `ekspresi_tanggapan` DISABLE KEYS */;
 INSERT INTO `ekspresi_tanggapan` (`id`, `id_ekspresi`, `nama`, `email`, `alamat`, `website`, `komentar`, `tampil`, `inserted_at`, `updated_at`) VALUES
 	(1, 1, 'administratorq', '', '', '', 'Lebih kengkap dapat didownnload buku dari laman BSE kemdikbud http://bse.kemdikbud.go.id/buku/kurikulum2013', 'N', '2015-02-25 14:39:46', '2015-03-02 01:03:26'),
-	(2, 1, 'agus', '', '', '', 'Lebih kengkap dapat didownnload buku dari laman BSE kemdikbud http://bse.kemdikbud.go.id/buku/kurikulum2013', 'Y', '2015-02-26 14:39:46', '2015-03-01 11:59:50'),
+	(2, 1, 'agus', '', '', '', 'Lebih kengkap dapat didownnload buku dari laman BSE kemdikbud http://bse.kemdikbud.go.id/buku/kurikulum2013', 'N', '2015-02-26 14:39:46', '2015-03-31 14:58:43'),
 	(3, 1, 'rumi', '', '', '', 'komentar', 'Y', '2015-02-26 17:24:45', '2015-03-01 11:59:47'),
 	(4, 3, 'kaskus', '', '', '', 'kaskus', 'N', '2015-02-26 17:56:09', '2015-02-26 17:56:09'),
 	(5, 3, 'Administrator', '', '', '', '<p>lala lili post 3</p>', 'N', '2015-02-26 20:01:02', '2015-02-26 20:01:02'),
@@ -365,7 +357,6 @@ INSERT INTO `ekspresi_tanggapan` (`id`, `id_ekspresi`, `nama`, `email`, `alamat`
 
 
 -- Dumping structure for table disdik.galeri
-DROP TABLE IF EXISTS `galeri`;
 CREATE TABLE IF NOT EXISTS `galeri` (
   `id` int(4) NOT NULL AUTO_INCREMENT,
   `id_album` int(3) NOT NULL,
@@ -376,7 +367,7 @@ CREATE TABLE IF NOT EXISTS `galeri` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
 
--- Dumping data for table disdik.galeri: ~6 rows (approximately)
+-- Dumping data for table disdik.galeri: ~7 rows (approximately)
 DELETE FROM `galeri`;
 /*!40000 ALTER TABLE `galeri` DISABLE KEYS */;
 INSERT INTO `galeri` (`id`, `id_album`, `file`, `judul`, `ket`, `slideshow`) VALUES
@@ -390,14 +381,13 @@ INSERT INTO `galeri` (`id`, `id_album`, `file`, `judul`, `ket`, `slideshow`) VAL
 
 
 -- Dumping structure for table disdik.galeri_album
-DROP TABLE IF EXISTS `galeri_album`;
 CREATE TABLE IF NOT EXISTS `galeri_album` (
   `id` int(3) NOT NULL AUTO_INCREMENT,
   `nama` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
--- Dumping data for table disdik.galeri_album: ~3 rows (approximately)
+-- Dumping data for table disdik.galeri_album: ~0 rows (approximately)
 DELETE FROM `galeri_album`;
 /*!40000 ALTER TABLE `galeri_album` DISABLE KEYS */;
 INSERT INTO `galeri_album` (`id`, `nama`) VALUES
@@ -408,7 +398,6 @@ INSERT INTO `galeri_album` (`id`, `nama`) VALUES
 
 
 -- Dumping structure for table disdik.galeri_video
-DROP TABLE IF EXISTS `galeri_video`;
 CREATE TABLE IF NOT EXISTS `galeri_video` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `video_id` varchar(50) NOT NULL,
@@ -429,14 +418,13 @@ INSERT INTO `galeri_video` (`id`, `video_id`, `judul`, `view_count`, `updated_at
 
 
 -- Dumping structure for table disdik.haldep
-DROP TABLE IF EXISTS `haldep`;
 CREATE TABLE IF NOT EXISTS `haldep` (
   `isi` longtext NOT NULL,
   `id` int(1) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
--- Dumping data for table disdik.haldep: ~1 rows (approximately)
+-- Dumping data for table disdik.haldep: ~0 rows (approximately)
 DELETE FROM `haldep`;
 /*!40000 ALTER TABLE `haldep` DISABLE KEYS */;
 INSERT INTO `haldep` (`isi`, `id`) VALUES
@@ -445,7 +433,6 @@ INSERT INTO `haldep` (`isi`, `id`) VALUES
 
 
 -- Dumping structure for table disdik.ide_saran
-DROP TABLE IF EXISTS `ide_saran`;
 CREATE TABLE IF NOT EXISTS `ide_saran` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nama` varchar(50) NOT NULL,
@@ -473,7 +460,6 @@ INSERT INTO `ide_saran` (`id`, `nama`, `email`, `alamat`, `website`, `topik`, `t
 
 
 -- Dumping structure for table disdik.ide_saran_tanggapan
-DROP TABLE IF EXISTS `ide_saran_tanggapan`;
 CREATE TABLE IF NOT EXISTS `ide_saran_tanggapan` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_ide_saran` int(11) NOT NULL,
@@ -488,7 +474,7 @@ CREATE TABLE IF NOT EXISTS `ide_saran_tanggapan` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
 
--- Dumping data for table disdik.ide_saran_tanggapan: ~20 rows (approximately)
+-- Dumping data for table disdik.ide_saran_tanggapan: ~19 rows (approximately)
 DELETE FROM `ide_saran_tanggapan`;
 /*!40000 ALTER TABLE `ide_saran_tanggapan` DISABLE KEYS */;
 INSERT INTO `ide_saran_tanggapan` (`id`, `id_ide_saran`, `nama`, `email`, `alamat`, `website`, `tampil`, `komentar`, `inserted_at`, `updated_at`) VALUES
@@ -516,7 +502,6 @@ INSERT INTO `ide_saran_tanggapan` (`id`, `id_ide_saran`, `nama`, `email`, `alama
 
 
 -- Dumping structure for table disdik.jenjang
-DROP TABLE IF EXISTS `jenjang`;
 CREATE TABLE IF NOT EXISTS `jenjang` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nama` varchar(50) DEFAULT NULL,
@@ -524,7 +509,7 @@ CREATE TABLE IF NOT EXISTS `jenjang` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 
--- Dumping data for table disdik.jenjang: ~10 rows (approximately)
+-- Dumping data for table disdik.jenjang: ~9 rows (approximately)
 DELETE FROM `jenjang`;
 /*!40000 ALTER TABLE `jenjang` DISABLE KEYS */;
 INSERT INTO `jenjang` (`id`, `nama`, `alias`) VALUES
@@ -542,7 +527,6 @@ INSERT INTO `jenjang` (`id`, `nama`, `alias`) VALUES
 
 
 -- Dumping structure for table disdik.kabupaten
-DROP TABLE IF EXISTS `kabupaten`;
 CREATE TABLE IF NOT EXISTS `kabupaten` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_propinsi` int(11) DEFAULT NULL,
@@ -569,7 +553,6 @@ INSERT INTO `kabupaten` (`id`, `id_propinsi`, `nama`) VALUES
 
 
 -- Dumping structure for table disdik.kat
-DROP TABLE IF EXISTS `kat`;
 CREATE TABLE IF NOT EXISTS `kat` (
   `id` int(3) NOT NULL AUTO_INCREMENT,
   `nama` varchar(100) NOT NULL,
@@ -577,7 +560,7 @@ CREATE TABLE IF NOT EXISTS `kat` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
--- Dumping data for table disdik.kat: ~4 rows (approximately)
+-- Dumping data for table disdik.kat: ~3 rows (approximately)
 DELETE FROM `kat`;
 /*!40000 ALTER TABLE `kat` DISABLE KEYS */;
 INSERT INTO `kat` (`id`, `nama`, `terhapus`) VALUES
@@ -589,7 +572,6 @@ INSERT INTO `kat` (`id`, `nama`, `terhapus`) VALUES
 
 
 -- Dumping structure for table disdik.link
-DROP TABLE IF EXISTS `link`;
 CREATE TABLE IF NOT EXISTS `link` (
   `id` int(3) NOT NULL AUTO_INCREMENT,
   `nama` varchar(150) NOT NULL,
@@ -609,7 +591,6 @@ INSERT INTO `link` (`id`, `nama`, `alamat`) VALUES
 
 
 -- Dumping structure for table disdik.manage_menu
-DROP TABLE IF EXISTS `manage_menu`;
 CREATE TABLE IF NOT EXISTS `manage_menu` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `sort` tinyint(4) NOT NULL DEFAULT '0',
@@ -617,9 +598,9 @@ CREATE TABLE IF NOT EXISTS `manage_menu` (
   `method` varchar(50) NOT NULL,
   `show` enum('Y','N') NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=latin1;
 
--- Dumping data for table disdik.manage_menu: ~26 rows (approximately)
+-- Dumping data for table disdik.manage_menu: ~27 rows (approximately)
 DELETE FROM `manage_menu`;
 /*!40000 ALTER TABLE `manage_menu` DISABLE KEYS */;
 INSERT INTO `manage_menu` (`id`, `sort`, `name`, `method`, `show`) VALUES
@@ -638,22 +619,22 @@ INSERT INTO `manage_menu` (`id`, `sort`, `name`, `method`, `show`) VALUES
 	(13, 13, 'Ekspresi', 'ekspresi', 'Y'),
 	(14, 14, 'Aduan', 'aduan', 'Y'),
 	(15, 15, 'Apresiasi', 'apresiasi', 'Y'),
-	(16, 16, 'Link/Tautan', 'link', 'Y'),
-	(17, 17, 'Agenda', 'agenda', 'Y'),
-	(18, 18, 'Newsletter', 'newsletter', 'Y'),
-	(19, 19, 'Managemen User', 'user', 'Y'),
-	(20, 20, 'Web Settings', 'settings', 'Y'),
-	(21, 21, 'Edit Profile', 'passwod', 'Y'),
-	(22, 22, 'Logout', 'logout', 'Y'),
-	(23, 0, '', 'prod_hukum_list', 'N'),
-	(24, 0, '', 'sekolah_stats', 'N'),
-	(25, 0, '', 'data_guru', 'N'),
-	(26, 0, '', 'data_siswa', 'N');
+	(16, 16, 'Pojok Opini', 'opini', 'Y'),
+	(17, 17, 'Link/Tautan', 'link', 'Y'),
+	(18, 18, 'Agenda', 'agenda', 'Y'),
+	(19, 19, 'Newsletter', 'newsletter', 'Y'),
+	(20, 20, 'Managemen User', 'user', 'Y'),
+	(21, 21, 'Web Settings', 'settings', 'Y'),
+	(22, 22, 'Edit Profile', 'passwod', 'Y'),
+	(23, 23, 'Logout', 'logout', 'Y'),
+	(24, 0, '', 'prod_hukum_list', 'N'),
+	(25, 0, '', 'sekolah_stats', 'N'),
+	(26, 0, '', 'data_guru', 'N'),
+	(27, 0, '', 'data_siswa', 'N');
 /*!40000 ALTER TABLE `manage_menu` ENABLE KEYS */;
 
 
 -- Dumping structure for table disdik.newsletter
-DROP TABLE IF EXISTS `newsletter`;
 CREATE TABLE IF NOT EXISTS `newsletter` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `judul` varchar(50) DEFAULT NULL,
@@ -664,7 +645,7 @@ CREATE TABLE IF NOT EXISTS `newsletter` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
--- Dumping data for table disdik.newsletter: ~3 rows (approximately)
+-- Dumping data for table disdik.newsletter: ~2 rows (approximately)
 DELETE FROM `newsletter`;
 /*!40000 ALTER TABLE `newsletter` DISABLE KEYS */;
 INSERT INTO `newsletter` (`id`, `judul`, `keterangan`, `file`, `img`, `view_count`) VALUES
@@ -674,8 +655,55 @@ INSERT INTO `newsletter` (`id`, `judul`, `keterangan`, `file`, `img`, `view_coun
 /*!40000 ALTER TABLE `newsletter` ENABLE KEYS */;
 
 
+-- Dumping structure for table disdik.opini
+CREATE TABLE IF NOT EXISTS `opini` (
+  `id` int(4) NOT NULL AUTO_INCREMENT,
+  `judul` varchar(255) NOT NULL,
+  `isi` mediumtext NOT NULL,
+  `hits` int(4) NOT NULL DEFAULT '0',
+  `tglPost` datetime NOT NULL,
+  `oleh` varchar(30) NOT NULL,
+  `publish` enum('Y','N') NOT NULL DEFAULT 'N',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+
+-- Dumping data for table disdik.opini: ~2 rows (approximately)
+DELETE FROM `opini`;
+/*!40000 ALTER TABLE `opini` DISABLE KEYS */;
+INSERT INTO `opini` (`id`, `judul`, `isi`, `hits`, `tglPost`, `oleh`, `publish`) VALUES
+	(1, 'judul opini A yang saaaaaaaaaaaaangat panjang sekali lho sampai banyak sekali', 'isi opini', 5, '2015-03-31 00:00:00', 'administrator A', 'Y'),
+	(3, 'ini judul', '<p>test</p>', 2, '2015-03-31 15:20:50', 'admin', 'Y'),
+	(4, 'ini adalah judul opini', '<p><img src="/disdik/texteditor/upload/1240345_4837007941019_1292723752504034184_n.jpg" alt="" width="220" height="242" /></p>\n<p>isi postingan alalal</p>', 10, '2015-03-31 17:38:32', 'admin', 'Y');
+/*!40000 ALTER TABLE `opini` ENABLE KEYS */;
+
+
+-- Dumping structure for table disdik.opini_tanggapan
+CREATE TABLE IF NOT EXISTS `opini_tanggapan` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_opini` int(11) NOT NULL,
+  `nama` varchar(50) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `alamat` varchar(50) NOT NULL,
+  `website` varchar(50) NOT NULL,
+  `komentar` text NOT NULL,
+  `tampil` enum('Y','N') NOT NULL DEFAULT 'N',
+  `inserted_at` datetime NOT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+
+-- Dumping data for table disdik.opini_tanggapan: ~2 rows (approximately)
+DELETE FROM `opini_tanggapan`;
+/*!40000 ALTER TABLE `opini_tanggapan` DISABLE KEYS */;
+INSERT INTO `opini_tanggapan` (`id`, `id_opini`, `nama`, `email`, `alamat`, `website`, `komentar`, `tampil`, `inserted_at`, `updated_at`) VALUES
+	(1, 2, 'nama', '', '', '', 'komentar', 'Y', '2015-03-31 12:50:23', '2015-03-31 14:59:24'),
+	(2, 1, 'Administrator', '', '', '', '<p>test ajah</p>', 'N', '2015-03-31 14:57:49', '2015-03-31 14:59:08'),
+	(3, 2, 'Administrator', '', '', '', '<p>komentar terharap komentar</p>', 'Y', '2015-03-31 14:59:36', '2015-03-31 14:59:36'),
+	(4, 4, 'nama', '', '', '', 'komentar', 'Y', '2015-03-31 17:32:37', '2015-03-31 17:33:04');
+/*!40000 ALTER TABLE `opini_tanggapan` ENABLE KEYS */;
+
+
 -- Dumping structure for table disdik.pengumuman
-DROP TABLE IF EXISTS `pengumuman`;
 CREATE TABLE IF NOT EXISTS `pengumuman` (
   `id` int(4) NOT NULL AUTO_INCREMENT,
   `judul` varchar(255) NOT NULL,
@@ -688,14 +716,13 @@ CREATE TABLE IF NOT EXISTS `pengumuman` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table disdik.pengumuman: ~0 rows (approximately)
+-- Dumping data for table disdik.pengumuman: ~2 rows (approximately)
 DELETE FROM `pengumuman`;
 /*!40000 ALTER TABLE `pengumuman` DISABLE KEYS */;
 /*!40000 ALTER TABLE `pengumuman` ENABLE KEYS */;
 
 
 -- Dumping structure for table disdik.pesan
-DROP TABLE IF EXISTS `pesan`;
 CREATE TABLE IF NOT EXISTS `pesan` (
   `id` int(4) NOT NULL AUTO_INCREMENT,
   `nama` varchar(100) NOT NULL,
@@ -705,7 +732,7 @@ CREATE TABLE IF NOT EXISTS `pesan` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
--- Dumping data for table disdik.pesan: ~1 rows (approximately)
+-- Dumping data for table disdik.pesan: ~0 rows (approximately)
 DELETE FROM `pesan`;
 /*!40000 ALTER TABLE `pesan` DISABLE KEYS */;
 INSERT INTO `pesan` (`id`, `nama`, `email`, `pesan`, `tgl`) VALUES
@@ -714,7 +741,6 @@ INSERT INTO `pesan` (`id`, `nama`, `email`, `pesan`, `tgl`) VALUES
 
 
 -- Dumping structure for table disdik.poll
-DROP TABLE IF EXISTS `poll`;
 CREATE TABLE IF NOT EXISTS `poll` (
   `id` int(3) NOT NULL AUTO_INCREMENT,
   `tanya` varchar(255) NOT NULL,
@@ -738,7 +764,6 @@ INSERT INTO `poll` (`id`, `tanya`, `op_1`, `op_2`, `op_3`, `op_4`, `j_1`, `j_2`,
 
 
 -- Dumping structure for table disdik.poll_stats
-DROP TABLE IF EXISTS `poll_stats`;
 CREATE TABLE IF NOT EXISTS `poll_stats` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `tgl` date DEFAULT NULL,
@@ -746,7 +771,7 @@ CREATE TABLE IF NOT EXISTS `poll_stats` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
--- Dumping data for table disdik.poll_stats: ~5 rows (approximately)
+-- Dumping data for table disdik.poll_stats: ~2 rows (approximately)
 DELETE FROM `poll_stats`;
 /*!40000 ALTER TABLE `poll_stats` DISABLE KEYS */;
 INSERT INTO `poll_stats` (`id`, `tgl`, `ip`) VALUES
@@ -759,7 +784,6 @@ INSERT INTO `poll_stats` (`id`, `tgl`, `ip`) VALUES
 
 
 -- Dumping structure for table disdik.produk_hukum_files
-DROP TABLE IF EXISTS `produk_hukum_files`;
 CREATE TABLE IF NOT EXISTS `produk_hukum_files` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_prod_hukum_list` int(11) DEFAULT NULL,
@@ -771,7 +795,7 @@ CREATE TABLE IF NOT EXISTS `produk_hukum_files` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 
--- Dumping data for table disdik.produk_hukum_files: ~9 rows (approximately)
+-- Dumping data for table disdik.produk_hukum_files: ~8 rows (approximately)
 DELETE FROM `produk_hukum_files`;
 /*!40000 ALTER TABLE `produk_hukum_files` DISABLE KEYS */;
 INSERT INTO `produk_hukum_files` (`id`, `id_prod_hukum_list`, `judul`, `nama_file`, `view_count`, `terhapus`, `updated_at`) VALUES
@@ -788,7 +812,6 @@ INSERT INTO `produk_hukum_files` (`id`, `id_prod_hukum_list`, `judul`, `nama_fil
 
 
 -- Dumping structure for table disdik.produk_hukum_list
-DROP TABLE IF EXISTS `produk_hukum_list`;
 CREATE TABLE IF NOT EXISTS `produk_hukum_list` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_produk_hukum` tinyint(4) NOT NULL,
@@ -801,7 +824,7 @@ CREATE TABLE IF NOT EXISTS `produk_hukum_list` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
--- Dumping data for table disdik.produk_hukum_list: ~5 rows (approximately)
+-- Dumping data for table disdik.produk_hukum_list: ~4 rows (approximately)
 DELETE FROM `produk_hukum_list`;
 /*!40000 ALTER TABLE `produk_hukum_list` DISABLE KEYS */;
 INSERT INTO `produk_hukum_list` (`id`, `id_produk_hukum`, `nomor`, `tahun`, `tentang`, `terbit`, `terhapus`, `updated_at`) VALUES
@@ -814,7 +837,6 @@ INSERT INTO `produk_hukum_list` (`id`, `id_produk_hukum`, `nomor`, `tahun`, `ten
 
 
 -- Dumping structure for table disdik.profil
-DROP TABLE IF EXISTS `profil`;
 CREATE TABLE IF NOT EXISTS `profil` (
   `id` int(2) NOT NULL AUTO_INCREMENT,
   `type` enum('text','map') NOT NULL DEFAULT 'text',
@@ -836,14 +858,13 @@ INSERT INTO `profil` (`id`, `type`, `judul`, `isi`) VALUES
 
 
 -- Dumping structure for table disdik.propinsi
-DROP TABLE IF EXISTS `propinsi`;
 CREATE TABLE IF NOT EXISTS `propinsi` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nama` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
--- Dumping data for table disdik.propinsi: ~1 rows (approximately)
+-- Dumping data for table disdik.propinsi: ~0 rows (approximately)
 DELETE FROM `propinsi`;
 /*!40000 ALTER TABLE `propinsi` DISABLE KEYS */;
 INSERT INTO `propinsi` (`id`, `nama`) VALUES
@@ -852,7 +873,6 @@ INSERT INTO `propinsi` (`id`, `nama`) VALUES
 
 
 -- Dumping structure for table disdik.sekolah_stats
-DROP TABLE IF EXISTS `sekolah_stats`;
 CREATE TABLE IF NOT EXISTS `sekolah_stats` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_sekolah` int(11) NOT NULL,
@@ -877,7 +897,6 @@ INSERT INTO `sekolah_stats` (`id`, `id_sekolah`, `lembaga`, `tahun`, `rombel`, `
 
 
 -- Dumping structure for table disdik.settings
-DROP TABLE IF EXISTS `settings`;
 CREATE TABLE IF NOT EXISTS `settings` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(50) DEFAULT NULL,
@@ -901,7 +920,6 @@ INSERT INTO `settings` (`id`, `title`, `tipe`, `value`, `img_height`, `img_width
 
 
 -- Dumping structure for table disdik.tbl_agenda
-DROP TABLE IF EXISTS `tbl_agenda`;
 CREATE TABLE IF NOT EXISTS `tbl_agenda` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(50) NOT NULL,
@@ -923,7 +941,6 @@ DELETE FROM `tbl_agenda`;
 
 
 -- Dumping structure for table disdik.tbl_sessions
-DROP TABLE IF EXISTS `tbl_sessions`;
 CREATE TABLE IF NOT EXISTS `tbl_sessions` (
   `session_id` varchar(40) NOT NULL DEFAULT '0',
   `ip_address` varchar(45) NOT NULL DEFAULT '0',
@@ -935,30 +952,31 @@ CREATE TABLE IF NOT EXISTS `tbl_sessions` (
   KEY `last_activity_idx` (`last_activity`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table disdik.tbl_sessions: ~7 rows (approximately)
+-- Dumping data for table disdik.tbl_sessions: ~9 rows (approximately)
 DELETE FROM `tbl_sessions`;
 /*!40000 ALTER TABLE `tbl_sessions` DISABLE KEYS */;
 INSERT INTO `tbl_sessions` (`session_id`, `ip_address`, `user_agent`, `last_activity`, `user_data`, `prevent_update`) VALUES
 	('104d8734713a2648aa0c756fb46e0a1f', '127.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.91 Safari/537.36', 1426276504, 'a:2:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-03-14";}', NULL),
 	('151484fca962828081e2b870ea3f943b', '127.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.91 Safari/537.36', 1425575286, 'a:2:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-03-09";}', NULL),
 	('1b720d3f7eaa11cabb128c991d314fe1', '127.0.0.1', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:35.0) Gecko/20100101 Firefox/35.0', 1425652960, 'a:6:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-03-06";s:7:"jenjang";s:0:"";s:6:"status";s:0:"";s:12:"id_kabupaten";s:1:"1";s:5:"tahun";s:0:"";}', NULL),
+	('25e4a623c0e85b7edcaa75a78c45000c', '127.0.0.1', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:35.0) Gecko/20100101 Firefox/35.0', 1427262367, 'a:7:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-03-25";s:7:"user_id";s:1:"1";s:4:"user";s:5:"admin";s:9:"validated";b:1;s:9:"menu_list";s:68:"1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26";s:11:"curr_method";s:23:"generate_event_calendar";}', NULL),
 	('56952be3602d15ea06edeb306d383d91', '127.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/39.0.2171.65 Chrome/39.0.2171.65 ', 1425575684, 'a:2:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-03-06";}', NULL),
-	('b25081a0ccd7eb5c46748b7ed8176d2e', '127.0.0.1', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:35.0) Gecko/20100101 Firefox/35.0', 1426514266, 'a:9:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-03-17";s:7:"user_id";s:1:"1";s:4:"user";s:5:"admin";s:9:"validated";b:1;s:9:"menu_list";s:68:"1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26";s:11:"curr_method";s:23:"generate_event_calendar";s:7:"curr_id";s:1:"1";s:12:"captcha_word";s:5:"31680";}', NULL),
+	('b25081a0ccd7eb5c46748b7ed8176d2e', '127.0.0.1', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:35.0) Gecko/20100101 Firefox/35.0', 1426514266, 'a:9:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-03-19";s:7:"user_id";s:1:"1";s:4:"user";s:5:"admin";s:9:"validated";b:1;s:9:"menu_list";s:68:"1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26";s:11:"curr_method";s:23:"generate_event_calendar";s:7:"curr_id";s:1:"1";s:12:"captcha_word";s:5:"31680";}', NULL),
 	('b85cd3083a8dac0d5984c07381706bb1', '127.0.0.1', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:35.0) Gecko/20100101 Firefox/35.0', 1425784805, 'a:9:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-03-09";s:7:"curr_id";s:1:"1";s:12:"captcha_word";s:5:"37572";s:7:"user_id";s:1:"1";s:4:"user";s:5:"admin";s:9:"validated";b:1;s:9:"menu_list";s:56:"1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22";s:11:"curr_method";s:23:"generate_event_calendar";}', NULL),
-	('bdf61dfa4c10b47fca384e35a2b5a21d', '127.0.0.1', 'Opera/9.80 (X11; Linux x86_64; Edition Linux Mint) Presto/2.12.388 Version/12.16', 1425575648, 'a:2:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-03-06";}', NULL);
+	('bdf61dfa4c10b47fca384e35a2b5a21d', '127.0.0.1', 'Opera/9.80 (X11; Linux x86_64; Edition Linux Mint) Presto/2.12.388 Version/12.16', 1425575648, 'a:2:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-03-06";}', NULL),
+	('ccadd869b9465040d51767f8aa13c4c0', '127.0.0.1', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:36.0) Gecko/20100101 Firefox/36.0', 1427779601, 'a:8:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-03-31";s:7:"user_id";s:1:"1";s:4:"user";s:5:"admin";s:9:"validated";b:1;s:9:"menu_list";s:71:"1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27";s:11:"curr_method";s:22:"aduan_apresiasi_detail";s:12:"captcha_word";s:5:"50744";}', NULL);
 /*!40000 ALTER TABLE `tbl_sessions` ENABLE KEYS */;
 
 
 -- Dumping structure for table disdik.view_stats
-DROP TABLE IF EXISTS `view_stats`;
 CREATE TABLE IF NOT EXISTS `view_stats` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `ip` varchar(50) NOT NULL DEFAULT '0',
   `tgl` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=latin1;
 
--- Dumping data for table disdik.view_stats: ~54 rows (approximately)
+-- Dumping data for table disdik.view_stats: ~35 rows (approximately)
 DELETE FROM `view_stats`;
 /*!40000 ALTER TABLE `view_stats` DISABLE KEYS */;
 INSERT INTO `view_stats` (`id`, `ip`, `tgl`) VALUES
@@ -1015,7 +1033,15 @@ INSERT INTO `view_stats` (`id`, `ip`, `tgl`) VALUES
 	(51, '127.0.0.1', '2015-03-15 02:07:32'),
 	(52, '127.0.0.1', '2015-03-16 11:20:23'),
 	(53, '127.0.0.1', '2015-03-16 20:57:46'),
-	(54, '127.0.0.1', '2015-03-17 00:02:21');
+	(54, '127.0.0.1', '2015-03-17 00:02:21'),
+	(55, '127.0.0.1', '2015-03-19 13:53:55'),
+	(56, '127.0.0.1', '2015-03-25 12:46:07'),
+	(57, '127.0.0.1', '2015-03-28 22:40:09'),
+	(58, '127.0.0.1', '2015-03-31 08:04:20'),
+	(59, '127.0.0.1', '2015-03-31 08:20:27'),
+	(60, '127.0.0.1', '2015-03-31 08:41:56'),
+	(61, '127.0.0.1', '2015-03-31 11:50:05'),
+	(62, '127.0.0.1', '2015-03-31 12:26:41');
 /*!40000 ALTER TABLE `view_stats` ENABLE KEYS */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;

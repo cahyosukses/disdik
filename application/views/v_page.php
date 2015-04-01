@@ -204,6 +204,7 @@
                            ?>
                      </ul>
                   </li>
+                  <li><a href="<?php echo base_URL()?>tampil/opini" class="depan">Pojok Opini</a></li>
                   <li class="dropdown">
                      <a data-toggle="dropdown" href="#" class="dropdown-toggle depan">Galeri &nbsp;&nbsp;<b class="caret"></b></a>     
                      <ul class="dropdown-menu">
@@ -573,7 +574,7 @@
                                        <span class="label label-default">
                                        <span class="icon-time"></span>
                                        <?php echo tgl_panjang($ap_list->inserted_at,'sm');?></span><br>
-                                       <a href="#info-apresiasi" data-toggle="modal" onclick="get_aduan_apresiasi(0,'apresiasi',<?php echo $ad_list->id;?>)">
+                                       <a href="#info-apresiasi" data-toggle="modal" onclick="get_aduan_apresiasi(0,'apresiasi',<?php echo $ap_list->id;?>)">
                                           <?php echo substr($ap_list->topik,0,30) . '...';?>
                                        </a>
                                     </li>

@@ -43,7 +43,7 @@
 		      	<?php }else{ ?>
 		      	<a href="#" class="change_tampil" id="<?php echo $b->id;?>" tampil="Y"><span class="icon-eye-open">&nbsp;&nbsp;</span></a>
 		      	<?php } ?>  
-		        <a href="<?php echo base_URL(); ?>manage/apresiasi/detail/<?php echo $b->id?>"><span class="icon-zoom-in">&nbsp;&nbsp;</span></a>  
+		        <a href="#info-apresiasi" data-toggle="modal" onclick="get_apresiasi(<?php echo $b->id;?>)"><span class="icon-zoom-in">&nbsp;&nbsp;</span></a>  
 			    <a href="<?php echo base_URL(); ?>manage/apresiasi/del/<?php echo $b->id ?>" onclick="return confirm('Anda YAKIN menghapus data ini ?');"><span class="icon-remove">&nbsp;&nbsp;</span></a>
 		      </td>
 		   </tr>
@@ -51,6 +51,38 @@
 		   <?php } ?>	  
 		</table>
 	
+      <div class="modal hide fade" id="info-apresiasi" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-keyboard="static"  aria-hidden="true" style="display: none">
+          <div class="modal-header" style="padding: 0px 10px 0px 5px;">
+             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+             <h4 id="myModalLabel">Detail Apresiasi</h4>
+          </div>
+          <div class="modal-body">
+            <table class="table table-hover table-condensed" style="font-size: 80%">           
+                <tbody id="tabel-apresiasi">
+                  <tr>
+                    <td style="width:100px">Topik Aduan</td> 
+                    <td>{TOPIK}</td>   
+                  </tr>            
+                  <tr>
+                    <td>Nama Pengirim</td> 
+                    <td>{NAMA_PENGADU}</td>   
+                  </tr>            
+                  <tr>
+                     <td>Judul Program</td>     
+                     <td>{JUDUL_PROGRAM}</td>   
+                  </tr>
+                  <tr>
+                     <td>Stasiun Program</td>   
+                     <td>{STASIUN_PROGRAM}</td>   
+                  </tr>
+                  <tr>
+                     <td>Pesan Aduan</td>
+                     <td>{INI ADALAH PESAN YANG saaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaangaaaat panjang sekali}</td>   
+                  </tr>
+                </tbody>
+              </table>
+          </div>    
+     </div>
 	
 	<center>
 		<div class="pagination pagination-small">
@@ -72,5 +104,13 @@
 	        });
 	        
 	  	});
+
+	  	function get_apresiasi(v_id){
+            $.get( "<?php echo base_URL() . 'manage'?>/apresiasi/detail",
+                    { id : v_id }
+               ).done(function( data ) {
+                $('#tabel-apresiasi').html(data);
+            })
+        }
   	</script>
 

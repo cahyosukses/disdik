@@ -1,4 +1,10 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+/*
+
+	copyright @ Nur Akhwan website
+	copyright @ kirana.avalokiteshvara
+
+ */
 ini_set('memory_limit', '512M');
 
 class Tampil extends My_Controller {
@@ -43,6 +49,140 @@ class Tampil extends My_Controller {
 		$this->load->view('t_footer');
 		*/
 		$this->blog();
+	}
+
+	function opini($cmd = null, $param = null){
+
+		$this->load->model('opini_m');		
+		$web['title']	= '.:: Daftar Pojok Opini  ::.';
+		
+		$date_now = date('Y-m-d H:i:s');
+
+        if(!$this->session->userdata('sort')){
+        	//set default sort and order        	
+            $this->session->set_userdata('sort','judul');
+            $this->session->set_userdata('order','ASC');
+        }
+
+		if($cmd === 'cari'){
+
+			$this->form_validation->set_rules('cari', 'Kata kunci pencarian', 'xss_clean');
+
+			if ($this->form_validation->run() == TRUE) {	
+				$this->session->set_userdata('cari',$this->input->post('cari'));
+			}
+
+			redirect('tampil/opini');
+
+		}elseif($cmd === 'detail'){
+
+			$r = $this->basecrud_m->get_where('opini',array('id' => $param));
+			if($r->num_rows() == 0){
+				$this->load->view('invalid', $web);	
+			}else{
+				$this->db->query("UPDATE opini SET hits = hits + 1 WHERE id = '".$param."'");
+				$web['data'] = 	$r->row();				
+				$web['tanggapan'] = $this->db->query("SELECT nama,komentar,DATE(inserted_at) as tgl 
+					                                  FROM opini_tanggapan 
+					                                  WHERE id_opini = $param AND tampil = 'Y'
+					                                  ORDER BY inserted_at ASC");
+				$cap = $this->_captcha();
+				$web['captcha_image'] = $cap['image'];
+				$web['page_name'] = 'v_opini_det';
+			}
+			
+			
+		}elseif($cmd === 'set_sort'){
+
+			$this->session->set_userdata('sort',$param);
+			$curr_order = $this->session->userdata('order');
+
+			if($curr_order === 'ASC'){				
+				$this->session->set_userdata('order','DESC');
+			}else{
+				//exit(0);
+				$this->session->set_userdata('order','ASC');
+			}			
+
+			redirect(base_URL() . 'tampil/opini');
+
+		}elseif($cmd === 'reply_add'){
+
+
+			$this->form_validation->set_rules('nama', 'Nama', 'xss_clean|required');
+			$this->form_validation->set_rules('email', 'Email', 'xss_clean|valid_email');			
+			$this->form_validation->set_rules('alamat', 'Alamat', 'xss_clean');			
+			$this->form_validation->set_rules('website', 'Website', 'xss_clean');
+			$this->form_validation->set_rules('komentar', 'Komentar', 'xss_clean|required');
+			$this->form_validation->set_rules('captcha_word','Captcha','xss_clean|required|callback_check_captcha');
+
+			if ($this->form_validation->run() == TRUE) {				
+				
+				//$date_now = date('Y-m-d H:i:s');
+				$nama = $this->input->post('nama');
+				
+				if(strtolower($nama) === 'administrator' || strtolower($nama) === 'admin'){
+					$nama = 'Guest';
+				}
+
+				$in = array(
+					'id_opini'     => $param,
+					'nama'         => $nama,
+					'email'        => $this->input->post('email'),
+					'alamat'       => $this->input->post('alamat'),
+					'website'      => $this->input->post('website'),
+					'komentar'     => $this->input->post('komentar'),
+					'inserted_at'  => $date_now
+				);				
+
+				$this->basecrud_m->insert('opini_tanggapan',$in);
+				$this->session->set_flashdata("k", "<div class='alert alert-success'>Tanggapan terkirim dan Menunggu untuk di Moderasi</div>");
+				redirect('tampil/opini/detail/' . $param,'reload');
+			
+			}else{		
+				$web['post'] = $this->db->query(
+											"SELECT judul,isi,oleh,tglPost
+				                             FROM opini
+				                             WHERE id = $param")->row();
+
+				$web['tanggapan'] = $this->db->query("SELECT nama,komentar,DATE(inserted_at) as tgl 
+													  FROM opini_tanggapan 
+					                                  WHERE id_opini = $param AND tampil = 'Y'
+					                                  ORDER BY inserted_at ASC");
+				$cap = $this->_captcha();
+				$web['captcha_image'] = $cap['image'];			
+				$web['msg'] = validation_errors();			
+			}
+
+			$web['page_name'] = 'v_opini_det';
+		
+		}else{
+			//pagination
+			$url      = base_url() . 'tampil/opini/';
+			$res      = $this->opini_m->get('numrows');
+			$per_page = 15;
+			$config   = paginate($url,$res,$per_page,3);
+			$this->pagination->initialize($config);
+
+			$this->opini_m->limit = $per_page;
+			if($this->uri->segment(3) == TRUE){
+	        	$this->opini_m->offset = $this->uri->segment(3);
+	        }else{
+	            $this->opini_m->offset = 0;
+	        }	
+
+			$sort  = $this->session->userdata('sort');
+			$order = $this->session->userdata('order');
+
+			$this->opini_m->sort  = $sort;
+			$this->opini_m->order = $order;
+	    	//end pagination
+	    	
+			$web['data'] = $this->opini_m->get('pagging');			
+			$web['page_name'] = 'v_opini';
+		}
+		
+		$this->_generate_page($web);
 	}
 
 	function pengumuman($cmd = null, $param = null){
@@ -280,7 +420,7 @@ class Tampil extends My_Controller {
 			if($rs->num_rows() > 0){
 				$data = 
 				    "<tr>
-		                <td style=\"width:100px\">Topik Aduan</td> 
+		                <td style=\"width:100px\">Topik Apresiasi</td> 
 		                <td>" . $rs->row()->topik . "</td>   
 		              </tr>            
 		              <tr>
@@ -296,7 +436,7 @@ class Tampil extends My_Controller {
 		                 <td>" . $rs->row()->stasiun_program . "</td>   
 		              </tr>
 		              <tr>
-		                 <td>Pesan Aduan</td>
+		                 <td>Pesan Apresiasi</td>
 		                 <td>" . $rs->row()->pesan . "</td>   
 		              </tr>";
 	        }
@@ -1409,8 +1549,8 @@ class Tampil extends My_Controller {
 					array('name' => 'type', 'content' => 'article'),
 					array('name' => 'url', 'content' => base_URL()),
 					array('name' => 'image', 'content' => 'logo.jpg'),
-					array('name' => 'site_name', 'content' => 'Nur Akhwan website -- '.$web['baca']->judul),
-					array('name' => 'description', 'content' => 'Nur Akhwan website -- '.substr(addslashes(strip_tags($web['baca']->isi)), 0, 200))
+					array('name' => 'site_name', 'content' => 'Website Website Dinas Pendidikan Provinsi Jambi -- '.$web['baca']->judul),
+					array('name' => 'description', 'content' => 'Website Website Dinas Pendidikan Provinsi Jambi -- '.substr(addslashes(strip_tags($web['baca']->isi)), 0, 200))
 				);
 				
 				$web['title']		= $web['baca']->judul." - Website Website Dinas Pendidikan Provinsi Jambi";

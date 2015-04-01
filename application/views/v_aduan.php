@@ -30,9 +30,9 @@
 				<a href="#info-aduan" data-toggle="modal" onclick="get_aduan_apresiasi(0,'aduan',<?php echo $d->id;?>)">
 					<p><?php echo substr($d->pesan, 0,80) . '...[Details]'?></p>					
 				</a>			       
-				<a href="">
-					<p><a href="<?php echo base_URL() . 'tampil/aduan_apresiasi_pdf/aduan/' . $d->id?>">[ Download PDF ]</a></p>
-				</a>	
+				<p>
+					<a href="<?php echo base_URL() . 'tampil/aduan_apresiasi_pdf/aduan/' . $d->id?>">[ Download PDF ]</a>
+				</p>
 		 	</div>
 		</div>
 	</div>

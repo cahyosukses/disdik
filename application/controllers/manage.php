@@ -29,6 +29,142 @@ class Manage extends MY_Controller {
 		$this->load->view('manage/tampil',$data);
 	}
 
+	function opini($cmd = null,$param = null){
+		$this->load->model('opini_m');
+
+		$data = array();
+		$data['title']		= "Pojok Opini";
+		$date_now = date('Y-m-d H:i:s');
+
+		if($cmd === 'cari'){
+
+			$filter = $_POST['filter'];
+			$this->session->set_userdata('filter',$filter);
+			redirect('manage/opini','reload');
+			
+		}elseif($cmd === 'set_tampil'){
+
+			$tampil = $_POST['tampil'];
+			$id 	= $_POST['id'];
+			$this->basecrud_m->update('opini',$id,array('publish' => $tampil));
+			exit(0);
+
+		}elseif($cmd === 'reply_set_tampil'){
+
+			$tampil = $_POST['tampil'];
+			$id 	= $_POST['id'];
+			$this->basecrud_m->update('opini_tanggapan',$id,array('tampil' => $tampil));
+			exit(0);
+
+		}elseif($cmd === 'reply'){
+
+			$data['data'] = $this->db->query("SELECT oleh,judul,isi,DATE(tglPost) as tgl
+				                              FROM opini
+				                              WHERE id = $param")->row();
+
+			$data['tanggapan'] = $this->db->query("SELECT id,nama,komentar,tampil,DATE(inserted_at) as tgl 
+					                               FROM opini_tanggapan 
+					                               WHERE id_opini = $param 
+					                               ORDER BY inserted_at ASC");
+
+			if(!empty($_POST)){
+				
+				$this->form_validation->set_rules('komentar', 'Komentar', 'required');
+				
+				if ($this->form_validation->run() == TRUE) {				
+					
+					$date_now = date('Y-m-d H:i:s');
+					
+					$in = array(
+						'id_opini' => $param,
+						'nama'        => 'Administrator',						
+						'komentar'    => $this->input->post('komentar'),
+						'tampil'	   => 'Y',
+						'inserted_at' => $date_now
+					);				
+
+					$this->basecrud_m->insert('opini_tanggapan',$in);
+					$this->session->set_flashdata("k", "<div class='alert alert-success'>Tanggapan terkirim</div>");
+					redirect('manage/opini/reply/' . $param,'reload');
+				
+				}else{					
+					$web['msg'] = validation_errors();							
+				}
+			}
+
+			$data['page'] = 'f_opini_tanggapan';
+
+		}else if ($cmd == "add") {
+
+			$data['page']	= "f_opini";
+
+		} else if ($cmd == "edit") {
+			
+			$id_pengumuman         = $this->uri->segment(4);
+			$data['opini_pilih'] = $this->basecrud_m->get_where('opini',array('id' => $param))->row();
+			$data['page']             = "f_opini";
+
+		} else if ($cmd == "act_add") {			
+			
+			$in = array(
+						'judul'     => $this->input->post('judul'),																
+						'isi'       => $this->input->post('isi'),
+						'tglPost'   => $date_now,							
+						'oleh'      => $this->session->userdata('user'),
+						'publish'   => 'Y'
+						);
+			$this->basecrud_m->insert('opini',$in);
+			
+			$this->session->set_flashdata("k", "<div class=\"alert alert-success\">Opini berhasil ditambahkan</div>");
+			redirect('manage/opini');
+			
+		} else if ($cmd == "act_edit") {		
+
+			$this->basecrud_m->update('opini',$param, 
+							array(
+								'judul'   => addslashes($this->input->post('judul')),								  
+								'tglPost' => $date_now,
+								'oleh'    => $this->session->userdata('user'),
+								'isi'     => $this->input->post('isi')
+						     )
+					);
+			
+			$this->session->set_flashdata("k", "<div class=\"alert alert-success\">Opini berhasil diedit</div>");
+			redirect('manage/opini');
+				
+			
+		}elseif($cmd === 'del'){
+			$this->basecrud_m->delete('opini',array('id' => $param));
+			redirect('manage/opini','reload');
+		}else{
+
+			//pagination
+			$url = base_url() . 'manage/opini/';
+			$res = $this->opini_m->get('numrows',true);
+			$per_page = 10;
+			$config = paginate($url,$res,$per_page,3);
+			$this->pagination->initialize($config);
+
+			$this->opini_m->limit = $per_page;
+			if($this->uri->segment(3) == TRUE){
+	        	$this->opini_m->offset = $this->uri->segment(3);
+	        }else{
+	            $this->opini_m->offset = 0;
+	        }	
+
+			$this->opini_m->sort  = 'tglPost';
+	    	$this->opini_m->order = 'DESC';
+	    	//end pagination
+	    	
+			$data['data'] = $this->opini_m->get('pagging',true);				
+			$data['page'] = 'v_opini';
+
+		}
+
+		$this->_generate_page($data);
+	}
+
+	
 	function settings($act = null,$param=null){
 		
 		$this->load->model(array('basecrud_m','settings_m'));
@@ -268,8 +404,8 @@ class Manage extends MY_Controller {
 
 		$this->load->model('user_m');
 
-		$admin_priv = '1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25';
-		$berita_priv = '1,5,6,7,8,20,21';
+		$admin_priv = '1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27';
+		$berita_priv = '1,5,6,7,8,22,23';
 
 		if($cmd === 'add'){
 
@@ -392,6 +528,7 @@ class Manage extends MY_Controller {
 		$this->_generate_page($data);
 	}
 
+
 	function aduan($cmd = null,$param = null){
 		$this->load->model('aduan_m');
 
@@ -403,6 +540,39 @@ class Manage extends MY_Controller {
 			$filter = $_POST['filter'];
 			$this->session->set_userdata('filter',$filter);
 			redirect('manage/aduan','reload');
+
+		}elseif($cmd === 'detail'){
+
+			$id   = $_GET['id'];
+			
+			$data = "";
+			$rs = $this->basecrud_m->get_where('aduan',array('id' => $id));
+			if($rs->num_rows() > 0){
+				$data = 
+				     "<tr>
+		                <td style=\"width:100px\">Topik Aduan</td> 
+		                <td>" . $rs->row()->topik . "</td>   
+		              </tr>            
+		              <tr>
+		                <td>Nama Pengirim</td> 
+		                <td>" . $rs->row()->nama_pengadu . "</td>   
+		              </tr>            
+		              <tr>
+		                 <td>Judul Program</td>     
+		                 <td>" .$rs->row()->judul_program . "</td>   
+		              </tr>
+		              <tr>
+		                 <td>Stasiun Program</td>   
+		                 <td>" . $rs->row()->stasiun_program . "</td>   
+		              </tr>
+		              <tr>
+		                 <td>Pesan Aduan</td>
+		                 <td>" . $rs->row()->pesan . "</td>   
+		              </tr>";
+	        }
+
+	        echo $data;	
+	        exit(0);
 
 		}elseif($cmd === 'set_tampil'){
 
@@ -501,6 +671,39 @@ class Manage extends MY_Controller {
 			$filter = $_POST['filter'];
 			$this->session->set_userdata('filter',$filter);
 			redirect('manage/apresiasi','reload');
+
+		}elseif($cmd === 'detail'){
+
+			$id   = $_GET['id'];
+			
+			$data = "";
+			$rs = $this->basecrud_m->get_where('apresiasi',array('id' => $id));
+			if($rs->num_rows() > 0){
+				$data = 
+				     "<tr>
+		                <td style=\"width:100px\">Topik Apresiasi</td> 
+		                <td>" . $rs->row()->topik . "</td>   
+		              </tr>            
+		              <tr>
+		                <td>Nama Pengirim</td> 
+		                <td>" . $rs->row()->nama_pengirim . "</td>   
+		              </tr>            
+		              <tr>
+		                 <td>Judul Program</td>     
+		                 <td>" .$rs->row()->judul_program . "</td>   
+		              </tr>
+		              <tr>
+		                 <td>Stasiun Program</td>   
+		                 <td>" . $rs->row()->stasiun_program . "</td>   
+		              </tr>
+		              <tr>
+		                 <td>Pesan Apresiasi</td>
+		                 <td>" . $rs->row()->pesan . "</td>   
+		              </tr>";
+	        }
+
+	        echo $data;	
+	        exit(0);
 
 		}elseif($cmd === 'set_tampil'){
 

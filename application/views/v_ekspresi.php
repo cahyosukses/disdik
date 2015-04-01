@@ -1,4 +1,3 @@
-
 	<ul class="breadcrumb wellwhite">
 		<li><a href="<?php echo base_URL()?>">Beranda</a> <span class="divider">/</span></li>
 		<li><a href="<?php echo base_URL()?>tampil/ekspresi">Ekspresi</a></li>

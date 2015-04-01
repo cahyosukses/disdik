@@ -43,24 +43,32 @@ class MY_Controller extends CI_Controller{
         $curr_method = $this->session->userdata('curr_method');
         $method = $this->router->method; 
         
-        if(!$curr_method){
+        if($method !== 'generate_event_calendar'){
+            if(!$curr_method){
             
-            $this->session->set_userdata('curr_method',$method);
-            
-        }else{
+                $this->session->set_userdata('curr_method',$method);
+                
+            }else{
 
-            if($curr_method !== $method){
-                $this->session->unset_userdata('cari');
-                $this->session->unset_userdata('filter');
-                $this->session->unset_userdata('jenjang');
-                $this->session->unset_userdata('status');
-                $this->session->unset_userdata('id_kabupaten');
-                $this->session->unset_userdata('tahun');
-                $curr_method = $this->session->set_userdata('curr_method',$method);                    
-            }        
+                if($curr_method !== $method){
+                    $this->session->unset_userdata('cari');
+                    $this->session->unset_userdata('filter');
+                    $this->session->unset_userdata('jenjang');
+                    $this->session->unset_userdata('status');
+                    $this->session->unset_userdata('id_kabupaten');
+                    $this->session->unset_userdata('tahun');
 
-        }    
+                    //sort table header    
+                    $this->session->unset_userdata('sort');
+                    $this->session->unset_userdata('order');
 
+                    $curr_method = $this->session->set_userdata('curr_method',$method);                    
+                }        
+
+            }    
+
+        }
+        
         if ( ! in_array($this->router->class, $this->_open_controllers)){
             if(!$this->_is_allowed($method)){
                 redirect(base_url() . 'manage/index' , 'reload'); //go back kids!                

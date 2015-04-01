@@ -16,10 +16,10 @@
 		<li><a href="<?php echo base_URL()?>">Beranda</a> <span class="divider">/</span></li>
 		<li><a href="<?php echo base_URL()?>tampil/ekspresi">Ekspresi</a></li>
 	</ul>
-	<h3>Ide & Saran Pengunjung</h3>
+	<h3>Ekspresi Pengunjung</h3>
 	<div class="alert alert-success fade in">
 		<button class="close" aria-hidden="true" data-dismiss="alert" type="button">×</button>
-		Pada laman ini pengunjung dapat memberikan Ide atau Gagasannya seputar dunia Pendidikan khususnya di Daerah Provinsi Jambi. Anda juga dapat menanggapi ide yang ditulis pengunjung lainnya..
+		Disini pengunjung dapat mengekspresikan dan menanggapi ekspresi melalui tulisan dalam bentuk harapan-harapan atau keinginan seputar dunia Pendidikan di Provinsi Jambi.
 	</div>
 	<p align="left"><a href="<?php echo base_URL() . 'tampil/ide_saran'?>" button="" type="button" class="btn btn-success"><i class="icon-chevron-left icon-white"></i>Index Ide & Gagasan</a></p>
 	<?php echo $this->session->flashdata("k");?>
