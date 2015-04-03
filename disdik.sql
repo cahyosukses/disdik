@@ -33,8 +33,8 @@ CREATE TABLE IF NOT EXISTS `admin` (
 DELETE FROM `admin`;
 /*!40000 ALTER TABLE `admin` DISABLE KEYS */;
 INSERT INTO `admin` (`id`, `u`, `p`, `nama`, `email`, `level`, `menu_list`, `aktif`, `terhapus`) VALUES
-	(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 'Admin', 'admin@admin.com', '1', '1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27', 'Y', 'N'),
-	(2, 'user1', '24c9e15e52afc47c225b757e7bee1f9d', 'user poster berita', '', '2', '1,5,6,7,8,22,23', 'Y', 'N');
+	(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 'Admin', 'admin@admin.com', '1', '1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28', 'Y', 'N'),
+	(2, 'user1', '24c9e15e52afc47c225b757e7bee1f9d', 'user poster berita', '', '2', '1,6,7,8,9,23,24', 'Y', 'N');
 /*!40000 ALTER TABLE `admin` ENABLE KEYS */;
 
 
@@ -598,7 +598,7 @@ CREATE TABLE IF NOT EXISTS `manage_menu` (
   `method` varchar(50) NOT NULL,
   `show` enum('Y','N') NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table disdik.manage_menu: ~27 rows (approximately)
 DELETE FROM `manage_menu`;
@@ -606,31 +606,32 @@ DELETE FROM `manage_menu`;
 INSERT INTO `manage_menu` (`id`, `sort`, `name`, `method`, `show`) VALUES
 	(1, 1, 'Beranda', 'index', 'Y'),
 	(2, 2, 'Profil', 'profil', 'Y'),
-	(3, 3, 'Data Sekolah', 'data_sekolah', 'Y'),
-	(4, 4, 'Produk Hukum', 'data_produk_hukum', 'Y'),
-	(5, 5, 'Pengumuman', 'pengumuman', 'Y'),
-	(6, 6, 'Post Berita', 'blog', 'Y'),
-	(7, 7, 'Kategori Berita', 'kategori_berita', 'Y'),
-	(8, 8, 'Komentar Berita', 'komentar', 'Y'),
-	(9, 9, 'Galeri Foto', 'galeri', 'Y'),
-	(10, 10, 'Galeri Video', 'galeri_video', 'Y'),
-	(11, 11, 'Buku Tamu', 'bukutamu', 'Y'),
-	(12, 12, 'Ide & Saran', 'ide_saran', 'Y'),
-	(13, 13, 'Ekspresi', 'ekspresi', 'Y'),
-	(14, 14, 'Aduan', 'aduan', 'Y'),
-	(15, 15, 'Apresiasi', 'apresiasi', 'Y'),
-	(16, 16, 'Pojok Opini', 'opini', 'Y'),
-	(17, 17, 'Link/Tautan', 'link', 'Y'),
-	(18, 18, 'Agenda', 'agenda', 'Y'),
-	(19, 19, 'Newsletter', 'newsletter', 'Y'),
-	(20, 20, 'Managemen User', 'user', 'Y'),
-	(21, 21, 'Web Settings', 'settings', 'Y'),
-	(22, 22, 'Edit Profile', 'passwod', 'Y'),
-	(23, 23, 'Logout', 'logout', 'Y'),
-	(24, 0, '', 'prod_hukum_list', 'N'),
-	(25, 0, '', 'sekolah_stats', 'N'),
-	(26, 0, '', 'data_guru', 'N'),
-	(27, 0, '', 'data_siswa', 'N');
+	(3, 3, 'Program', 'program', 'Y'),
+	(4, 4, 'Data Sekolah', 'data_sekolah', 'Y'),
+	(5, 5, 'Produk Hukum', 'data_produk_hukum', 'Y'),
+	(6, 6, 'Pengumuman', 'pengumuman', 'Y'),
+	(7, 7, 'Post Berita', 'blog', 'Y'),
+	(8, 8, 'Kategori Berita', 'kategori_berita', 'Y'),
+	(9, 9, 'Komentar Berita', 'komentar', 'Y'),
+	(10, 10, 'Galeri Foto', 'galeri', 'Y'),
+	(11, 11, 'Galeri Video', 'galeri_video', 'Y'),
+	(12, 12, 'Buku Tamu', 'bukutamu', 'Y'),
+	(13, 13, 'Ide & Saran', 'ide_saran', 'Y'),
+	(14, 14, 'Ekspresi', 'ekspresi', 'Y'),
+	(15, 15, 'Aduan', 'aduan', 'Y'),
+	(16, 16, 'Apresiasi', 'apresiasi', 'Y'),
+	(17, 17, 'Pojok Opini', 'opini', 'Y'),
+	(18, 18, 'Link/Tautan', 'link', 'Y'),
+	(19, 19, 'Agenda', 'agenda', 'Y'),
+	(20, 20, 'Newsletter', 'newsletter', 'Y'),
+	(21, 21, 'Managemen User', 'user', 'Y'),
+	(22, 22, 'Web Settings', 'settings', 'Y'),
+	(23, 23, 'Edit Profile', 'passwod', 'Y'),
+	(24, 24, 'Logout', 'logout', 'Y'),
+	(25, 0, '', 'prod_hukum_list', 'N'),
+	(26, 0, '', 'sekolah_stats', 'N'),
+	(27, 0, '', 'data_guru', 'N'),
+	(28, 0, '', 'data_siswa', 'N');
 /*!40000 ALTER TABLE `manage_menu` ENABLE KEYS */;
 
 
@@ -857,6 +858,28 @@ INSERT INTO `profil` (`id`, `type`, `judul`, `isi`) VALUES
 /*!40000 ALTER TABLE `profil` ENABLE KEYS */;
 
 
+-- Dumping structure for table disdik.program
+CREATE TABLE IF NOT EXISTS `program` (
+  `id` int(2) NOT NULL AUTO_INCREMENT,
+  `judul` varchar(200) NOT NULL,
+  `isi` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+
+-- Dumping data for table disdik.program: ~0 rows (approximately)
+DELETE FROM `program`;
+/*!40000 ALTER TABLE `program` DISABLE KEYS */;
+INSERT INTO `program` (`id`, `judul`, `isi`) VALUES
+	(1, 'Sekretaris', ''),
+	(2, 'Bidang DIKDAS', '<p>test bidang dikdas</p>'),
+	(3, 'Bidang DIKMEN', ''),
+	(4, 'Bidang PAUD', ''),
+	(5, 'Bidang MONEV', ''),
+	(6, 'BTIKP', ''),
+	(7, 'BPKSDP', '');
+/*!40000 ALTER TABLE `program` ENABLE KEYS */;
+
+
 -- Dumping structure for table disdik.propinsi
 CREATE TABLE IF NOT EXISTS `propinsi` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -952,7 +975,7 @@ CREATE TABLE IF NOT EXISTS `tbl_sessions` (
   KEY `last_activity_idx` (`last_activity`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table disdik.tbl_sessions: ~9 rows (approximately)
+-- Dumping data for table disdik.tbl_sessions: ~10 rows (approximately)
 DELETE FROM `tbl_sessions`;
 /*!40000 ALTER TABLE `tbl_sessions` DISABLE KEYS */;
 INSERT INTO `tbl_sessions` (`session_id`, `ip_address`, `user_agent`, `last_activity`, `user_data`, `prevent_update`) VALUES
@@ -964,7 +987,9 @@ INSERT INTO `tbl_sessions` (`session_id`, `ip_address`, `user_agent`, `last_acti
 	('b25081a0ccd7eb5c46748b7ed8176d2e', '127.0.0.1', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:35.0) Gecko/20100101 Firefox/35.0', 1426514266, 'a:9:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-03-19";s:7:"user_id";s:1:"1";s:4:"user";s:5:"admin";s:9:"validated";b:1;s:9:"menu_list";s:68:"1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26";s:11:"curr_method";s:23:"generate_event_calendar";s:7:"curr_id";s:1:"1";s:12:"captcha_word";s:5:"31680";}', NULL),
 	('b85cd3083a8dac0d5984c07381706bb1', '127.0.0.1', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:35.0) Gecko/20100101 Firefox/35.0', 1425784805, 'a:9:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-03-09";s:7:"curr_id";s:1:"1";s:12:"captcha_word";s:5:"37572";s:7:"user_id";s:1:"1";s:4:"user";s:5:"admin";s:9:"validated";b:1;s:9:"menu_list";s:56:"1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22";s:11:"curr_method";s:23:"generate_event_calendar";}', NULL),
 	('bdf61dfa4c10b47fca384e35a2b5a21d', '127.0.0.1', 'Opera/9.80 (X11; Linux x86_64; Edition Linux Mint) Presto/2.12.388 Version/12.16', 1425575648, 'a:2:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-03-06";}', NULL),
-	('ccadd869b9465040d51767f8aa13c4c0', '127.0.0.1', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:36.0) Gecko/20100101 Firefox/36.0', 1427779601, 'a:8:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-03-31";s:7:"user_id";s:1:"1";s:4:"user";s:5:"admin";s:9:"validated";b:1;s:9:"menu_list";s:71:"1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27";s:11:"curr_method";s:22:"aduan_apresiasi_detail";s:12:"captcha_word";s:5:"50744";}', NULL);
+	('c4add305c5bcb898be6b8e5a9c42599e', '127.0.0.1', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:36.0) Gecko/20100101 Firefox/36.0', 1428041700, 'a:7:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-04-03";s:7:"user_id";s:1:"1";s:4:"user";s:5:"admin";s:9:"validated";b:1;s:9:"menu_list";s:74:"1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28";s:11:"curr_method";s:5:"index";}', NULL),
+	('ccadd869b9465040d51767f8aa13c4c0', '127.0.0.1', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:36.0) Gecko/20100101 Firefox/36.0', 1427779601, 'a:8:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-03-31";s:7:"user_id";s:1:"1";s:4:"user";s:5:"admin";s:9:"validated";b:1;s:9:"menu_list";s:71:"1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27";s:11:"curr_method";s:22:"aduan_apresiasi_detail";s:12:"captcha_word";s:5:"50744";}', NULL),
+	('eede59ad3bc3a7f1a8c1c611337dd997', '127.0.0.1', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:36.0) Gecko/20100101 Firefox/36.0', 1428041325, 'a:2:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-04-03";}', NULL);
 /*!40000 ALTER TABLE `tbl_sessions` ENABLE KEYS */;
 
 
@@ -974,9 +999,9 @@ CREATE TABLE IF NOT EXISTS `view_stats` (
   `ip` varchar(50) NOT NULL DEFAULT '0',
   `tgl` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=latin1;
 
--- Dumping data for table disdik.view_stats: ~35 rows (approximately)
+-- Dumping data for table disdik.view_stats: ~36 rows (approximately)
 DELETE FROM `view_stats`;
 /*!40000 ALTER TABLE `view_stats` DISABLE KEYS */;
 INSERT INTO `view_stats` (`id`, `ip`, `tgl`) VALUES
@@ -1041,7 +1066,10 @@ INSERT INTO `view_stats` (`id`, `ip`, `tgl`) VALUES
 	(59, '127.0.0.1', '2015-03-31 08:20:27'),
 	(60, '127.0.0.1', '2015-03-31 08:41:56'),
 	(61, '127.0.0.1', '2015-03-31 11:50:05'),
-	(62, '127.0.0.1', '2015-03-31 12:26:41');
+	(62, '127.0.0.1', '2015-03-31 12:26:41'),
+	(63, '127.0.0.1', '2015-04-03 13:02:45'),
+	(64, '127.0.0.1', '2015-04-03 13:08:45'),
+	(65, '127.0.0.1', '2015-04-03 13:15:00');
 /*!40000 ALTER TABLE `view_stats` ENABLE KEYS */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;

@@ -19,4 +19,3 @@
 		  <div id="googleMap" style="width:496px;height:400px;"></div>	
 		  <?php } ?>
 		</div>
-<!--/span-->

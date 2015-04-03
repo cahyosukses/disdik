@@ -161,6 +161,7 @@
             <div class="navbar-inner">
                <ul class="nav">
                   <li><a href="<?php echo base_URL()?>tampil" class="depan">Beranda</a></li>
+                  
                   <li class="dropdown">
                      <a data-toggle="dropdown" href="#" class="dropdown-toggle depan">Profil &nbsp;&nbsp;<b class="caret"></b></a>     
                      <ul class="dropdown-menu">
@@ -174,6 +175,21 @@
                            ?>
                      </ul>
                   </li>
+
+                  <li class="dropdown">
+                     <a data-toggle="dropdown" href="#" class="dropdown-toggle depan">Program &nbsp;&nbsp;<b class="caret"></b></a>     
+                     <ul class="dropdown-menu">
+                        <?php 
+                           $q_menu_program = $this->db->query("SELECT id, judul FROM program")->result();
+                           foreach ($q_menu_program as $prog) {
+                           ?>
+                        <li><a href="<?php echo base_URL()?>tampil/program/<?php echo $prog->id?>/<?php echo getURLFriendly($prog->judul)?>"><?php echo $prog->judul?></a></li>
+                        <?php
+                           }
+                           ?>
+                     </ul>
+                  </li>
+
                   <li class="dropdown">
                      <a data-toggle="dropdown" href="#" class="dropdown-toggle depan">Data dan Informasi &nbsp;&nbsp;<b class="caret"></b></a>     
                      <ul class="dropdown-menu">
@@ -191,6 +207,7 @@
                         <li><a href="<?php echo base_URL()?>tampil/daftar_sekolah">Daftar Nama dan Alamat Sekolah</a></li>
                      </ul>
                   </li>
+                  
                   <li class="dropdown">
                      <a data-toggle="dropdown" href="#" class="dropdown-toggle depan">Produk Hukum &nbsp;&nbsp;<b class="caret"></b></a>     
                      <ul class="dropdown-menu">
@@ -209,7 +226,7 @@
                      <a data-toggle="dropdown" href="#" class="dropdown-toggle depan">Galeri &nbsp;&nbsp;<b class="caret"></b></a>     
                      <ul class="dropdown-menu">
                         <li><a href="<?php echo base_URL()?>tampil/galeri" class="depan">Album Foto</a></li>
-                        <li><a href="<?php echo base_URL()?>tampil/galeri_video" class="depan">Album Video</a></li>
+                        <!--<li><a href="<?php echo base_URL()?>tampil/galeri_video" class="depan">Album Video</a></li>-->
                      </ul>
                   </li>
                </ul>
@@ -303,6 +320,50 @@
                   </ul>
                </div>
                <!--/.well -->
+               <!-- pengumuman -->
+               <div class="wellwhite sidebar-nav">
+                  <ul class="nav nav-list">
+                     <li class="nav-header" style=""><i class="icon-bullhorn"></i>Pengumuman</li>
+                  </ul>
+                  <div id="box-pengumuman">
+                     <div class="panel panel-default">
+                        <div class="panel-body">
+                           <div class="row-fluid">
+                              <div class="span12">
+                                 <ul class="pengumuman">
+                                    <?php $p = $this->db->query("SELECT * FROM pengumuman WHERE publish = 'Y' ORDER BY tglPost DESC LIMIT 10");?>
+                                    <?php if($p->num_rows() == 0){ ?>
+                                    <li class="news-item">
+                                       <span class="label label-default">
+                                       <span class="icon-time"></span>                                       
+                                       00:00:00
+                                       </span><br>
+                                       <a href="" title="Belum Ada Data Pengumuman">Belum Ada Data Pengumuman</a>
+                                    </li>
+                                    <?php }else{ ?>
+                                    <?php foreach ($p->result() as $p_list){ ?>
+                                    <li class="news-item">
+                                       <span class="label label-default">
+                                       <span class="icon-time"></span>
+                                       <?php echo tgl_panjang($p_list->tglPost,'sm');?></span><br>
+                                       <a href="<?php echo base_URL() . 'tampil/pengumuman/detail/' . $p_list->id;?>" title="<?php echo $p_list->judul;?>"><?php echo substr($p_list->judul,0,30) . '...';?></a>
+                                    </li>
+                                    <?php } ?>     
+                                    <?php } ?>                            
+                                 </ul>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="panel-footer">
+                           <a button href="<?php echo base_URL() . 'tampil/pengumuman';?>" type="button" class="btn btn-success btn-small" data-toggle="tooltip" data-placement="right" title="Klik untuk pengumuman lainya">
+                              <i class="icon-th-list"></i> Index Pengumuman
+                           </a>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+
+
                <?php 
                   if ($this->session->userdata('siswa_validated') != FALSE && $this->session->userdata('siswa_id') != "") {
                   ?>
@@ -419,57 +480,16 @@
                </div>
             </div>
             
-            <div class="span6">
+            <div class="span9">
             <?php
                $page_name .= ".php";
                include $page_name;
             ?>
             </div>
+            <!--
             <div class="span3">
-               <!-- pengumuman -->
-               <div class="wellwhite sidebar-nav">
-                  <ul class="nav nav-list">
-                     <li class="nav-header" style=""><i class="icon-bullhorn"></i>Pengumuman</li>
-                  </ul>
-                  <div id="box-pengumuman">
-                     <div class="panel panel-default">
-                        <div class="panel-body">
-                           <div class="row-fluid">
-                              <div class="span12">
-                                 <ul class="pengumuman">
-                                    <?php $p = $this->db->query("SELECT * FROM pengumuman WHERE publish = 'Y' ORDER BY tglPost DESC LIMIT 10");?>
-                                    <?php if($p->num_rows() == 0){ ?>
-                                    <li class="news-item">
-                                       <span class="label label-default">
-                                       <span class="icon-time"></span>                                       
-                                       00:00:00
-                                       </span><br>
-                                       <a href="" title="Belum Ada Data Pengumuman">Belum Ada Data Pengumuman</a>
-                                    </li>
-                                    <?php }else{ ?>
-                                    <?php foreach ($p->result() as $p_list){ ?>
-                                    <li class="news-item">
-                                       <span class="label label-default">
-                                       <span class="icon-time"></span>
-                                       <?php echo tgl_panjang($p_list->tglPost,'sm');?></span><br>
-                                       <a href="<?php echo base_URL() . 'tampil/pengumuman/detail/' . $p_list->id;?>" title="<?php echo $p_list->judul;?>"><?php echo substr($p_list->judul,0,30) . '...';?></a>
-                                    </li>
-                                    <?php } ?>     
-                                    <?php } ?>                            
-                                 </ul>
-                              </div>
-                           </div>
-                        </div>
-                        <div class="panel-footer">
-                           <a button href="<?php echo base_URL() . 'tampil/pengumuman';?>" type="button" class="btn btn-success btn-small" data-toggle="tooltip" data-placement="right" title="Klik untuk pengumuman lainya">
-                              <i class="icon-th-list"></i> Index Pengumuman
-                           </a>
-                        </div>
-                     </div>
-                  </div>
-               </div>
 
-               <!--pengaduan -->
+               
                <div class="wellwhite sidebar-nav">
                   <ul class="nav nav-list">
                      <li class="nav-header" style=""><i class="icon-bullhorn"></i>Pojok Aduan</li>
@@ -548,7 +568,7 @@
 
                </div>
                
-               <!--apresiasi -->
+               
                <div class="wellwhite sidebar-nav">
                   <ul class="nav nav-list">
                      <li class="nav-header" style=""><i class="icon-bullhorn"></i>Ruang Apresiasi</li>
@@ -628,12 +648,12 @@
                </div>
 
             </div>
-
+            -->   
             <div class="span12" style="margin-left: 5px">
                <div class="span6 wellwhite">
                   <div class="span12">
-                     <legend>Galeri Video</legend>
-                     
+                     <legend>Galeri Foto</legend>
+                     <!--
                      <?php 
                         $q_galeri_depan = $this->db->query("SELECT * FROM galeri_video ORDER BY RAND() DESC LIMIT 8")->result();
                         
@@ -642,18 +662,18 @@
                         <img class="span3 image-polaroid" src="<?php echo base_URL()."timthumb?src=http://img.youtube.com/vi/". $qg->video_id ."/0.jpg";?>&w=99&h=70&zc=0" style="height: 70px; margin: 0 8px 10px 0">
                      </a>
                      <?php } ?>
-                    
+                    -->
                      
-                     <!--   
+                     
                      <?php 
                         $q_galeri_depan = $this->db->query("SELECT * FROM galeri ORDER BY RAND() DESC LIMIT 8")->result();
                         
                         foreach($q_galeri_depan as $qg){ ?>
-                     <a class="fancybox" href="<?php echo base_URL()."upload/galeri/".$qg->file;?>" data-fancybox-group="gallery" title="<?php echo strtoupper($qg->judul)?>">
-                        <img class="span3 image-polaroid" src="<?php echo base_URL()."timthumb?src=/upload/galeri/".$qg->file;?>&w=99&h=70&zc=0" style="height: 70px; margin: 0 8px 10px 0">
-                     </a>
+                        <a class="fancybox" href="<?php echo base_URL()."upload/galeri/".$qg->file;?>" data-fancybox-group="gallery" title="<?php echo strtoupper($qg->judul)?>">
+                           <img class="span3 image-polaroid" src="<?php echo base_URL()."timthumb?src=/upload/galeri/".$qg->file;?>&w=99&h=70&zc=0" style="height: 70px; margin: 0 8px 10px 0">
+                        </a>
                      <?php } ?>
-                     -->
+                     
                   </div>
                </div>
                <div class="span3 wellwhite">
@@ -708,11 +728,37 @@
                      ?>
                   </ul>
                </div>
+               <div class="span3">
+                  <font style="color:#00acee; font-weight:bold; text-align:left; margin-left:20px;">PROGRAM</font>      
+                  <ul>
+                    <?php 
+                     $q_menu_program = $this->db->query("SELECT id, judul FROM program")->result();
+                     foreach ($q_menu_program as $footer_prog) {
+                     ?>
+                     <li><a href="<?php echo base_URL()?>tampil/program/<?php echo $footer_prog->id?>/<?php echo getURLFriendly($footer_prog->judul)?>"><?php echo $footer_prog->judul?></a></li>
+                     <?php
+                     }
+                     ?>
+                  </ul>
+               </div>
+               <div class="span3">
+                  <font style="color:#00acee; font-weight:bold; text-align:left; margin-left:20px;">PRODUK HUKUM</font>      
+                  <ul>
+                    <?php 
+                     $q_menu_ph = $this->db->query("SELECT id, judul FROM data_produk_hukum")->result();
+                     foreach ($q_menu_ph as $footer_ph) {
+                     ?>
+                     <li><a href="<?php echo base_URL()?>tampil/data_produk_hukum/<?php echo $footer_ph->id?>/<?php echo getURLFriendly($footer_ph->judul)?>"><?php echo $footer_ph->judul?></a></li>
+                     <?php
+                     }
+                     ?>
+                  </ul>
+               </div>
+               <!--
                <div class="span6">
-               <font style="color:#00acee; font-weight:bold; text-align:left; margin-left:20px;">NEWSLETTER</font>      
+                  <font style="color:#00acee; font-weight:bold; text-align:left; margin-left:20px;">NEWSLETTER</font>      
                   <div id="ahgallery01">
-                     <ul class="hover_block0 bottom_block">
-                        <!--galleryEntry 1 -->
+                     <ul class="hover_block0 bottom_block">                       
                         <?php $newsletter = $this->basecrud_m->get('newsletter');?>
                         <?php foreach ($newsletter->result() as $nwsl) { ?>
                         <li class="ahitem">
@@ -727,6 +773,7 @@
                      </ul>
                   </div> 
                </div>
+               -->
             </div>
          </div>
          <!--/row-->

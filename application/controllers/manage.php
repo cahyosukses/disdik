@@ -3551,55 +3551,9 @@ class Manage extends MY_Controller {
 		$this->load->view('manage/tampil', $m);
 	}
 	
-	/*
-	public function kategori() {
-		
-		
-		if(! $this->session->userdata('validated')){
-            redirect('tampil/login');
-        }
-        
-		
-		$mau_ke					= $this->uri->segment(3);
-		$id						= $this->uri->segment(4);
-		
-		//view tampilan website\
-		$m['kategori']	= $this->db->query("SELECT * FROM kat")->result();
-		$m['page']		= "v_kategori";		
-		
-		if ($mau_ke == "del") {
-			$this->db->query("DELETE FROM kat WHERE id = '$id'");
-			$this->session->set_flashdata("k", "<div class=\"alert alert-success\">Kategori berhasil dihapuskan </div>");
-			redirect('manage/kategori');
-		} else if ($mau_ke == "add") {
-			$m['page']	= "f_kategori";
-		} else if ($mau_ke == "edit") {
-			$id_kategori		= $this->uri->segment(4);
-			$m['kat_pilih']		= $this->db->query("SELECT * FROM kat WHERE id = '".$id_kategori."'")->row();	
-			$m['page']			= "f_kategori";
-		} else if ($mau_ke == "act_add") {
-			$this->db->query("INSERT INTO kat VALUES ('', '".$this->input->post('nama')."')");
-			$this->session->set_flashdata("k", "<div class=\"alert alert-success\">Kategori berhasil ditambahkan</div>");
-			redirect('manage/kategori');
-		} else if ($mau_ke == "act_edit") {			
-			$this->db->query("UPDATE kat SET  nama = '".addslashes($this->input->post('nama'))."' WHERE id = '".$this->input->post('id_data')."'");
-			$this->session->set_flashdata("k", "<div class=\"alert alert-success\">Kategori berhasil diedit</div>");
-			redirect('manage/kategori');
-		} else {
-			$m['page']	= "v_kategori";
-		}
-
-		$this->load->view('manage/tampil', $m);
-	}
-	*/
 	
 	public function profil() {
-		
-		/*
-		if(! $this->session->userdata('validated')){
-            redirect('tampil/login');
-        }
-        */
+
 		
 		$mau_ke					= $this->uri->segment(3);
 		$idu					= $this->uri->segment(4);
@@ -3613,7 +3567,7 @@ class Manage extends MY_Controller {
 		$m['page']		= "v_profil";		
 		
 		if ($mau_ke == "del") {
-			$this->db->query("DELETE FROM profil WHERE id = '$id'");
+			$this->db->query("DELETE FROM profil WHERE id = '$idu'");
 			$this->session->set_flashdata("k", "<div class=\"alert alert-success\">Data berhasil dihapuskan </div>");
 			redirect('manage/profil');
 		} else if ($mau_ke == "add") {
@@ -3638,96 +3592,51 @@ class Manage extends MY_Controller {
 		$this->load->view('manage/tampil', $m);
 	}
 
-
-	/*
-	public function data_informasi() {
-		if(! $this->session->userdata('validated')){
-            redirect('tampil/login');
-        }
+	public function program() {
 		
-		$mau_ke					= $this->uri->segment(3);
-		$idu					= $this->uri->segment(4);
-		
-		//var post 
-		$idp		= addslashes($this->input->post('idp'));
-		$judul		= addslashes($this->input->post('judul'));
-		$isi		= addslashes($this->input->post('isi'));
-		//view tampilan website\
-		$m['data']	= $this->db->query("SELECT * FROM data_informasi")->result();
-		$m['page']		= "v_data_informasi";		
-		
-		if ($mau_ke == "del") {
-			$this->db->query("DELETE FROM data_informasi WHERE id = '$id'");
-			$this->session->set_flashdata("k", "<div class=\"alert alert-success\">Data berhasil dihapuskan </div>");
-			redirect('manage/data_informasi');
-		} else if ($mau_ke == "add") {
-			$m['page']	= "f_data_informasi";
-		} else if ($mau_ke == "edit") {
-			$m['datpil']		= $this->db->query("SELECT * FROM data_informasi WHERE id = '".$idu."'")->row();	
-			$m['page']			= "f_data_informasi";
-		} else if ($mau_ke == "act_add") {
-			$this->db->query("INSERT INTO data_informasi VALUES ('', '$judul', '$isi')");
-			$this->session->set_flashdata("k", "<div class=\"alert alert-success\">Data berhasil ditambahkan</div>");
-			redirect('manage/data_informasi');
-		} else if ($mau_ke == "act_edit") {			
-			$this->db->query("UPDATE data_informasi SET  judul = '$judul', isi = '$isi' WHERE id = '$idp'");
-			$this->session->set_flashdata("k", "<div class=\"alert alert-success\">Data berhasil diedit</div>");
-			redirect('manage/data_informasi');
-		} else {
-			$m['page']	= "v_data_informasi";
-		}
-
-		$this->load->view('manage/tampil', $m);
-	}*/
 	
-	/*
-	public function data_produk_hukum() {
-		if(! $this->session->userdata('validated')){
-            redirect('tampil/login');
-        }
-		
 		$mau_ke					= $this->uri->segment(3);
 		$idu					= $this->uri->segment(4);
 		
 		//var post 
 		$idp		= addslashes($this->input->post('idp'));
 		$judul		= addslashes($this->input->post('judul'));
-		$isi		= addslashes($this->input->post('isi'));
+		$isi		= $this->input->post('isi');
 		//view tampilan website\
-		$m['data']	= $this->db->query("SELECT * FROM data_produk_hukum")->result();
-		$m['page']		= "v_data_produk_hukum";		
+		$m['data']	= $this->db->query("SELECT * FROM program")->result();
+		$m['page']		= "v_program";		
 		
 		if ($mau_ke == "del") {
-			$this->db->query("DELETE FROM data_produk_hukum WHERE id = '$id'");
+			$this->db->query("DELETE FROM program WHERE id = '$idu'");
 			$this->session->set_flashdata("k", "<div class=\"alert alert-success\">Data berhasil dihapuskan </div>");
-			redirect('manage/data_produk_hukum');
+			redirect('manage/program');
 		} else if ($mau_ke == "add") {
-			$m['page']	= "f_data_produk_hukum";
+			$m['page']	= "f_program";
 		} else if ($mau_ke == "edit") {
-			$m['datpil']		= $this->db->query("SELECT * FROM data_produk_hukum WHERE id = '".$idu."'")->row();	
-			$m['page']			= "f_data_produk_hukum";
+			$m['datpil']		= $this->db->query("SELECT * FROM program WHERE id = '".$idu."'")->row();	
+			$m['page']			= "f_program";
 		} else if ($mau_ke == "act_add") {
-			$this->db->query("INSERT INTO data_produk_hukum VALUES ('', '$judul', '$isi')");
+			$this->db->query("INSERT INTO program VALUES ('', '$judul', '$isi')");
 			$this->session->set_flashdata("k", "<div class=\"alert alert-success\">Data berhasil ditambahkan</div>");
-			redirect('manage/data_produk_hukum');
+			redirect('manage/program');
 		} else if ($mau_ke == "act_edit") {			
-			$this->db->query("UPDATE data_produk_hukum SET  judul = '$judul', isi = '$isi' WHERE id = '$idp'");
+			
+			$this->db->query("UPDATE program SET  judul = '$judul', isi = '$isi' WHERE id = '$idp'");
 			$this->session->set_flashdata("k", "<div class=\"alert alert-success\">Data berhasil diedit</div>");
-			redirect('manage/data_produk_hukum');
+			
+			redirect('manage/program');
 		} else {
-			$m['page']	= "v_data_produk_hukum";
+			$m['page']	= "v_program";
 		}
 
 		$this->load->view('manage/tampil', $m);
 	}
-	*/
+
+
+
 
 	public function komentar() {
-		/*
-		if(! $this->session->userdata('validated')){
-            redirect('tampil/login');
-        }
-		*/
+
 		//ambil variabel URL
 		$mau_ke					= $this->uri->segment(3);
 		$id						= $this->uri->segment(4);
@@ -3781,11 +3690,6 @@ class Manage extends MY_Controller {
 	
 	
 	public function bukutamu() {
-		/*
-		if(! $this->session->userdata('validated')){
-            redirect('tampil/login');
-        }
-        */
 		
 		//ambil variabel URL
 		$mau_ke					= $this->uri->segment(3);

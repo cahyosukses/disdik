@@ -266,6 +266,23 @@ class Tampil extends My_Controller {
 		$this->_generate_page($web);
 	}
 
+	public function program() {
+		
+		$web['title']	= '.:: Website Dinas Pendidikan Provinsi Jambi  ::.';
+		$id				= $this->uri->segment(3);
+		$program = $this->db->query("SELECT * FROM program WHERE id = '$id'");
+		
+		if($program->num_rows() == 0){
+			redirect(base_URL() . 'tampil','reload');
+		}
+
+		$web['program']	= $program->row();
+
+		$web['page_name'] = 'v_program';
+		$this->_generate_page($web);
+	}
+
+
 	/*
 	public function data_informasi() {
 		$web['title']	= '.:: Data dan Informasi Dinas Pendidikan Provinsi Jambi  ::.';
