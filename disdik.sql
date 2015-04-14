@@ -356,6 +356,115 @@ INSERT INTO `ekspresi_tanggapan` (`id`, `id_ekspresi`, `nama`, `email`, `alamat`
 /*!40000 ALTER TABLE `ekspresi_tanggapan` ENABLE KEYS */;
 
 
+-- Dumping structure for table disdik.forum_categories
+CREATE TABLE IF NOT EXISTS `forum_categories` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `parent_id` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `slug` varchar(100) NOT NULL,
+  `date_added` datetime NOT NULL,
+  `date_edit` datetime NOT NULL,
+  `publish` int(1) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+
+-- Dumping data for table disdik.forum_categories: ~0 rows (approximately)
+DELETE FROM `forum_categories`;
+/*!40000 ALTER TABLE `forum_categories` DISABLE KEYS */;
+INSERT INTO `forum_categories` (`id`, `parent_id`, `name`, `slug`, `date_added`, `date_edit`, `publish`) VALUES
+	(1, 0, 'kategori a', 'kategori-a', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0),
+	(2, 1, 'sub kategori a', 'sub-kategori-a', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0),
+	(3, 0, 'kategori b', 'kategori-b', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0),
+	(4, 3, 'sub kategori b', 'sub-kategori-b', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0);
+/*!40000 ALTER TABLE `forum_categories` ENABLE KEYS */;
+
+
+-- Dumping structure for table disdik.forum_posts
+CREATE TABLE IF NOT EXISTS `forum_posts` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `thread_id` int(11) NOT NULL,
+  `reply_to_id` int(11) NOT NULL,
+  `author_id` int(11) NOT NULL,
+  `post` text NOT NULL,
+  `date_add` datetime NOT NULL,
+  `date_edit` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+-- Dumping data for table disdik.forum_posts: ~0 rows (approximately)
+DELETE FROM `forum_posts`;
+/*!40000 ALTER TABLE `forum_posts` DISABLE KEYS */;
+INSERT INTO `forum_posts` (`id`, `thread_id`, `reply_to_id`, `author_id`, `post`, `date_add`, `date_edit`) VALUES
+	(1, 1, 0, 1, 'isi thread', '2015-04-14 09:07:52', '0000-00-00 00:00:00'),
+	(2, 1, 1, 1, '<div style="font-size:11px; background: #e3e3e3;padding:5px;">posted by <b>@admin</b><p><i>isi thread</i></p></div><br>test reply', '2015-04-14 09:08:08', '0000-00-00 00:00:00');
+/*!40000 ALTER TABLE `forum_posts` ENABLE KEYS */;
+
+
+-- Dumping structure for table disdik.forum_roles
+CREATE TABLE IF NOT EXISTS `forum_roles` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `role` varchar(50) NOT NULL,
+  `admin_area` int(1) NOT NULL DEFAULT '0',
+  `thread_create` int(1) NOT NULL DEFAULT '0',
+  `thread_edit` int(1) NOT NULL DEFAULT '0',
+  `thread_delete` int(1) NOT NULL DEFAULT '0',
+  `post_create` int(1) NOT NULL DEFAULT '0',
+  `post_edit` int(1) NOT NULL DEFAULT '0',
+  `post_delete` int(1) NOT NULL DEFAULT '0',
+  `role_create` int(1) NOT NULL DEFAULT '0',
+  `role_edit` int(1) NOT NULL DEFAULT '0',
+  `role_delete` int(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+-- Dumping data for table disdik.forum_roles: ~0 rows (approximately)
+DELETE FROM `forum_roles`;
+/*!40000 ALTER TABLE `forum_roles` DISABLE KEYS */;
+INSERT INTO `forum_roles` (`id`, `role`, `admin_area`, `thread_create`, `thread_edit`, `thread_delete`, `post_create`, `post_edit`, `post_delete`, `role_create`, `role_edit`, `role_delete`) VALUES
+	(1, 'administrator', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+	(2, 'member', 0, 1, 0, 0, 1, 0, 0, 0, 0, 0);
+/*!40000 ALTER TABLE `forum_roles` ENABLE KEYS */;
+
+
+-- Dumping structure for table disdik.forum_threads
+CREATE TABLE IF NOT EXISTS `forum_threads` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `category_id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `slug` varchar(255) NOT NULL,
+  `date_add` datetime NOT NULL,
+  `date_edit` datetime NOT NULL,
+  `date_last_post` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+-- Dumping data for table disdik.forum_threads: ~0 rows (approximately)
+DELETE FROM `forum_threads`;
+/*!40000 ALTER TABLE `forum_threads` DISABLE KEYS */;
+INSERT INTO `forum_threads` (`id`, `category_id`, `title`, `slug`, `date_add`, `date_edit`, `date_last_post`) VALUES
+	(1, 2, 'ini adalah thread pertama', 'ini-adalah-thread-pertama', '2015-04-14 09:07:52', '0000-00-00 00:00:00', '2015-04-14 09:07:52');
+/*!40000 ALTER TABLE `forum_threads` ENABLE KEYS */;
+
+
+-- Dumping structure for table disdik.forum_users
+CREATE TABLE IF NOT EXISTS `forum_users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `role_id` int(11) NOT NULL,
+  `username` varchar(50) NOT NULL,
+  `password` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+-- Dumping data for table disdik.forum_users: ~0 rows (approximately)
+DELETE FROM `forum_users`;
+/*!40000 ALTER TABLE `forum_users` DISABLE KEYS */;
+INSERT INTO `forum_users` (`id`, `role_id`, `username`, `password`) VALUES
+	(1, 1, 'admin', '21232f297a57a5a743894a0e4a801fc3'),
+	(2, 2, 'member', 'aa08769cdcb26674c6706093503ff0a3'),
+	(3, 2, 'trias', '5e2f28bfc775b48991e1a58fc8ea0791');
+/*!40000 ALTER TABLE `forum_users` ENABLE KEYS */;
+
+
 -- Dumping structure for table disdik.galeri
 CREATE TABLE IF NOT EXISTS `galeri` (
   `id` int(4) NOT NULL AUTO_INCREMENT,
@@ -600,7 +709,7 @@ CREATE TABLE IF NOT EXISTS `manage_menu` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=latin1;
 
--- Dumping data for table disdik.manage_menu: ~27 rows (approximately)
+-- Dumping data for table disdik.manage_menu: ~28 rows (approximately)
 DELETE FROM `manage_menu`;
 /*!40000 ALTER TABLE `manage_menu` DISABLE KEYS */;
 INSERT INTO `manage_menu` (`id`, `sort`, `name`, `method`, `show`) VALUES
@@ -618,12 +727,12 @@ INSERT INTO `manage_menu` (`id`, `sort`, `name`, `method`, `show`) VALUES
 	(12, 12, 'Buku Tamu', 'bukutamu', 'Y'),
 	(13, 13, 'Ide & Saran', 'ide_saran', 'Y'),
 	(14, 14, 'Ekspresi', 'ekspresi', 'Y'),
-	(15, 15, 'Aduan', 'aduan', 'Y'),
-	(16, 16, 'Apresiasi', 'apresiasi', 'Y'),
+	(15, 15, 'Aduan', 'aduan', 'N'),
+	(16, 16, 'Apresiasi', 'apresiasi', 'N'),
 	(17, 17, 'Pojok Opini', 'opini', 'Y'),
 	(18, 18, 'Link/Tautan', 'link', 'Y'),
 	(19, 19, 'Agenda', 'agenda', 'Y'),
-	(20, 20, 'Newsletter', 'newsletter', 'Y'),
+	(20, 20, 'Newsletter', 'newsletter', 'N'),
 	(21, 21, 'Managemen User', 'user', 'Y'),
 	(22, 22, 'Web Settings', 'settings', 'Y'),
 	(23, 23, 'Edit Profile', 'passwod', 'Y'),
@@ -864,18 +973,18 @@ CREATE TABLE IF NOT EXISTS `program` (
   `judul` varchar(200) NOT NULL,
   `isi` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
--- Dumping data for table disdik.program: ~0 rows (approximately)
+-- Dumping data for table disdik.program: ~8 rows (approximately)
 DELETE FROM `program`;
 /*!40000 ALTER TABLE `program` DISABLE KEYS */;
 INSERT INTO `program` (`id`, `judul`, `isi`) VALUES
 	(1, 'Sekretaris', ''),
-	(2, 'Bidang DIKDAS', '<p>test bidang dikdas</p>'),
+	(2, 'Bidang DIKDAS', '<p>test bidang dikdas update</p>'),
 	(3, 'Bidang DIKMEN', ''),
 	(4, 'Bidang PAUD', ''),
 	(5, 'Bidang MONEV', ''),
-	(6, 'BTIKP', ''),
+	(6, 'BTIKP', '<p style="margin-bottom: 0in; line-height: 100%;" align="center"><span style="font-size: medium;"><strong>PROGRAM DAN KEGIATAN</strong></span></p>\n<p style="margin-bottom: 0in; line-height: 100%;" align="center"><span style="font-size: medium;"><strong>BALAI TEKNOLOGI INFORMASI DAN KOMUNIKASI PENDIDIKAN</strong></span></p>\n<p style="margin-bottom: 0in; line-height: 100%;" align="center"><span style="font-size: medium;"><strong>DINAS PENDIDIKAN PROVINSI JAMBI</strong></span></p>\n<p style="margin-bottom: 0in; line-height: 100%;" align="center"><span style="font-size: medium;"><strong>TAHUN 2015</strong></span></p>\n<p style="margin-bottom: 0in; line-height: 100%;">&nbsp;</p>\n<ol type="A">\n<li>\n<p style="margin-bottom: 0in; line-height: 150%;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><strong>PENDAHULUAN</strong></span></span></p>\n</li>\n</ol><ol>\n<li>\n<p style="margin-bottom: 0in; line-height: 150%;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><strong>Dasar </strong></span></span></p>\n</li>\n</ol><ol type="a">\n<li>\n<p style="margin-bottom: 0in; line-height: 150%;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><strong>Pemikiran</strong></span></span></p>\n</li>\n</ol>\n<p style="margin-left: 0.64in; margin-bottom: 0.14in; line-height: 150%;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Pendidikan modern sudah tidak bisa lagi hanya bertahan pada model pembelajaran konvesional dimana antara guru dan murid belajar secara satu arah. Guru masih bertahan dengan pola konvesional akan tertinggal dan akhirnya akan menghasilkan anak didik yang tidak mampu bersaing di tingkat global. Oleh sebab itu mau tidak mau, mampu atau tidak mampu maka guru harus menguasai teknologi. Demikian juga dengan institusi sekolah, harus secara terbuka untuk menerima fenomena kecanggihan teknologi dengan pemanfaatan dan penguasaan secara tepat. Institusi sekolah sudah saatnya mempersiapkan perangkat-perangkat yang dapat di manfaatkan oleh guru dan siswa dalam mengaplikasikan teknologi. </span></span></p>\n<ol type="a" start="2">\n<li>\n<p style="margin-bottom: 0in; line-height: 150%;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><strong>Ketentuan hukum</strong></span></span></p>\n</li>\n</ol><ol>\n<li>\n<p style="margin-bottom: 0in; line-height: 150%; widows: 0; orphans: 0;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Undang-undang Nomor 20 tahun 2003 tentang Sistem Pendidikan Nasional (Lembaga Negara Republik Indonesia Tahun 2003 Nomor 78 Tambahan Negara Nomor 4301);</span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in; line-height: 150%;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><span lang="nb-NO">Peraturan Pemerintah Nomor 41 Tahun 2007 tentang Organisasi Perangkat Daerah</span></span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in; line-height: 150%; widows: 0; orphans: 0;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Permendagri Nomor 13 Tahun 2006 tentang pedoman pengelolaan keuangan daerah.</span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in; line-height: 150%; widows: 0; orphans: 0;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Peraturan Presiden Nomor 54 Tahun 2010 tentang pengadaan barang dan jasa pemerintah.</span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in; line-height: 150%; widows: 0; orphans: 0;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Perda Nomor 04 Tahun 2011 tentang Penyelenggaraan Pendidikan.</span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in; line-height: 150%; widows: 0; orphans: 0;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Peraturan Gubernur Jambi No 1 Tahun 2014 tentang Perubahan Keempat Atas Peraturan Gubernur Jambi Nomor 1 Tahun 2009 tentang Organisasi dan Tata Kerja Unit Pelaksana Teknis Dinas (UPTD) pada Dinas dan Badan Daerah Provinsi Jambi.</span></span></p>\n</li>\n</ol>\n<p style="margin-left: 0.89in; margin-bottom: 0.14in; line-height: 150%; widows: 0; orphans: 0;" align="justify"><br /><br /></p>\n<ol start="2">\n<li>\n<p style="margin-bottom: 0in; line-height: 150%; widows: 0; orphans: 0;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><strong>Tujuan</strong></span></span></p>\n</li>\n</ol><ol type="a">\n<li>\n<p style="margin-bottom: 0in; line-height: 150%; widows: 0; orphans: 0;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><strong>Umum </strong></span></span></p>\n</li>\n</ol>\n<p style="margin-left: 0.69in; margin-bottom: 0.14in; line-height: 150%;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Balai Teknologi Informasi dan Komunikasi Pendidikan (BTIKP) merupakan salah satu Unit Pelaksana Teknis Dinas Pendidikan Provinsi Jambi yang di bentuk berdasarkan Peraturan Gubernur Jambi Nomor 1 Tahun 2014 tentang Perubahan Keempat Atas Peraturan Gubernur Jambi Nomor 1 Tahun 2009 tentang Organisasi dan Tata Kerja Unit Pelaksana Teknis Dinas (UPTD) pada Dinas dan Badan Daerah Provinsi Jambi.</span></span></p>\n<p style="margin-left: 0.69in; margin-bottom: 0.14in; line-height: 150%;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Tugas Pokok dan Fungsi UPTD Balai Teknologi Informasi dan Komunikasi Pendidikan pada Dinas Pendidikan Provinsi Jambi adalah </span></span><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><em>melaksanakan sebagian kewenangan dan tugas teknis tertentu yang diberikan Dinas Pendidikan Provinsi Jambi di bidang Pengembangan, pembinaan, </em></span></span><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><em><strong>pelatihan</strong></em></span></span><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><em>, evaluasi kegiatan Teknologi Pendidikan dan Pendayagunaan Teknologi, Informasi dan Komunikasi untuk Pendidikan serta sebagai pusat data pendidikan.</em></span></span></p>\n<ol type="a" start="2">\n<li>\n<p style="margin-bottom: 0in; line-height: 150%; widows: 0; orphans: 0;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><strong>Khusus</strong></span></span></p>\n</li>\n</ol>\n<p style="margin-left: 0.69in; margin-bottom: 0.14in; line-height: 150%;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Dalam melaksanakan tugas pokok dan fungsinya, Balai Teknologi Informasi dan Komunikasi Pendidikan pada Dinas Pendidikan Provinsi Jambi mempunyai fungsi :</span></span></p>\n<ol>\n<li>\n<p style="margin-bottom: 0in; line-height: 150%;" align="justify"><span style="color: #000000;"><span style="font-family: Bookman Old Style,serif;"><span style="font-size: medium;"><span style="font-family: Calibri,serif;">Penyusunan rencana, program kerja dan anggaran Balai; </span></span></span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in; line-height: 150%;" align="justify"><span style="color: #000000;"><span style="font-family: Bookman Old Style,serif;"><span style="font-size: medium;"><span style="font-family: Calibri,serif;">Penyusunan kebijakan teknis dibidang teknologi, informasi dan komunikasi pendidikan; </span></span></span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in; line-height: 150%;" align="justify"><span style="color: #000000;"><span style="font-family: Bookman Old Style,serif;"><span style="font-size: medium;"><span style="font-family: Calibri,serif;">Pengembangan teknologi pembelajaran berbasis radio, televisi, film dan multimedia; </span></span></span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in; line-height: 150%;" align="justify"><span style="color: #000000;"><span style="font-family: Bookman Old Style,serif;"><span style="font-size: medium;"><span style="font-family: Calibri,serif;">Pengembangan dan pengelolaan jejaring dan web teknologi, informasi dan komunikasi pendidikan; </span></span></span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in; line-height: 150%;" align="justify"><span style="color: #000000;"><span style="font-family: Bookman Old Style,serif;"><span style="font-size: medium;"><span style="font-family: Calibri,serif;">Pelaksanaan fasilitasi pengembangan, pendayagunaan, pelatihan dan penelitian teknologi informasi dan komunikasi pendidikan; </span></span></span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in; line-height: 150%;" align="justify"><span style="color: #000000;"><span style="font-family: Bookman Old Style,serif;"><span style="font-size: medium;"><span style="font-family: Calibri,serif;">Pelaksanaan pemantauan dan evaluasi dibidang teknologi, informasi dan komunikasi pendidikan; </span></span></span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in; line-height: 150%;" align="justify"><span style="color: #000000;"><span style="font-family: Bookman Old Style,serif;"><span style="font-size: medium;"><span style="font-family: Calibri,serif;">Pelaksanaan kegiatan pendataan kependidikan yang ada di Provinsi Jambi; </span></span></span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in; line-height: 150%;" align="justify"><span style="color: #000000;"><span style="font-family: Bookman Old Style,serif;"><span style="font-size: medium;"><span style="font-family: Calibri,serif;">Penyusunan laporan pelaksanaan pengembangan teknologi, informasi dan komunikasi pendidikan; dan </span></span></span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in; line-height: 150%;" align="justify"><span style="color: #000000;"><span style="font-family: Bookman Old Style,serif;"><span style="font-size: medium;"><span style="font-family: Calibri,serif;">Pelaksanaan tugas lain yang diberikan oleh atasan sesuai dengan bidang tugasnya. </span></span></span></span></p>\n</li>\n</ol>'),
 	(7, 'BPKSDP', '');
 /*!40000 ALTER TABLE `program` ENABLE KEYS */;
 
@@ -955,11 +1064,13 @@ CREATE TABLE IF NOT EXISTS `tbl_agenda` (
   `created_at` datetime NOT NULL,
   `last_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table disdik.tbl_agenda: ~0 rows (approximately)
 DELETE FROM `tbl_agenda`;
 /*!40000 ALTER TABLE `tbl_agenda` DISABLE KEYS */;
+INSERT INTO `tbl_agenda` (`id`, `title`, `slug`, `tgl_mulai`, `tgl_selesai`, `lokasi`, `jam`, `content`, `created_at`, `last_update`) VALUES
+	(1, '', '', '2015-04-09', '2015-04-09', '', '', '', '0000-00-00 00:00:00', '2015-04-09 14:20:54');
 /*!40000 ALTER TABLE `tbl_agenda` ENABLE KEYS */;
 
 
@@ -975,21 +1086,27 @@ CREATE TABLE IF NOT EXISTS `tbl_sessions` (
   KEY `last_activity_idx` (`last_activity`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table disdik.tbl_sessions: ~10 rows (approximately)
+-- Dumping data for table disdik.tbl_sessions: ~20 rows (approximately)
 DELETE FROM `tbl_sessions`;
 /*!40000 ALTER TABLE `tbl_sessions` DISABLE KEYS */;
 INSERT INTO `tbl_sessions` (`session_id`, `ip_address`, `user_agent`, `last_activity`, `user_data`, `prevent_update`) VALUES
-	('104d8734713a2648aa0c756fb46e0a1f', '127.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.91 Safari/537.36', 1426276504, 'a:2:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-03-14";}', NULL),
-	('151484fca962828081e2b870ea3f943b', '127.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.91 Safari/537.36', 1425575286, 'a:2:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-03-09";}', NULL),
-	('1b720d3f7eaa11cabb128c991d314fe1', '127.0.0.1', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:35.0) Gecko/20100101 Firefox/35.0', 1425652960, 'a:6:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-03-06";s:7:"jenjang";s:0:"";s:6:"status";s:0:"";s:12:"id_kabupaten";s:1:"1";s:5:"tahun";s:0:"";}', NULL),
+	('0a7a0c930f068c42c004cc06800135e1', '127.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.118 Safari/537.36', 1428605269, 'a:2:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-04-10";}', NULL),
 	('25e4a623c0e85b7edcaa75a78c45000c', '127.0.0.1', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:35.0) Gecko/20100101 Firefox/35.0', 1427262367, 'a:7:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-03-25";s:7:"user_id";s:1:"1";s:4:"user";s:5:"admin";s:9:"validated";b:1;s:9:"menu_list";s:68:"1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26";s:11:"curr_method";s:23:"generate_event_calendar";}', NULL),
-	('56952be3602d15ea06edeb306d383d91', '127.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/39.0.2171.65 Chrome/39.0.2171.65 ', 1425575684, 'a:2:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-03-06";}', NULL),
+	('394483af10069b41bb3371c29d6aa0aa', '127.0.0.1', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:37.0) Gecko/20100101 Firefox/37.0', 1428995319, 'a:17:{s:9:"user_data";s:0:"";s:15:"forum_logged_in";i:1;s:13:"forum_user_id";s:1:"1";s:14:"forum_username";s:5:"admin";s:17:"forum_user_roleid";s:1:"1";s:2:"id";s:1:"1";s:4:"role";s:13:"administrator";s:10:"admin_area";s:1:"1";s:13:"thread_create";s:1:"1";s:11:"thread_edit";s:1:"1";s:13:"thread_delete";s:1:"1";s:11:"post_create";s:1:"1";s:9:"post_edit";s:1:"1";s:11:"post_delete";s:1:"1";s:11:"role_create";s:1:"1";s:9:"role_edit";s:1:"1";s:11:"role_delete";s:1:"1";}', NULL),
+	('7e3c0c0008fa689f3a91d4a439d34a29', '127.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.118 Safari/537.36', 1428286033, 'a:2:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-04-08";}', NULL),
+	('9390e0f6b993d1e0564f3a0162655cef', '127.0.0.1', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:36.0) Gecko/20100101 Firefox/36.0', 1428043344, 'a:2:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-04-03";}', NULL),
+	('9c8205d1a9b16bde56f3cbd819a02baf', '127.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.118 Safari/537.36', 1428586025, 'a:2:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-04-09";}', NULL),
+	('ab913d57aab927a75f6c101994bfec7a', '127.0.0.1', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:37.0) Gecko/20100101 Firefox/37.0', 1428127552, 'a:2:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-04-04";}', NULL),
+	('aec9ab77ada6757dc9141247196b9dc2', '127.0.0.1', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:36.0) Gecko/20100101 Firefox/36.0', 1428044110, 'a:2:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-04-03";}', NULL),
 	('b25081a0ccd7eb5c46748b7ed8176d2e', '127.0.0.1', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:35.0) Gecko/20100101 Firefox/35.0', 1426514266, 'a:9:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-03-19";s:7:"user_id";s:1:"1";s:4:"user";s:5:"admin";s:9:"validated";b:1;s:9:"menu_list";s:68:"1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26";s:11:"curr_method";s:23:"generate_event_calendar";s:7:"curr_id";s:1:"1";s:12:"captcha_word";s:5:"31680";}', NULL),
-	('b85cd3083a8dac0d5984c07381706bb1', '127.0.0.1', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:35.0) Gecko/20100101 Firefox/35.0', 1425784805, 'a:9:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-03-09";s:7:"curr_id";s:1:"1";s:12:"captcha_word";s:5:"37572";s:7:"user_id";s:1:"1";s:4:"user";s:5:"admin";s:9:"validated";b:1;s:9:"menu_list";s:56:"1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22";s:11:"curr_method";s:23:"generate_event_calendar";}', NULL),
-	('bdf61dfa4c10b47fca384e35a2b5a21d', '127.0.0.1', 'Opera/9.80 (X11; Linux x86_64; Edition Linux Mint) Presto/2.12.388 Version/12.16', 1425575648, 'a:2:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-03-06";}', NULL),
-	('c4add305c5bcb898be6b8e5a9c42599e', '127.0.0.1', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:36.0) Gecko/20100101 Firefox/36.0', 1428041700, 'a:7:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-04-03";s:7:"user_id";s:1:"1";s:4:"user";s:5:"admin";s:9:"validated";b:1;s:9:"menu_list";s:74:"1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28";s:11:"curr_method";s:5:"index";}', NULL),
+	('c475017093c9c1e75c01012eeee7ef95', '127.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.118 Safari/537.36', 1428685724, 'a:2:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-04-11";}', NULL),
+	('c4add305c5bcb898be6b8e5a9c42599e', '127.0.0.1', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:36.0) Gecko/20100101 Firefox/36.0', 1428041700, 'a:8:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-04-03";s:7:"user_id";s:1:"1";s:4:"user";s:5:"admin";s:9:"validated";b:1;s:9:"menu_list";s:74:"1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28";s:11:"curr_method";s:7:"program";s:7:"curr_id";s:1:"7";}', NULL),
 	('ccadd869b9465040d51767f8aa13c4c0', '127.0.0.1', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:36.0) Gecko/20100101 Firefox/36.0', 1427779601, 'a:8:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-03-31";s:7:"user_id";s:1:"1";s:4:"user";s:5:"admin";s:9:"validated";b:1;s:9:"menu_list";s:71:"1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27";s:11:"curr_method";s:22:"aduan_apresiasi_detail";s:12:"captcha_word";s:5:"50744";}', NULL),
-	('eede59ad3bc3a7f1a8c1c611337dd997', '127.0.0.1', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:36.0) Gecko/20100101 Firefox/36.0', 1428041325, 'a:2:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-04-03";}', NULL);
+	('e4a9b22aabc3753ccd6bcb0ce5f084b4', '127.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.118 Safari/537.36', 1428285988, 'a:2:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-04-06";}', NULL),
+	('eede59ad3bc3a7f1a8c1c611337dd997', '127.0.0.1', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:36.0) Gecko/20100101 Firefox/36.0', 1428041325, 'a:2:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-04-03";}', NULL),
+	('f3eca6f6880b0374f3483be40ad2024e', '127.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.118 Safari/537.36', 1428561181, 'a:2:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-04-09";}', NULL),
+	('f8fd405a1f0656c0c2735da865dcca83', '127.0.0.1', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:36.0) Gecko/20100101 Firefox/36.0', 1428043344, 'a:2:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-04-03";}', NULL),
+	('fbd955b7ec1356f6e46290ed2d780ead', '127.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.118 Safari/537.36', 1428692684, 'a:2:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-04-11";}', NULL);
 /*!40000 ALTER TABLE `tbl_sessions` ENABLE KEYS */;
 
 
@@ -999,9 +1116,9 @@ CREATE TABLE IF NOT EXISTS `view_stats` (
   `ip` varchar(50) NOT NULL DEFAULT '0',
   `tgl` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=81 DEFAULT CHARSET=latin1;
 
--- Dumping data for table disdik.view_stats: ~36 rows (approximately)
+-- Dumping data for table disdik.view_stats: ~68 rows (approximately)
 DELETE FROM `view_stats`;
 /*!40000 ALTER TABLE `view_stats` DISABLE KEYS */;
 INSERT INTO `view_stats` (`id`, `ip`, `tgl`) VALUES
@@ -1069,7 +1186,22 @@ INSERT INTO `view_stats` (`id`, `ip`, `tgl`) VALUES
 	(62, '127.0.0.1', '2015-03-31 12:26:41'),
 	(63, '127.0.0.1', '2015-04-03 13:02:45'),
 	(64, '127.0.0.1', '2015-04-03 13:08:45'),
-	(65, '127.0.0.1', '2015-04-03 13:15:00');
+	(65, '127.0.0.1', '2015-04-03 13:15:00'),
+	(66, '127.0.0.1', '2015-04-03 13:42:24'),
+	(67, '127.0.0.1', '2015-04-03 13:42:24'),
+	(68, '127.0.0.1', '2015-04-03 13:55:10'),
+	(69, '127.0.0.1', '2015-04-04 13:05:52'),
+	(70, '127.0.0.1', '2015-04-06 09:06:28'),
+	(71, '127.0.0.1', '2015-04-06 09:07:13'),
+	(72, '127.0.0.1', '2015-04-08 07:44:32'),
+	(73, '127.0.0.1', '2015-04-09 13:33:01'),
+	(74, '127.0.0.1', '2015-04-09 20:27:06'),
+	(75, '127.0.0.1', '2015-04-10 01:47:49'),
+	(76, '127.0.0.1', '2015-04-11 00:08:44'),
+	(77, '127.0.0.1', '2015-04-11 02:04:44'),
+	(78, '127.0.0.1', '2015-04-14 00:34:01'),
+	(79, '127.0.0.1', '2015-04-14 12:24:49'),
+	(80, '127.0.0.1', '2015-04-14 12:27:54');
 /*!40000 ALTER TABLE `view_stats` ENABLE KEYS */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;

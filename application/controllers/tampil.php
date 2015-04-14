@@ -1535,7 +1535,7 @@ class Tampil extends My_Controller {
 		$url         = base_URL().'tampil/blog/page/';
 		$total_rows  = $total_rows;
 		$uri_segment = 4;
-		$per_page    = 5; 
+		$per_page    = 7; 
 		
 		$config = paginate($url,$total_rows,$per_page,$uri_segment);
 		$this->pagination->initialize($config); 

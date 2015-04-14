@@ -32,9 +32,9 @@
       }
       .form-signin .form-signin-heading,
       .form-signin .checkbox {
-	margin-bottom: 10px;
-	text-align: center;
-	font-family: Georgia, "Times New Roman", Times, serif;
+	       margin-bottom: 10px;
+	       text-align: center;
+	       font-family: Georgia, "Times New Roman", Times, serif;
       }
       .form-signin input[type="text"],
       .form-signin input[type="password"] {

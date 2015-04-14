@@ -37,5 +37,13 @@ define('FOPEN_WRITE_CREATE_STRICT',				'xb');
 define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
 
 
+//FORUM CONST
+define('TBL_CATEGORIES', 'forum_categories');
+define('TBL_POSTS',      'forum_posts');
+define('TBL_THREADS',    'forum_threads');
+define('TBL_USERS',      'forum_users');
+define('TBL_ROLES',      'forum_roles');
+define('FORUM_TITLE',     ' &mdash; Forum');
+
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */

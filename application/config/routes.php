@@ -40,6 +40,7 @@
 
 $route['default_controller'] = "tampil";
 $route['404_override'] = '';
+$route['forum'] = 'forum/user/join';
 
 
 /* End of file routes.php */

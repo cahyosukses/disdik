@@ -226,7 +226,7 @@
                      <a data-toggle="dropdown" href="#" class="dropdown-toggle depan">Galeri &nbsp;&nbsp;<b class="caret"></b></a>     
                      <ul class="dropdown-menu">
                         <li><a href="<?php echo base_URL()?>tampil/galeri" class="depan">Album Foto</a></li>
-                        <!--<li><a href="<?php echo base_URL()?>tampil/galeri_video" class="depan">Album Video</a></li>-->
+                        <li><a href="<?php echo base_URL()?>tampil/galeri_video" class="depan">Album Video</a></li>
                      </ul>
                   </li>
                </ul>
@@ -315,8 +315,9 @@
                      <li><a href="<?php echo base_URL()?>tampil/bukutamu">Kontak Kami</a></li>
                      <li><a href="<?php echo base_URL()?>tampil/ide_saran">Ide & Saran</a></li>
                      <li><a href="<?php echo base_URL()?>tampil/ekspresi">Ekspresi</a></li>
-                     <li><a href="<?php echo base_URL()?>tampil/aduan">Aduan</a></li>
+                     <!--<li><a href="<?php echo base_URL()?>tampil/aduan">Aduan</a></li>
                      <li><a href="<?php echo base_URL()?>tampil/apresiasi">Apresiasi</a></li>
+                     -->
                   </ul>
                </div>
                <!--/.well -->

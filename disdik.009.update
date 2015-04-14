@@ -1,0 +1,69 @@
+-- forum tables -------------------
+CREATE TABLE `forum_categories` (
+	`id` INT(11) NOT NULL AUTO_INCREMENT,
+	`parent_id` INT(11) NOT NULL,
+	`name` VARCHAR(100) NOT NULL,
+	`slug` VARCHAR(100) NOT NULL,
+	`date_added` DATETIME NOT NULL,
+	`date_edit` DATETIME NOT NULL,
+	`publish` INT(1) NOT NULL,
+	PRIMARY KEY (`id`)
+)
+COLLATE='latin1_swedish_ci'
+ENGINE=InnoDB;
+
+CREATE TABLE `forum_posts` (
+	`id` INT(11) NOT NULL AUTO_INCREMENT,
+	`thread_id` INT(11) NOT NULL,
+	`reply_to_id` INT(11) NOT NULL,
+	`author_id` INT(11) NOT NULL,
+	`post` TEXT NOT NULL,
+	`date_add` DATETIME NOT NULL,
+	`date_edit` DATETIME NOT NULL,
+	PRIMARY KEY (`id`)
+)
+COLLATE='latin1_swedish_ci'
+ENGINE=InnoDB;
+
+CREATE TABLE `forum_roles` (
+	`id` INT(11) NOT NULL AUTO_INCREMENT,
+	`role` VARCHAR(50) NOT NULL,
+	`admin_area` INT(1) NOT NULL DEFAULT '0',
+	`thread_create` INT(1) NOT NULL DEFAULT '0',
+	`thread_edit` INT(1) NOT NULL DEFAULT '0',
+	`thread_delete` INT(1) NOT NULL DEFAULT '0',
+	`post_create` INT(1) NOT NULL DEFAULT '0',
+	`post_edit` INT(1) NOT NULL DEFAULT '0',
+	`post_delete` INT(1) NOT NULL DEFAULT '0',
+	`role_create` INT(1) NOT NULL DEFAULT '0',
+	`role_edit` INT(1) NOT NULL DEFAULT '0',
+	`role_delete` INT(1) NOT NULL DEFAULT '0',
+	PRIMARY KEY (`id`)
+)
+COLLATE='latin1_swedish_ci'
+ENGINE=InnoDB;
+
+CREATE TABLE `forum_threads` (
+	`id` INT(11) NOT NULL AUTO_INCREMENT,
+	`category_id` INT(11) NOT NULL,
+	`title` VARCHAR(255) NOT NULL,
+	`slug` VARCHAR(255) NOT NULL,
+	`date_add` DATETIME NOT NULL,
+	`date_edit` DATETIME NOT NULL,
+	`date_last_post` DATETIME NOT NULL,
+	PRIMARY KEY (`id`)
+)
+COLLATE='latin1_swedish_ci'
+ENGINE=InnoDB;
+
+CREATE TABLE `forum_users` (
+	`id` INT(11) NOT NULL AUTO_INCREMENT,
+	`role_id` INT(11) NOT NULL,
+	`username` VARCHAR(50) NOT NULL,
+	`password` VARCHAR(100) NOT NULL,
+	PRIMARY KEY (`id`)
+)
+COLLATE='latin1_swedish_ci'
+ENGINE=InnoDB;
+
+-- end forum tables ------------
