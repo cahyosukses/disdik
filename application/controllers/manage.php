@@ -3594,7 +3594,8 @@ class Manage extends MY_Controller {
 
 	public function program() {
 		
-	
+		$this->load->model('basecrud_m');
+
 		$mau_ke					= $this->uri->segment(3);
 		$idu					= $this->uri->segment(4);
 		
@@ -3621,7 +3622,14 @@ class Manage extends MY_Controller {
 			redirect('manage/program');
 		} else if ($mau_ke == "act_edit") {			
 			
-			$this->db->query("UPDATE program SET  judul = '$judul', isi = '$isi' WHERE id = '$idp'");
+
+			//$this->db->query("UPDATE program SET  judul = '$judul', isi = '$isi' WHERE id = '$idp'");
+			$this->basecrud_m->update('program',$idp,
+													array('judul' => $judul,
+														  'isi'   => $isi 
+													)
+			);
+
 			$this->session->set_flashdata("k", "<div class=\"alert alert-success\">Data berhasil diedit</div>");
 			
 			redirect('manage/program');

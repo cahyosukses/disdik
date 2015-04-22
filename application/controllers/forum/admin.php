@@ -191,6 +191,7 @@ class Admin extends CI_Controller {
         if ($this->session->userdata('role_edit') == 0) {
             redirect('forum/admin');
         }
+        
         if ($this->input->post('btn-edit')) {
             $this->forum_admin_m->role_edit();
             if ($this->forum_admin_m->error_count != 0) {                

@@ -80,13 +80,13 @@
             <label class="control-label" for="optionsCheckbox"><b>Role</b></label>
             <div class="controls">
               <label class="checkbox inline">
-                <input id="cb_post_create" name="row[roles][role_create]" <?php if ( $role->role_create == 1 ): ?>checked<?php endif; ?> type="checkbox"> create 
+                <input id="cb_role_create" name="row[roles][role_create]" <?php if ( $role->role_create == 1 ): ?>checked<?php endif; ?> type="checkbox"> create 
               </label>
               <label class="checkbox inline">
-                <input id="cb_post_edit" name="row[roles][role_edit]" <?php if ( $role->role_edit == 1 ): ?>checked<?php endif; ?> type="checkbox"> edit 
+                <input id="cb_role_edit" name="row[roles][role_edit]" <?php if ( $role->role_edit == 1 ): ?>checked<?php endif; ?> type="checkbox"> edit 
               </label>
                 <label class="checkbox inline">
-                <input id="cb_post_delete" name="row[roles][role_delete]" <?php if ( $role->role_delete == 1 ): ?>checked<?php endif; ?> type="checkbox"> delete 
+                <input id="cb_role_delete" name="row[roles][role_delete]" <?php if ( $role->role_delete == 1 ): ?>checked<?php endif; ?> type="checkbox"> delete 
               </label>
           </div>
             

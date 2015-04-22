@@ -99,13 +99,23 @@ class Forum_admin_m extends CI_Model {
             unset($row['role_c']);
             
             // reset row value
-            $row_reset = $row['roles'];
-            foreach ($row_reset as $key => $value) {
-                $row_reset[$key] = 0;
-            }
-            
+           
+            $row_reset = 
+                array('admin_area'    => 0,
+                      'thread_create' => 0,
+                      'thread_edit'   => 0,
+                      'thread_delete' => 0,
+                      'post_create'   => 0,
+                      'post_edit'     => 0,
+                      'post_delete'   => 0,
+                      'role_create'   => 0,
+                      'role_edit'     => 0,
+                      'role_delete'   => 0
+                );
+
             $this->db->where('id', $row['id']);
             $this->db->update(TBL_ROLES, $row_reset);
+            
             
             // update role
             $data = array();
@@ -113,8 +123,10 @@ class Forum_admin_m extends CI_Model {
             foreach ($row['roles'] as $key => $value) {
                 $data[$key] = 1;
             }
+
             $this->db->where('id', $row['id']);
             $this->db->update(TBL_ROLES, $data);
+
         } else {
             $this->error_count = count($this->error);
         }
