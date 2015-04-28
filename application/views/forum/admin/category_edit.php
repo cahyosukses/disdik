@@ -21,6 +21,14 @@
             <h4 class="alert-heading">Kategori telah diubah!</h4>
         </div>
         <?php endif; ?>
+        <script type="text/javascript">
+          $(function(){
+              $('#name').slugIt({
+                  output: '#slug'
+              });
+           });
+        </script>
+        
         <fieldset>
           <input type="hidden" name="row[id]" value="<?php echo $category->id; ?>"/>
           <input type="hidden" name="row[name_c]" value="<?php echo $category->name; ?>"/>
@@ -28,13 +36,13 @@
           <div class="control-group">
             <label class="control-label" for="input01">Name</label>
             <div class="controls">
-              <input type="text" class="input-xlarge" value="<?php echo $category->name; ?>" name="row[name]" id="input01">
+              <input type="text" class="input-xlarge" value="<?php echo $category->name; ?>" name="row[name]" id="name">
             </div>
           </div>
           <div class="control-group">
             <label class="control-label" for="input01">Slug</label>
             <div class="controls">
-              <input type="text" class="input-xlarge" value="<?php echo $category->slug; ?>" name="row[slug]" id="input01">
+              <input type="text" class="input-xlarge" value="<?php echo $category->slug; ?>" name="row[slug]" id="slug">
               <p class="help-block">for url friendly address</p>
             </div>
           </div>
@@ -51,6 +59,21 @@
                 <?php endif; ?>
                 <?php endforeach; ?>
               </select>
+            </div>
+          </div>
+          
+          <?php $arr_user = explode(",",$category->arr_user);?>
+
+          <div class="control-group">
+            <label class="control-label" for="select01">Users List</label>
+            <div class="controls">
+            <?php $users = $this->basecrud_m->get('forum_users');?>
+            <select class="form-control chosen-select-deselect"  multiple  name="arr_user[]">
+              <option value=""></option>
+              <?php foreach($users->result() as $user) { ?>
+              <option value="<?php echo $user->id;?>" <?php echo in_array($user->id,$arr_user) ? 'selected':''; ?>> <?php echo $user->username;?></option>
+              <?php } ?>
+            </select>
             </div>
           </div>
           

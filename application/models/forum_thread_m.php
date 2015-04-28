@@ -11,6 +11,17 @@ class Forum_thread_m extends CI_Model {
         parent::__construct();
     }
     
+    public function get_all_by_id($start, $limit,$user_id)
+    {
+        $sql = "SELECT a.*, b.name as category_name, b.slug as category_slug, c.date_add 
+                FROM ".TBL_THREADS." a, ".TBL_CATEGORIES." b, ".TBL_POSTS." c 
+                WHERE a.category_id = b.id AND a.id = c.thread_id 
+                      AND c.date_add = (SELECT MAX(date_add) FROM ".TBL_POSTS." WHERE thread_id = a.id LIMIT 1) 
+                      AND FIND_IN_SET($user_id,b.arr_user) > 0
+                ORDER BY c.date_add DESC LIMIT ".$start.", ".$limit;
+        return $this->db->query($sql)->result();
+    }    
+
     public function get_all($start, $limit)
     {
         $sql = "SELECT a.*, b.name as category_name, b.slug as category_slug, c.date_add 

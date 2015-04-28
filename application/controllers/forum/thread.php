@@ -7,8 +7,15 @@ class Thread extends CI_Controller {
     public function __construct() 
     {
         parent::__construct();
+
+        $this->output->set_header('Last-Modified: ' . gmdate("D, d M Y H:i:s") . ' GMT');  
+        $this->output->set_header("Cache-Control: no-store, no-cache, must-revalidate, no-transform, max-age=0, post-check=0, pre-check=0");
+        $this->output->set_header("Pragma: no-cache");
+        $this->output->set_header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+        
         $this->load->model('forum_thread_m');
         $this->load->model('forum_user_m');
+        $this->load->model('basecrud_m');
         $this->forum_user_m->check_role();
     }
     
@@ -22,26 +29,46 @@ class Thread extends CI_Controller {
             redirect('forum/thread');
         }
         
+
+        $user_id = $this->session->userdata('forum_user_id');
+        $forum_user_roleid = $this->session->userdata('forum_user_roleid');
+
+        $count_all = 0;
+        if($forum_user_roleid == 1){
+            $count_all = $this->db->count_all(TBL_THREADS);
+        }else{
+            $count_all = $this->db->query("
+                                SELECT a.*,b.arr_user 
+                                FROM forum_threads a
+                                LEFT JOIN forum_categories b ON a.category_id = b.id
+                                WHERE FIND_IN_SET($user_id,b.arr_user) > 0")->num_rows();
+        }
+        
+
         // set pagination
         $this->load->library('pagination');
-        $this->page_config['base_url']    = site_url('thread/index/');
-        $this->page_config['uri_segment'] = 3;
-        $this->page_config['total_rows']  = $this->db->count_all(TBL_THREADS);;
+        $this->page_config['base_url']    = site_url('forum/thread/index/');
+        $this->page_config['uri_segment'] = 4;
+        $this->page_config['total_rows']  = $count_all;//$this->db->count_all(TBL_THREADS);;
         $this->page_config['per_page']    = 10;
         
-        $this->set_pagination();
-        
+        $this->set_pagination();        
         $this->pagination->initialize($this->page_config);
         
         $this->load->model('forum_admin_m');
-        //$this->data['cat']    = $this->forum_admin_m->category_get_all_parent(11, 0);
-        $this->data['categories']    = $this->forum_admin_m->category_get_all();
-
         $this->data['type']    = 'index';
-        $this->data['page']    = $this->pagination->create_links();
-        $this->data['threads'] = $this->forum_thread_m->get_all($start, $this->page_config['per_page']);
-        $this->data['title']   = 'Index '.FORUM_TITLE;
+        $this->data['page']    = $this->pagination->create_links();       
         
+        
+        if($forum_user_roleid == 1){
+            $this->data['threads'] = $this->forum_thread_m->get_all($start, $this->page_config['per_page']);
+        }else{
+            $this->data['threads'] = $this->forum_thread_m->get_all_by_id($start, $this->page_config['per_page'],$user_id);    
+        }
+        
+        
+        $this->data['categories']    = $this->forum_admin_m->category_get_all();
+        $this->data['title']   = 'Index '.FORUM_TITLE;        
         $this->load->view('forum/header', $this->data);
         $this->load->view('forum/thread/index');
         $this->load->view('forum/footer');
@@ -65,8 +92,18 @@ class Thread extends CI_Controller {
                 redirect('forum/thread/talk/'.$this->forum_thread_m->fields['slug']);
             }
         }
+
         $this->load->model('forum_admin_m');
-        $this->data['categories'] = $this->forum_admin_m->category_get_all();
+        $user_id = $this->session->userdata('forum_user_id');
+        $forum_user_roleid = $this->session->userdata('forum_user_roleid');
+
+        if($forum_user_roleid == 1){
+            //admin
+            $this->data['categories'] = $this->forum_admin_m->category_get_all();    
+        }else{
+            $this->data['categories'] = $this->forum_admin_m->category_get_all_by_id(0,$user_id);    
+        }
+        
         $this->data['title']  = ' Thread Create '.FORUM_TITLE;
         
         $this->load->view('forum/header', $this->data);
@@ -76,6 +113,7 @@ class Thread extends CI_Controller {
     
     public function set_pagination()
     {
+
         $this->page_config['first_link']         = '&lsaquo; First';
         $this->page_config['first_tag_open']     = '<li>';
         $this->page_config['first_tag_close']    = '</li>';
@@ -92,10 +130,16 @@ class Thread extends CI_Controller {
         $this->page_config['cur_tag_close']      = '</a></li>';
         $this->page_config['num_tag_open']       = '<li>';
         $this->page_config['num_tag_close']      = '</li>';
+
     }
     
     public function talk($slug, $start = 0)
-    {
+    {   
+        $num_rows    = $this->db->query("SELECT * FROM forum_threads WHERE slug = '$slug'")->num_rows();
+        if($num_rows == 0){
+            redirect('forum/thread');
+        }
+
         if ($this->input->post('btn-post')) {
             if (!$this->session->userdata('forum_user_id')) {
                 redirect('forum/user/join');
@@ -146,20 +190,39 @@ class Thread extends CI_Controller {
         $this->data['cat']    = $this->forum_admin_m->category_get_all_parent($thread->category_id, 0);
         
         $this->data['categories']    = $this->forum_admin_m->category_get_all();
+        $this->data['type']    = 'category';
         $this->data['title']  = $thread->title.' :: Thread '.FORUM_TITLE;
         $this->data['page']   = $this->pagination->create_links();
         $this->data['thread'] = $thread;
         $this->data['posts']  = $posts;
         
+        $user_id = $this->session->userdata('forum_user_id');
+        $category = $this->db->query("SELECT b.arr_user as arr_user
+                                      FROM forum_threads a
+                                      LEFT JOIN forum_categories b ON a.category_id = b.id
+                                      WHERE a.slug = '$slug'")->row();
+
+        $arr_user = explode(",",$category->arr_user);
+        
         $this->load->view('forum/header', $this->data);
-        $this->load->view('forum/thread/talk');
+        if(in_array($user_id,$arr_user)){
+             $this->load->view('forum/thread/talk');
+        }else{
+            $this->load->view('forum/thread/access_denied');
+        }
         $this->load->view('forum/footer');
     }
     
     public function category($slug, $start = 0)
     {
+        $num_rows    = $this->db->query("SELECT * FROM forum_categories WHERE slug = '$slug'")->num_rows();
+        if($num_rows == 0){
+            redirect('forum/thread');
+        }
+
         $category = $this->db->get_where(TBL_CATEGORIES, array('slug' => $slug))->row();
-        $this->load->model('forum_admin_m');
+        $this->load->model(array('forum_admin_m'));
+
         $this->data['cat']    = $this->forum_admin_m->category_get_all_parent($category->id, 0);
         $this->data['thread'] = $category;
         
@@ -192,7 +255,16 @@ class Thread extends CI_Controller {
         $this->data['type']    = 'category';
         $this->data['title']   = 'Category :: '.$category->name.FORUM_TITLE;
         $this->load->view('forum/header', $this->data);
-        $this->load->view('forum/thread/index');
+        
+        $user_id = $this->session->userdata('forum_user_id');
+        $category = $this->basecrud_m->get_where('forum_categories',array('slug' => $slug))->row();
+        $arr_user = explode(",",$category->arr_user);
+
+        if(in_array($user_id,$arr_user)){
+            $this->load->view('forum/thread/index');
+        }else{
+            $this->load->view('forum/thread/access_denied');
+        }
         $this->load->view('forum/footer');
     }
 }

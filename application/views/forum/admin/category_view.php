@@ -46,8 +46,9 @@
     <table class="table table-striped table-bordered table-condensed">
     <thead>
         <tr>
-            <th width="38%">Kategori</th>
-            <th width="38%">Slug</th>
+            <th width="30%">Kategori</th>
+            <th width="30%">Slug</th>
+            <th width="16%" style="text-align:center">Jumlah User</th>
             <th width="12%"></th>
             <th width="12%"></th>
         </tr>
@@ -57,6 +58,10 @@
         <tr>
         <td><?php echo $cat['name']; ?></td>
         <td><?php echo $cat['slug']; ?></td>
+        <td style="text-align:center">
+            <?php $arr_user = explode(",",$cat['arr_user']);?>
+            <?php echo $cat['arr_user'] === '(NULL)' ? 0 : count($arr_user); ?> User
+        </td>
         <td style="text-align: center;"><a title="edit" href="<?php echo site_url('forum/admin/category_edit').'/'.$cat['id']; ?>"><img src="<?php echo base_url(); ?>assets/forum//icons/pencil.png"/></a> </td>
         <td style="text-align: center;"><a title="delete" class="del" id="cat_id_<?php echo $cat['id']; ?>" href="<?php echo site_url('forum/admin/category_delete').'/'.$cat['id']; ?>"><img src="<?php echo base_url(); ?>assets/forum//icons/delete.png"/></a> </td>
         </tr>

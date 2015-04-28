@@ -22,6 +22,25 @@ class Forum_admin_m extends CI_Model {
             }
         }		
         
+
+        /*upload foto*/
+        $upl_conf = array(  'upload_path'   =>  './upload',
+                            'allowed_types' =>  'jpeg|jpg|png|bmp',                            
+                            'encrypt_name'  =>  TRUE);
+
+        $this->load->library('upload', $upl_conf);
+
+        if(!empty($_FILES['foto']['name'])){
+            if (!$this->upload->do_upload('foto')){
+            
+            $this->error['password'] = $this->upload->display_errors();
+            
+            }else{
+                $success = $this->upload->data();
+                $row['foto'] =  $success['file_name'];                
+            }      
+        }
+
         if (count($this->error) == 0) {
             
 			if ($row['password'] != "" && $row['password2'] != "") {
@@ -171,10 +190,20 @@ class Forum_admin_m extends CI_Model {
         if ($is_exist_slug > 0) {
             $this->error['slug'] = 'Slug already in use';
         }
+
         if (strlen($row['slug']) == 0) {
             $this->error['slug'] = 'Slug cannot be empty';
         }
         
+       if (array_key_exists('arr_user', $_POST) && !empty($_POST['arr_user'])){
+            
+            $arr_user = $this->input->post('arr_user');
+            $row['arr_user'] = implode(',',$arr_user);
+            
+        }else{
+            $row['arr_user'] = '(NULL)';
+        }  
+
         if (count($this->error) == 0) {
             $this->db->insert(TBL_CATEGORIES, $row);
         } else {
@@ -210,6 +239,15 @@ class Forum_admin_m extends CI_Model {
             }
         }
         
+        if (array_key_exists('arr_user', $_POST) && !empty($_POST['arr_user'])){
+            
+            $arr_user = $this->input->post('arr_user');
+            $row['arr_user'] = implode(',',$arr_user);
+            
+        }else{
+            $row['arr_user'] = '(NULL)';
+        }   
+
         if (count($this->error) == 0) {
             unset($row['name_c']);
             unset($row['slug_c']);
@@ -220,6 +258,28 @@ class Forum_admin_m extends CI_Model {
         }
     }
     
+    public function category_get_all_by_id($cat_id = 0,$user_id)
+    {   
+        $this->data = array();
+
+        $this->db->where("(FIND_IN_SET($user_id,arr_user) > 0)");    
+        $this->db->order_by('name', 'asc');
+        $query = $this->db->get_where(TBL_CATEGORIES, array('parent_id' => $cat_id));
+        $counter = 0;
+        foreach ($query->result() as $row) {
+            $this->data[$counter]['id'] = $row->id;
+            $this->data[$counter]['parent_id'] = $row->parent_id;
+            $this->data[$counter]['name'] = $row->name;
+            $this->data[$counter]['slug'] = $row->slug;
+            $this->data[$counter]['real_name'] = $row->name;
+            $this->data[$counter]['arr_user'] = $row->arr_user;
+            $children = $this->category_get_children($row->id, ' - ', $counter);
+            $counter = $counter + $children;
+            $counter++;
+        }        
+        return $this->data;
+    }
+
     public function category_get_all($cat_id = 0)
     {   
         $this->data = array();
@@ -232,6 +292,7 @@ class Forum_admin_m extends CI_Model {
             $this->data[$counter]['name'] = $row->name;
             $this->data[$counter]['slug'] = $row->slug;
             $this->data[$counter]['real_name'] = $row->name;
+            $this->data[$counter]['arr_user'] = $row->arr_user;
             $children = $this->category_get_children($row->id, ' - ', $counter);
 			$counter = $counter + $children;
 			$counter++;

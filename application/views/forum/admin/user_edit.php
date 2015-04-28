@@ -2,7 +2,7 @@
     <div class="page-header">
         <h1>Edit User</h1>
     </div>
-    <form class="form-horizontal" method="post" action="">
+    <form class="form-horizontal" method="post" action="" enctype="multipart/form-data">
         <?php if (isset($error)): ?>
         <div class="alert alert-error">
             <a class="close" data-dismiss="alert" href="#">&times;</a>
@@ -28,6 +28,29 @@
                 <input type="text" class="input-xlarge disabled" disabled="disabled" value="<?php echo $user->username; ?>" id="name">
             </div>
           </div>
+
+          <div class="control-group">          
+            <label class="control-label" for="input01">Email</label>
+            <div class="controls">
+                <input type="text" class="input-xlarge" value="<?php echo $user->email; ?>" name="row[email]" id="email">
+            </div>
+          </div>
+
+          <div class="control-group">          
+            <label class="control-label" for="input01">No HP</label>
+            <div class="controls">
+                <input type="text" class="input-xlarge" value="<?php echo $user->hp; ?>" name="row[hp]" id="hp">
+            </div>
+          </div>
+
+          <div class="control-group">          
+              <label class="control-label" for="input01">Foto</label>
+              <div class="controls">
+                  <input type="file" name="foto" > <br>
+                  <img src="<?php echo base_URL() . 'timthumb?src=/upload/' . $user->foto;?>&w=150&h=150&zc=0" style="margin-top: 10px;" width="150"> 
+              </div>
+          </div>
+
           <div class="control-group">
             <label class="control-label" for="input01">New Password</label>
             <div class="controls">
@@ -35,6 +58,7 @@
               <p class="help-block">biarkan isian password kosong jika tidak ingin merubahnya</p>
             </div>
           </div>
+
           <div class="control-group">
             <label class="control-label" for="input01">Confirm New Password</label>
             <div class="controls">

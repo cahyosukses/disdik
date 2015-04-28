@@ -93,15 +93,23 @@
             <ul><?php echo $page; ?></ul>
         </div>
     </div>
-        <div class="span3">
-            <ul class="nav nav-tabs nav-stacked">
-                <li class="active">
-                <a href="javascript://"><b>Kategori</b></a>
-                </li>
-                <?php foreach($categories as $cat): ?>
-                <li><a href="<?php echo site_url('forum/thread/category/'.$cat['slug']); ?>"><?php echo $cat['name']; ?></a></li>
-                <?php endforeach; ?>
-            </ul>
+    <div class="span3">
+        <?php 
+            $forum_user_id = $this->session->userdata('forum_user_id');
+            $user = $this->basecrud_m->get_where('forum_users',array('id' => $forum_user_id))->row();
+        ?>
+        <div class="well" style="text-align:center">
+            <img src="<?php echo base_URL() . 'timthumb?src=/upload/' . $user->foto;?>&w=150&h=150&zc=0" style="margin-top: 10px;margin-bottom:10px" width="150"> 
         </div>
+
+        <ul class="nav nav-tabs nav-stacked">
+            <li class="active">
+            <a href="javascript://"><b>Kategori</b></a>
+            </li>
+            <?php foreach($categories as $cat): ?>
+            <li><a href="<?php echo site_url('forum/thread/category/'.$cat['slug']); ?>"><?php echo $cat['name']; ?></a></li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
     
 </div>

@@ -20,24 +20,46 @@
         <?php endif; ?>  
     </div>
     <?php endif; ?>
-    <form class="form-horizontal" method="post" action="">
+    <form class="form-horizontal" method="post" action="" enctype="multipart/form-data">
         <fieldset>
             <div class="control-group">
                 <label class="control-label" for="input01">Username</label>
                 <div class="controls">
-                    <input type="text" class="input-xlarge" name="row[username]">
+                    <input type="text" class="input-xlarge" name="row[username]" required>
                 </div>
             </div>
+
+            <div class="control-group">          
+                <label class="control-label" for="input01">Email</label>
+                <div class="controls">
+                    <input type="text" class="input-xlarge" name="row[email]" id="email" required>
+                </div>
+            </div>
+
+            <div class="control-group">          
+                <label class="control-label" for="input01">No HP</label>
+                <div class="controls">
+                    <input type="text" class="input-xlarge" name="row[hp]" id="hp">
+                </div>
+            </div>
+
+            <div class="control-group">          
+                <label class="control-label" for="input01">Foto</label>
+                <div class="controls">
+                    <input type="file" name="foto" >  
+                </div>
+            </div>
+
             <div class="control-group">
                 <label class="control-label" for="input01">Password</label>
                 <div class="controls">
-                    <input type="password" class="input-xlarge" name="row[password]">
+                    <input type="password" class="input-xlarge" name="row[password]" required>
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label" for="input01">Confirm Password</label>
                 <div class="controls">
-                    <input type="password" class="input-xlarge" name="password2">
+                    <input type="password" class="input-xlarge" name="password2" required>
                 </div>
             </div>
             <div class="form-actions">

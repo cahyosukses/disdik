@@ -1,0 +1,12 @@
+ALTER TABLE `forum_users`
+	ADD COLUMN `email` VARCHAR(50) NOT NULL AFTER `password`,
+	ADD COLUMN `hp` VARCHAR(50) NOT NULL AFTER `email`,
+	ADD COLUMN `foto` VARCHAR(50) NOT NULL AFTER `hp`;
+
+ALTER TABLE `forum_categories`
+	ADD COLUMN `arr_user` VARCHAR(500) NOT NULL AFTER `slug`;
+
+ALTER TABLE `forum_users`
+	CHANGE COLUMN `foto` `foto` VARCHAR(50) NOT NULL DEFAULT 'default_avatar.jpg' AFTER `hp`;
+
+UPDATE forum_users SET foto = 'default_avatar.jpg'

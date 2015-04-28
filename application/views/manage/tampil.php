@@ -168,11 +168,11 @@
               }
           });
          
-          jQuery(document).ready(function(){
+        jQuery(document).ready(function(){
           $('.fancybox').fancybox();
          });
          
-          tinyMCE.init({
+        tinyMCE.init({
                 mode : "exact",
                 elements : "tinyMCE",
                 theme : "advanced",

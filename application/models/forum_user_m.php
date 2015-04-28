@@ -70,15 +70,34 @@ class Forum_user_m extends CI_Model {
             $this->error['username'] = 'Username ini telah digunakan';
         }
         if (strlen($row['username']) < 5) {
-            $this->error['username'] = 'Username minimum 5 character';
+            $this->error['username'] = 'Username minimal 5 karakter';
         }
         
         // check password
         if ($row['password'] != $this->input->post('password2')) {
             $this->error['password'] = 'Password tidak sama';
         } else if (strlen($row['password']) < 5) {
-            $this->error['password'] = 'Password minimum 5 character';
+            $this->error['password'] = 'Password minimum 5 karakter';
         }
+        
+        /*upload foto*/
+        $upl_conf = array(  'upload_path'   =>  './upload',
+                            'allowed_types' =>  'jpeg|jpg|png|bmp',                            
+                            'encrypt_name'  =>  TRUE);
+
+        $this->load->library('upload', $upl_conf);
+
+        if(!empty($_FILES['foto']['name'])){
+            if (!$this->upload->do_upload('foto')){
+            
+            $this->error['password'] = $this->upload->display_errors();
+            
+            }else{
+                $success = $this->upload->data();
+                $row['foto'] =  $success['file_name'];                
+            }      
+        }
+        /*end upload foto*/
         
         if (count($this->error) == 0) {
             //$key = $this->config->item('encryption_key');
@@ -101,6 +120,25 @@ class Forum_user_m extends CI_Model {
             }
         }       
         
+        /*upload foto*/
+        $upl_conf = array(  'upload_path'   =>  './upload',
+                            'allowed_types' =>  'jpeg|jpg|png|bmp',                            
+                            'encrypt_name'  =>  TRUE);
+
+        $this->load->library('upload', $upl_conf);
+
+        if(!empty($_FILES['foto']['name'])){
+            if (!$this->upload->do_upload('foto')){
+            
+            $this->error['password'] = $this->upload->display_errors();
+            
+            }else{
+                $success = $this->upload->data();
+                $row['foto'] =  $success['file_name'];                
+            }      
+        }
+        /*end upload foto*/
+
         if (count($this->error) == 0) {
             
             if ($row['password'] != "" && $row['password2'] != "") {               

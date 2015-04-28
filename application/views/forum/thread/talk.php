@@ -121,15 +121,15 @@
                 <ul class="active dropdown-menu">
                     <script>
                     $(document).ready(function() {
-                        $("#replypost<?php echo $post->id; ?>").wysiwyg("setContent", "<div style='font-size:11px; background: #e3e3e3;padding:5px;'>posted by <b>@<?php echo $post->username; ?></b><p><i><?php echo preg_replace("/&#?[a-z0-9]+;/i","", strip_tags($post->post)); ?></i></p></div><br/><br/>");
+                        $("#replypost<?php echo $post->id; ?>").val("<div style='font-size:11px; background: #e3e3e3;padding:5px;'>posted by <b>@<?php echo $post->username; ?></b><p><i><?php echo preg_replace("/&#?[a-z0-9]+;/i","", strip_tags($post->post)); ?></i></p></div><br/><br/>");
                     });
                     </script>
-                <li><form class="well" action="" method="post" style="margin: 5px 10px;width: 600px;text-align: left;">
+                <li><form class="well" action="" method="post" style="margin: 2px 2px;text-align: left;padding-top: 5px;padding-right: 5px;padding-left: 5px;padding-bottom: 5px;">
                         <input type="hidden" name="row[thread_id]" value="<?php echo $thread->id; ?>"/>
                         <input type="hidden" name="row[reply_to_id]" value="<?php echo $post->id; ?>"/>
                         <input type="hidden" name="row[author_id]" value="<?php echo $this->session->userdata('forum_user_id'); ?>"/>
                         <input type="hidden" name="row[date_add]" value="<?php echo date('Y-m-d H:i:s'); ?>"/>
-                        <textarea name="row[post]" id="replypost<?php echo $post->id; ?>" class="textpostreply" cols="72" style="height:180px;" class="span12">
+                        <textarea name="row[post]" id="replypost<?php echo $post->id; ?>" style="height:180px;" class="span12">
                         </textarea>
                         <input type="submit" style="margin-top:15px;font-weight: bold;" name="btn-post" class="btn btn-primary" value="Reply Post"/>
                     </form></li>
@@ -159,7 +159,7 @@
             <input type="hidden" name="row[reply_to_id]" value="0"/>
             <input type="hidden" name="row[author_id]" value="<?php echo $this->session->userdata('forum_user_id'); ?>"/>
             <input type="hidden" name="row[date_add]" value="<?php echo date('Y-m-d H:i:s'); ?>"/>
-            <textarea name="row[post]" class="span12" id="textpost" style="height:150px;"></textarea>
+            <textarea name="row[post]" class="span12" id="tinyMCE" style="height:150px;"></textarea>
             <input type="submit" style="margin-top:15px;font-weight: bold;" name="btn-post" class="btn btn-primary" value="Reply Post"/>
         </form>
     </div>

@@ -229,6 +229,9 @@ class Admin extends CI_Controller {
     // start category function
     public function category_create()
     {
+
+        $this->load->model('basecrud_m');    
+        
         if ($this->input->post('btn-create')) {
             $this->forum_admin_m->category_create();
             if ($this->forum_admin_m->error_count != 0) {
@@ -273,6 +276,8 @@ class Admin extends CI_Controller {
     
     public function category_edit($category_id)
     {
+        $this->load->model('basecrud_m'); 
+            
         if ($this->input->post('btn-edit')) {
             $this->forum_admin_m->category_edit();
             if ($this->forum_admin_m->error_count != 0) {
@@ -358,7 +363,7 @@ class Admin extends CI_Controller {
                 redirect('forum/admin/thread_view');
             }
         }
-        $this->data['title']   = 'Admin Thread Edit :: '.FORUM_TITLE;
+        $this->data['title']   = 'Admin Topik Edit :: '.FORUM_TITLE;
         $this->data['thread']  = $this->db->get_where(TBL_THREADS, array('id' => $thread_id))->row();
         $this->data['categories'] = $this->forum_admin_m->category_get_all();
         $this->load->view('forum/header', $this->data);

@@ -1,7 +1,7 @@
 <div class="span3"></div>
 <div class="span6">
         <div class="page-header">
-            <h3 style="text-align:center;">Buat Thread Baru</h3>
+            <h3 style="text-align:center;">Buat Topik Baru</h3>
         </div>
         <?php if (isset($error)): ?>
         <div class="alert alert-error">
@@ -41,10 +41,11 @@
             <option value="<?php echo $cat['id']; ?>"><?php echo $cat['name']; ?></option>
             <?php endforeach; ?>
         </select>
+        <!--
         <link rel="stylesheet" href="<?php echo base_url(); ?>assets/forum//jquery/jwysiwyg/jquery.wysiwyg.css"/>
         <script src="<?php echo base_url(); ?>assets/forum//jquery/jwysiwyg/jquery.wysiwyg.js" charset="utf-8"></script>
         <script src="<?php echo base_url(); ?>assets/forum//jquery/jwysiwyg/controls/wysiwyg.link.js" charset="utf-8"></script>
-        
+        -->
         <script>
     
             $(function(){
@@ -52,7 +53,8 @@
                     output: '#slug'
                 });
              });
-    
+            
+            /*    
             controlValue = {
                     justifyLeft: { visible : false },
                     justifyCenter: { visible : false },
@@ -77,10 +79,11 @@
                     autoGrow: true
                 });
             });
+            */
         </script>
         <label>First Post</label>
-        <textarea name="row_post[post]" id="firstpost"  rows="8" class="span12"></textarea>
-        <input type="submit" style="margin-top:15px;font-weight: bold;" name="btn-create" class="btn btn-primary btn-large" value="Create Thread"/>
+        <textarea id="tinyMCE" name="row_post[post]" id="firstpost"  rows="8" class="span12"></textarea>
+        <input type="submit" style="margin-top:15px;font-weight: bold;" name="btn-create" class="btn btn-primary btn-large" value="Buat Topik"/>
         </form>
     </div>
 <div class="span3"></div>

@@ -38,12 +38,14 @@
     
         </script>
         <fieldset>
+          
           <div class="control-group">
             <label class="control-label" for="input01">Nama</label>
             <div class="controls">
               <input type="text" class="input-xlarge" name="row[name]" id="name">
             </div>
           </div>
+
           <div class="control-group">
             <label class="control-label" for="input01">Slug</label>
             <div class="controls">
@@ -51,6 +53,7 @@
               <p class="help-block">untuk alamat url</p>
             </div>
           </div>
+
           <div class="control-group">
             <label class="control-label" for="select01">Parent</label>
             <div class="controls">
@@ -61,7 +64,21 @@
                 <?php endforeach; ?>
               </select>
             </div>
+          </div>         
+
+          <div class="control-group">
+            <label class="control-label" for="input01">Users List</label>
+            <div class="controls">
+              <?php $users = $this->basecrud_m->get('forum_users');?>
+              <select class="form-control chosen-select-deselect" multiple name="arr_user[]">
+                <option value=""></option>
+                <?php foreach($users->result() as $user) { ?>
+                <option value="<?php echo $user->id;?>" /> <?php echo $user->username;?>
+                <?php } ?>
+              </select>
+            </div>
           </div>
+
           
           <div class="form-actions">
             <input type="submit" name="btn-create" class="btn btn-primary" value="Buat Kategori"/>
