@@ -243,7 +243,8 @@
                <div></div>
             </div>
             <div  class="button-previous">Previous</div>
-            
+               <?php $gal_slideshow = $this->basecrud_m->get_where('galeri',array('slideshow' => 'Y'));?>
+
                <div class="main-slider-content" style="width:1100px; height:300px;">
                   <ul class="sliders-wrap-inner">
                      <?php foreach ($slideshow->result() as $sl_u){ ?>
@@ -258,6 +259,17 @@
                         </div>
                      </li>
                      <?php } ?>
+
+                     <?php foreach ($gal_slideshow->result() as $gl_u){ ?>
+                     <li>
+                        <img src="<?php echo base_URL()."timthumb?src=/upload/galeri/".$gl_u->file;?>&w=785&h=300&zc=0" alt="" style="height: 300px;width:785px" title="Newsflash 2" >           
+                        <div class="slider-description">                           
+                           <h3><?php echo strtoupper($gl_u->judul);?></h3>
+                           <h4><?php echo strtoupper($gl_u->ket);?></h4>                           
+                        </div>
+                     </li>
+                     <?php } ?>
+
                   </ul>
                </div>
                <!-- END MAIN CONTENT --> 
@@ -274,6 +286,16 @@
                            </div>
                         </li>
                         <?php } ?>                        
+                        
+                        <?php foreach ($gal_slideshow->result() as $gl_u){ ?>
+                        <li>
+                           <div>
+                              <img src="<?php echo base_URL()."timthumb?src=/upload/galeri/".$gl_u->file;?>&w=68&h=68&zc=0" alt="" style="height: 68px;width:68px" />
+                              <h5> <?php echo strtoupper($gl_u->judul);?> </h5>
+                              <?php echo strip_tags(substr($gl_u->ket,0,50)) . '...'?>
+                           </div>
+                        </li>
+                        <?php } ?>   
                      </ul>
                   </div>
                </div>

@@ -315,8 +315,8 @@ class Admin extends CI_Controller {
     {
         // set pagination
         $this->load->library('pagination');
-        $this->page_config['base_url']    = site_url('admin/thread_view/');
-        $this->page_config['uri_segment'] = 3;
+        $this->page_config['base_url']    = site_url('forum/admin/thread_view/');
+        $this->page_config['uri_segment'] = 4;
         $this->page_config['total_rows']  = $this->db->count_all_results(TBL_THREADS);
         $this->page_config['per_page']    = 10;
         

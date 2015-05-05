@@ -35,7 +35,7 @@
 				<td><label>Judul</label></td>
 				<td><input class="span6" required type="text" name="judul" value="<?php echo $judul;?>" required></td>
 			</tr>
-			<!--
+			
 			<tr>
 				<td><label>SlideShow</label></td>
 				<td>
@@ -45,13 +45,12 @@
 					</select>
 				</td>
 			</tr>
-			-->
-			<!--
+			
 			<tr style="display:none;" id="keterangan">
 				<td><label>Keterangan</label></td>
 				<td><input class="span6" type="text" name="ket" value="<?php echo $ket;?>"></td>
 			</tr>
-			-->
+			
 			<tr>
 				<td></td>
 				<td><input type="submit" class="btn" value="Simpan" style="margin-top: -10px"></td>
@@ -74,12 +73,12 @@
 					<div class="caption">
 						<h6 style="text-align: center; margin-top: 0">					
 							<strong><?php echo strtoupper($d->judul)?></strong> <br>
-							<!--
+							
 							<?php if(!IsNullOrEmptyString($d->ket)){ ?>  					
 							<?php echo '(' . ucwords($d->ket) . ')'?> <br>  	
 							<?php } ?>
-							-->
-							<!--<input <?php echo $d->slideshow === 'Y' ? 'checked' : ''?> class="slideshow-cb" id="<?php echo $d->id;?>" type="checkbox"> Slideshow<br>-->
+							
+							<input <?php echo $d->slideshow === 'Y' ? 'checked' : ''?> class="slideshow-cb" id="<?php echo $d->id;?>" type="checkbox"> Slideshow<br>
 							<a href="<?php echo base_URL()?>manage/galeri/del_foto/<?php echo $detalb->id?>/<?php echo $d->id?>" onclick="return confirm('Anda Yakin ..?'); ">Hapus Foto</a> | 
 							<a href="<?php echo base_URL()?>manage/galeri/edit_foto/<?php echo $detalb->id?>/<?php echo $d->id?>" >Edit Foto</a>
 						</h6>

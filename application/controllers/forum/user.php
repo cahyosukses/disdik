@@ -51,9 +51,10 @@ class User extends CI_Controller {
         
         $this->data['title']   = 'User Join or Login :: '.FORUM_TITLE;
         
-        $this->load->view('forum/header', $this->data);
-        $this->load->view('forum/user/join');
-        $this->load->view('forum/footer');
+        $this->load->view('forum/login',$this->data);
+        //$this->load->view('forum/header', $this->data);
+        //$this->load->view('forum/user/join');
+        //$this->load->view('forum/footer');
     }
     
     public function user_edit($user_id)

@@ -175,8 +175,8 @@ class Thread extends CI_Controller {
         
         // set pagination
         $this->load->library('pagination');
-        $this->page_config['base_url']    = site_url('thread/talk/'.$slug);
-        $this->page_config['uri_segment'] = 4;
+        $this->page_config['base_url']    = site_url('forum/thread/talk/'.$slug);
+        $this->page_config['uri_segment'] = 5;
         $this->page_config['total_rows']  = $this->db->get_where(TBL_POSTS, array('thread_id' => $thread->id))->num_rows();
         $this->page_config['per_page']    = 10;
         
@@ -235,8 +235,8 @@ class Thread extends CI_Controller {
         
         // set pagination
         $this->load->library('pagination');
-        $this->page_config['base_url']    = site_url('thread/category/'.$slug);
-        $this->page_config['uri_segment'] = 4;
+        $this->page_config['base_url']    = site_url('forum/thread/category/'.$slug);
+        $this->page_config['uri_segment'] = 5;
         $this->page_config['total_rows']  = $this->forum_thread_m->get_total_by_category($cat_id);
         $this->page_config['per_page']    = 10;
         
