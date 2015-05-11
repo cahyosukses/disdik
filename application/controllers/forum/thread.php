@@ -89,6 +89,91 @@ class Thread extends CI_Controller {
                 $this->data['error']    = $this->forum_thread_m->error;
             } else {
                 $this->session->set_userdata('tmp_success_new', 1);
+                
+                $thread   = $this->input->post('row');
+                $cat_id   = $thread['category_id'];
+                //$title    = $thread['title'];
+
+                $r = $this->db->query("SELECT name,arr_user FROM forum_categories WHERE id = $cat_id");    
+                if($r->num_rows() > 0){
+
+                    if($r->row()->arr_user !== '(NULL)'){
+                        date_default_timezone_set('Etc/UTC');
+                        $this->load->library('My_PHPMailer');
+                        $mail = new PHPMailer();
+                        $mail->isSMTP();
+                        $mail->Host       = 'smtp.gmail.com';
+                        $mail->Port       = 587;
+                        $mail->SMTPSecure = 'tls';
+                        $mail->SMTPAuth   = true;
+                        $mail->Username   = "disdik.jambiprov.forum@gmail.com";
+                        $mail->Password   = "0EWzNQhcrixo";
+                        $mail->setFrom('disdik.jambiprov.forum@gmail.com', 'Forum disdik-jambiprov.com');
+                        $mail->addReplyTo('disdik.jambiprov.forum@gmail.com', 'Forum disdik-jambiprov.com');
+
+                        $id_users = $r->row()->arr_user;
+                        $arr_id   = explode(",", $id_users);
+
+                        foreach ($arr_id as $id_user) {
+                            $email = $this->db->query("SELECT email FROM forum_users WHERE id = $id_user")->row()->email;                    
+                            $mail->addAddress($email);                        
+                        }
+
+                        $mail->isHTML(true);// Set email format to HTML
+
+                        $mail->Subject = 'Ada Post terbaru di Forum disdik-jambiprov.com';                    
+                        
+                        $body          = '<b>Pemberitahuan Post Terbaru</b><br>';
+                        $body         .= '<table>';
+                        
+                        $body         .= '<tr>';
+                        $body         .= '  <td style="width:30%">Nama Pembuat</td>';
+                        $body         .= '  <td>' . $this->session->userdata('forum_username') . '</td>'; 
+                        $body         .= '</tr>';
+
+                        $body         .= '<tr>';
+                        $body         .= '  <td>Judul Post</td>';                    
+                        $body         .= '  <td>' . $this->forum_thread_m->fields['title'] . '</td>';
+                        $body         .= '</tr>';
+
+                        $body         .= '<tr>';
+                        $body         .= '  <td>Kategori Forum</td>';
+                        $body         .= '  <td>' . $r->row()->name . '</td>';
+                        $body         .= '</tr>';
+
+                        $body         .= '<tr>';
+                        $body         .= '  <td>Link Post</td>';
+                        $body         .= '  <td>' . base_url() . 'forum/thread/talk/'.$this->forum_thread_m->fields['slug'] . '</td>';
+                        $body         .= '</tr>';
+                        $body         .= '</table><br><br>';
+
+                        $body         .= 'Email ini dikirim karena email anda tercatat sebagai anggota forum disdik-jambiprov.com';
+                        
+                        $mail->Body    = $body;
+
+                        $AltBody       = 'Pemberitahuan Post Terbaru' . PHP_EOL;
+                        $AltBody      .= 'Nama Pembuat   : ' . $this->session->userdata('forum_username') . PHP_EOL; 
+                        $AltBody      .= 'Judul Post     : ' . $this->forum_thread_m->fields['title'] . PHP_EOL;
+                        $AltBody      .= 'Kategori Forum : ' . $r->row()->name . PHP_EOL;
+                        $AltBody      .= 'Link Post      : ' . base_url() . 'forum/thread/talk/'.$this->forum_thread_m->fields['slug'] . PHP_EOL;
+                        $AltBody      .= 'Email ini dikirim karena email anda tercatat sebagai anggota forum disdik-jambiprov.com';
+
+                        $mail->AltBody = $AltBody;
+
+                        if(!$mail->send()) {
+                            echo 'Message could not be sent.';
+                            echo 'Mailer Error: ' . $mail->ErrorInfo;
+                            exit(0);
+                        } else {
+                            echo 'Message has been sent';
+                        }
+
+                    }
+                    
+                 }
+
+                /*end kirim email*/
+
                 redirect('forum/thread/talk/'.$this->forum_thread_m->fields['slug']);
             }
         }

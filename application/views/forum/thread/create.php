@@ -1,3 +1,13 @@
+<style>
+
+
+  .block {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 0px solid #CCCCCC;
+    margin: 1em 0;
+}
+</style>
+
 <div class="span3"></div>
 <div class="span6">
         <div class="page-header">
@@ -21,7 +31,8 @@
             <?php endif; ?>  
         </div>
         <?php endif; ?>
-        <form class="well" action="" method="post" style="margin: 5px 10px;">
+        <form class="well block" action="" method="post" style="margin: 5px 10px;" onsubmit="ShowProgressAnimation()">
+       
         <script>
         $(function() {
             $('#title').change(function() {
@@ -30,12 +41,13 @@
             });
         });
         </script>
+
         <label>Title</label>
-        <input type="text" id="title" name="row[title]" class="span12" placeholder="">
+        <input type="text" id="title" name="row[title]" class="span12" placeholder="" required/>
         <label>Slug (alamat url)</label>
-        <input type="text" id="slug" name="row[slug]" class="span12" placeholder="">
+        <input type="text" id="slug" name="row[slug]" class="span12" placeholder="" required/>
         <label>Kategory</label>
-        <select class="span12" name="row[category_id]">
+        <select class="span12" name="row[category_id]" required />
             <option value="0">-- none --</option>  
             <?php foreach ($categories as $cat): ?>
             <option value="<?php echo $cat['id']; ?>"><?php echo $cat['name']; ?></option>
@@ -83,7 +95,14 @@
         </script>
         <label>First Post</label>
         <textarea id="tinyMCE" name="row_post[post]" id="firstpost"  rows="8" class="span12"></textarea>
-        <input type="submit" style="margin-top:15px;font-weight: bold;" name="btn-create" class="btn btn-primary btn-large" value="Buat Topik"/>
+        <input type="submit" style="margin-top:15px;font-weight: bold;" name="btn-create" class="btn btn-primary btn-large" value="Buat Topik" />
         </form>
     </div>
-<div class="span3"></div>
+    <div id="loading-div-background">
+      <div id="loading-div" class="ui-corner-all">
+        <img style="height:50px;width:50px;margin:30px;" src="<?php echo base_url()?>assets/please_wait.gif" alt="Loading.."/><br>PROCESSING<br>PLEASE WAIT
+      </div>
+    </div>
+<div class="span3">
+    
+</div>

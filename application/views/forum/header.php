@@ -6,7 +6,35 @@
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/forum/bootstrap/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/forum/bootstrap/css/bootstrap-responsive.min.css"/>
     <link href="<?php echo base_URL()?>assets/chosen_v1.3.0/chosen.css" rel="stylesheet">
-
+    <style type="text/css">
+  
+         #loading-div-background{
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: #fff;
+            width: 100%;
+            height: 100%;
+        }
+        
+        #loading-div{
+            width: 300px;
+            height: 150px;
+            background-color: #fff;
+            border: 5px solid #1468b3;
+            text-align: center;
+            color: #202020;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            margin-left: -150px;
+            margin-top: -100px;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+        }
+    </style>
     <script src="<?php echo base_url(); ?>assets/forum/bootstrap/js/jquery-1.7.2.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/forum/bootstrap/js/bootstrap.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/forum/jquery/jquery.slugit.js"></script>
@@ -14,6 +42,22 @@
     <script src="<?php echo base_URL()?>assets/chosen_v1.3.0/chosen.jquery.js"></script>
 
     <script type="text/javascript">
+        $(document).ready(function () {
+            $("#loading-div-background").css({ opacity: 0.5 });
+                    
+
+            var config = {
+                '.chosen-select'           : {},
+                '.chosen-select-deselect'  : {allow_single_deselect:true},
+                '.chosen-select-no-single' : {disable_search_threshold:10},
+                '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+                '.chosen-select-width'     : {width:"95%"}
+            }
+            for (var selector in config) {
+                $(selector).chosen(config[selector]);
+            }
+        });
+
         tinyMCE.init({
                 mode : "textareas",
                 theme : "advanced",
@@ -48,18 +92,13 @@
           return false;
         }
 
-        $(document).ready(function () {            
-              var config = {
-                '.chosen-select'           : {},
-                '.chosen-select-deselect'  : {allow_single_deselect:true},
-                '.chosen-select-no-single' : {disable_search_threshold:10},
-                '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
-                '.chosen-select-width'     : {width:"95%"}
-                }
-              for (var selector in config) {
-                $(selector).chosen(config[selector]);
-              }
-          });
+        function ShowProgressAnimation(){
+            $("#loading-div-background").show(); 
+        }
+
+        
+
+
     </script>
     </head>
     <body>            

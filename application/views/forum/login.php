@@ -103,8 +103,8 @@
                                        <div id="slider">
                                           <ul>
                                              <li><a href=""><img src="<?php echo base_URL() . 'assets/forum/'?>login/01x.jpg" alt=""></a></li>
-                                             <li><a href=""><img src="<?php echo base_URL() . 'assets/forum/'?>login/01x.jpg" alt=""></a></li>
-                                             <li><a href=""><img src="<?php echo base_URL() . 'assets/forum/'?>login/01x.jpg" alt=""></a></li>                                             
+                                             <li><a href=""><img src="<?php echo base_URL() . 'assets/forum/'?>login/02x.jpg" alt=""></a></li>
+                                             <li><a href=""><img src="<?php echo base_URL() . 'assets/forum/'?>login/03.jpg" alt=""></a></li>                                             
                                           </ul>
                                        </div>
                                        <!--
