@@ -91,12 +91,10 @@
                               <div id="container">
                                  <div id="judul">
                                     <h1></h1>
-                                    <h1 style="font-family:'Lucida Sans Unicode', 'Lucida Grande', sans-serif ; color:#555555">Selamat Datang<br>
-                                       <span><font style="font-family:'Lucida Sans Unicode', 'Lucida Grande', sans-serif" size="3" color="#555555"><b>Di Forum</b></font><b><br>
-                                       </b>
-                                       </span>
-                                    </h1>
-                                    <b></b>
+                                    <h1 style="font-family:'Lucida Sans Unicode', 'Lucida Grande', sans-serif ; color:#555555"><span class="style1">Sistem Informasi Forum Komunikasi Internal (E-FORUM)</span><br>
+                                       <span><font style="font-family:'Lucida Sans Unicode', 'Lucida Grande', sans-serif" size="3" color="#555555"><b>BTIKP DINAS PENDIDIKAN PROVINSI JAMBI</b></font><br>
+                                       </b>                                       </span>                                    </h1>
+                                   <b></b>
                                  </div>
                                  <b>
                                     <div id="isi">
