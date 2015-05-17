@@ -30,8 +30,23 @@
                 <?php }elseif($r->tipe === 'image'){ ?>
                   <img style="margin-bottom: 10px" src="<?php echo base_url(); ?>timthumb?src=/upload/<?php echo $r->value;?>&h=<?php echo $r->img_height?>&w=<?php echo $r->img_width?>&zc=0">
                   <form action="<?php echo base_url() . 'manage/settings/upload/' . $r->title;?>" method="POST" enctype="multipart/form-data">                                
-                         <input class="upload" name="img" onchange="this.form.submit()" multiple="" type="file">                                       
-                   </form>
+                    <input class="upload" name="img" onchange="this.form.submit()" multiple="" type="file">                                       
+                  </form>
+                <?php }else{ ?>
+                  <script type="text/javascript">
+                    var flashvars = {};
+                    var params = {};
+                    params.scale = "exactfit";
+                    var attributes = {};
+                    swfobject.embedSWF("<?php echo base_url() . 'upload/' . $r->value;?>", "<?php echo $r->title;?>", "<?php echo $r->img_width?>", "<?php echo $r->img_height?>", "9.0.0", false,flashvars,params,attributes);
+                  </script>
+                  <div id="<?php echo $r->title;?>">
+                    <h1>Alternative content</h1>
+                    <p><a href="http://www.adobe.com/go/getflashplayer"><img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" /></a></p>
+                  </div>
+                  <form action="<?php echo base_url() . 'manage/settings/upload/' . $r->title;?>" method="POST" enctype="multipart/form-data">                                
+                    <input class="upload" name="img" onchange="this.form.submit()" multiple="" type="file">                                       
+                  </form>
                 <?php } ?>
                   
                 </td>

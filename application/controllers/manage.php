@@ -176,7 +176,7 @@ class Manage extends MY_Controller {
 				
 				$upload = array();
 				$upload['upload_path'] = './upload';
-				$upload['allowed_types'] = 'jpeg|jpg|png';
+				$upload['allowed_types'] = 'jpeg|jpg|png|swf';
 				$upload['encrypt_name'] = TRUE;
 				
 				$this->load->library('upload', $upload);
@@ -187,10 +187,16 @@ class Manage extends MY_Controller {
 					
 				} else
 				{
-					$success = $this->upload->data();
-					$value = $success['file_name'];
+					$success  = $this->upload->data();
+					$value    = $success['file_name'];
+					$file_ext = $success['file_ext'];
+
+					$tipe = $file_ext === '.swf' ? 'swf' : 'image';
 					
-					$this->settings_m->update_by_title($param, array('value'=>$value));
+					$this->settings_m->update_by_title($param, array('value' => $value,
+																	 'tipe'  => $tipe
+						                                            )
+					                                  );
 					redirect('manage/settings');
 				}
 			}
@@ -205,8 +211,8 @@ class Manage extends MY_Controller {
 		
 		
 		$data['setting'] = $this->basecrud_m->get_where('settings',array('show'=>'Y'));
-		$data['page'] = 'v_settings';			
-		$data['title'] = 'Data Settings';		
+		$data['page']    = 'v_settings';			
+		$data['title']   = 'Data Settings';		
 		
 		$this->_generate_page($data);
 	}

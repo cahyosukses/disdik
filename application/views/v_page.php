@@ -1,7 +1,8 @@
 <?php 
-   $fb_fanpage = $this->basecrud_m->get_where('settings',array('title' => 'fb_fanpage'))->row()->value;
-   $running_text = $this->basecrud_m->get_where('settings',array('title' => 'running_text'))->row()->value;
-   $header_img = $this->basecrud_m->get_where('settings',array('title' => 'header_img'))->row()->value;
+   $fb_fanpage     = $this->basecrud_m->get_where('settings',array('title' => 'fb_fanpage'))->row()->value;
+   $running_text   = $this->basecrud_m->get_where('settings',array('title' => 'running_text'))->row()->value;
+   $header_img     = $this->basecrud_m->get_where('settings',array('title' => 'header_img'))->row()->value;
+   $header_type    = $this->basecrud_m->get_where('settings',array('title' => 'header_img'))->row()->tipe;
    $background_img = $this->basecrud_m->get_where('settings',array('title' => 'background_img'))->row()->value;
 ?>
 
@@ -107,14 +108,16 @@
       </style>
 
       <link rel="shortcut icon" href="<?php echo base_URL()?>/favicon.ico">
+      <script src="<?php echo base_URL()?>assets/swfobject/swfobject.js"></script>
+
       <?php if(isset($show_map)){ ?>
-      <script  src="http://maps.googleapis.com/maps/api/js"></script>
+      <script  src="http://maps.googleapis.com/maps/api/js"></script>      
       <script>
          var directionsDisplay;
-               var directionsService = new google.maps.DirectionsService();
-               var endLatlng = new google.maps.LatLng(-1.6067930000000104,103.57839999999999);
+         var directionsService = new google.maps.DirectionsService();
+         var endLatlng = new google.maps.LatLng(-1.6067930000000104,103.57839999999999);
                 
-                function initialize() {
+         function initialize() {
                 
             directionsDisplay = new google.maps.DirectionsRenderer();
             var mapOptions = {
@@ -139,7 +142,8 @@
             control.style.display = 'block';
                 
             map.controls[google.maps.ControlPosition.TOP_CENTER].push(control);         
-                }
+         }
+         
          google.maps.event.addDomListener(window, 'load', initialize);
       </script>
       <?php } ?>
@@ -147,10 +151,28 @@
    <?php
       $l_val   = array("", "blog", "portofolio", "download", "bukutamu");
       $l_view  = array("Beranda", "Blog", "Portofolio", "Download", "Contact");
-      ?>
+   ?>
    <body>
       <div class="container well" style="width: 1100px">
+      <?php if($header_type === 'image'){ ?>      
          <img src="<?php echo base_URL() . "timthumb?src=/upload/". $header_img;?>&w=1100&h=100&zc=0" style="width: 1100px; height: 100px; display: inline; margin: -5px 0 5px 0">
+      <?php }else{ ?>
+           <script type="text/javascript">
+             var flashvars = {};
+             var params = {};
+             params.scale = "exactfit";
+             var attributes = {};
+             swfobject.embedSWF("<?php echo base_url() . 'upload/' . $header_img;?>", "header_image", "1100", "150", "9.0.0", false,flashvars,params,attributes);
+           </script>
+           <div id="header_image">
+             <h1>Alternative content</h1>
+             <p><a href="http://www.adobe.com/go/getflashplayer">
+              <img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" />
+                </a>
+             </p>
+           </div>
+      <?php } ?>
+         
          <!--<h3 style="margin: -120px 0 20px 90px; font-family: Georgia; font-size: 30px">Dinas Pendidikan Provinsi Jambi</h3>-->
          <br>
          <!--<small style="font-family: Times New Roman; font-size: 17px; margin: -40px 0 0 90px; display: inline; position: absolute">Alamat : Jl. Jend. A. Yani No.06 Telanaipura Jambi. Telp. (0741) 63197 Fax. (0741) 63197</small>-->

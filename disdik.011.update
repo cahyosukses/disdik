@@ -1,0 +1,2 @@
+ALTER TABLE `settings`
+	CHANGE COLUMN `tipe` `tipe` ENUM('small-text','big-text','image','swf') NULL DEFAULT 'small-text' AFTER `title`;

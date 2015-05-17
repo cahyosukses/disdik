@@ -41,6 +41,7 @@
       <link rel="apple-touch-icon-precomposed" sizes="72x72" href="<?php echo base_URL()?>assets/ico/apple-touch-icon-72-precomposed.png">
       <link rel="apple-touch-icon-precomposed" href="<?php echo base_URL()?>assets/ico/apple-touch-icon-57-precomposed.png">
       <script src="<?php echo base_URL()?>assets/js/jquery.js"></script>
+      <script src="<?php echo base_URL()?>assets/swfobject/swfobject.js"></script>
    </head>
    <body style="background: #fff">
       <div class="navbar navbar-inverse navbar-fixed-top">
@@ -153,6 +154,7 @@
       <script src="<?php echo base_URL()?>assets/js/bootstrap-collapse.js"></script>
       <script src="<?php echo base_URL()?>assets/js/bootstrap-carousel.js"></script>
       <script src="<?php echo base_URL()?>assets/js/bootstrap-typeahead.js"></script>
+      
       <!--<script src="<?php echo base_URL()?>assets/editor/nicEdit.js"></script>-->
       <script type="text/javascript">
          $(document).ready(function () {            
