@@ -122,8 +122,22 @@ class Thread extends CI_Controller {
                         $arr_id   = explode(",", $id_users);
 
                         foreach ($arr_id as $id_user) {
-                            $email = $this->db->query("SELECT email FROM forum_users WHERE id = $id_user")->row()->email;                    
-                            $mail->addAddress($email);                        
+
+                            $em = $this->db->query("SELECT IF(email = '','-',email) as email 
+                                                       FROM forum_users 
+                                                       WHERE id = $id_user");                    
+
+                            if($em->num_rows() > 0){
+                                $email = $em->row()->email;
+                                if(!IsNullOrEmptyString($email)){
+                                    if($this->_valid_email($email)){
+                                        $mail->addAddress($email);                                
+                                    }
+                                    
+                                }
+                            }    
+                            
+                            
                         }
 
                         $mail->isHTML(true);// Set email format to HTML
