@@ -16,7 +16,6 @@ class MY_Controller extends CI_Controller{
         
         $this->db->where('method',$method);
         $rs = $this->db->get('manage_menu')->row();
-
         $id = $rs->id;
         
         $menu_list = explode(',',$this->session->userdata('menu_list'));

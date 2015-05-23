@@ -2,33 +2,13 @@
 -- Host:                         127.0.0.1
 -- Server version:               5.6.20 - Source distribution
 -- Server OS:                    Linux
--- HeidiSQL Version:             9.1.0.4886
+-- HeidiSQL Version:             9.2.0.4950
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET NAMES utf8mb4 */;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-
--- Dumping database structure for disdik
-CREATE DATABASE IF NOT EXISTS `disdik` /*!40100 DEFAULT CHARACTER SET latin1 */;
-USE `disdik`;
-
-
--- Dumping structure for table disdik.admin
-CREATE TABLE IF NOT EXISTS `admin` (
-  `id` int(1) NOT NULL AUTO_INCREMENT,
-  `u` varchar(15) NOT NULL,
-  `p` varchar(100) NOT NULL,
-  `nama` varchar(30) NOT NULL,
-  `email` varchar(30) NOT NULL,
-  `level` enum('1','2','3') NOT NULL,
-  `menu_list` varchar(100) NOT NULL,
-  `aktif` enum('Y','N') NOT NULL DEFAULT 'Y',
-  `terhapus` enum('Y','N') NOT NULL DEFAULT 'N',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 COMMENT='1 = administrator\r\n2 = cuman bisa post berita';
-
 -- Dumping data for table disdik.admin: ~2 rows (approximately)
 DELETE FROM `admin`;
 /*!40000 ALTER TABLE `admin` DISABLE KEYS */;
@@ -36,24 +16,6 @@ INSERT INTO `admin` (`id`, `u`, `p`, `nama`, `email`, `level`, `menu_list`, `akt
 	(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 'Admin', 'admin@admin.com', '1', '1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28', 'Y', 'N'),
 	(2, 'user1', '24c9e15e52afc47c225b757e7bee1f9d', 'user poster berita', '', '2', '1,6,7,8,9,23,24', 'Y', 'N');
 /*!40000 ALTER TABLE `admin` ENABLE KEYS */;
-
-
--- Dumping structure for table disdik.aduan
-CREATE TABLE IF NOT EXISTS `aduan` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `topik` varchar(50) NOT NULL,
-  `nama_pengadu` varchar(50) NOT NULL,
-  `email_pengadu` varchar(50) NOT NULL,
-  `judul_program` varchar(50) NOT NULL,
-  `tgl_tayang_program` date NOT NULL,
-  `jam_tayang_program` varchar(50) NOT NULL,
-  `stasiun_program` varchar(50) NOT NULL,
-  `pesan` text NOT NULL,
-  `tampil` enum('Y','N') NOT NULL DEFAULT 'N',
-  `inserted_at` datetime NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table disdik.aduan: ~0 rows (approximately)
 DELETE FROM `aduan`;
@@ -63,16 +25,6 @@ INSERT INTO `aduan` (`id`, `topik`, `nama_pengadu`, `email_pengadu`, `judul_prog
 	(2, 'test topik', 'nama pengadu', 'email@pengadu.com', 'judul', '2014-01-01', '12.00WIB', 'indosiar', 'ini pesan', 'Y', '2015-03-14 18:09:08', '2015-03-15 02:42:55');
 /*!40000 ALTER TABLE `aduan` ENABLE KEYS */;
 
-
--- Dumping structure for table disdik.agenda
-CREATE TABLE IF NOT EXISTS `agenda` (
-  `id` int(3) NOT NULL AUTO_INCREMENT,
-  `tgl` date NOT NULL,
-  `ket` varchar(255) NOT NULL,
-  `tempat` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
-
 -- Dumping data for table disdik.agenda: ~2 rows (approximately)
 DELETE FROM `agenda`;
 /*!40000 ALTER TABLE `agenda` DISABLE KEYS */;
@@ -81,24 +33,6 @@ INSERT INTO `agenda` (`id`, `tgl`, `ket`, `tempat`) VALUES
 	(3, '2015-02-17', 'Upacara', 'Dinas Pendidikan Provinsi Jambi');
 /*!40000 ALTER TABLE `agenda` ENABLE KEYS */;
 
-
--- Dumping structure for table disdik.apresiasi
-CREATE TABLE IF NOT EXISTS `apresiasi` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `topik` varchar(50) NOT NULL,
-  `nama_pengirim` varchar(50) NOT NULL,
-  `email_pengirim` varchar(50) NOT NULL,
-  `judul_program` varchar(50) NOT NULL,
-  `tgl_tayang_program` date NOT NULL,
-  `jam_tayang_program` varchar(50) NOT NULL,
-  `stasiun_program` varchar(50) NOT NULL,
-  `pesan` text NOT NULL,
-  `tampil` enum('Y','N') NOT NULL DEFAULT 'N',
-  `inserted_at` datetime NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
-
 -- Dumping data for table disdik.apresiasi: ~0 rows (approximately)
 DELETE FROM `apresiasi`;
 /*!40000 ALTER TABLE `apresiasi` DISABLE KEYS */;
@@ -106,24 +40,6 @@ INSERT INTO `apresiasi` (`id`, `topik`, `nama_pengirim`, `email_pengirim`, `judu
 	(1, 'topik apresiasi', 'nama pengirim', 'email@pengirim.com', 'judul program', '0000-00-00', '12.00 WIB', 'stasiun program', 'pesan apresiasi', 'Y', '2015-03-14 12:28:02', '2015-03-31 08:21:30'),
 	(2, '12345678901234567890123456789012345678901234567890', 'nama pengirim', '', 'judul', '2014-01-01', '12.00WIB', 'indosiar', 'xxxx', 'Y', '2015-03-14 18:12:07', '2015-03-31 08:43:56');
 /*!40000 ALTER TABLE `apresiasi` ENABLE KEYS */;
-
-
--- Dumping structure for table disdik.berita
-CREATE TABLE IF NOT EXISTS `berita` (
-  `id` int(4) NOT NULL AUTO_INCREMENT,
-  `judul` varchar(255) NOT NULL,
-  `gambar` varchar(100) NOT NULL,
-  `file_name` varchar(100) NOT NULL,
-  `isi` mediumtext NOT NULL,
-  `hits` int(4) NOT NULL,
-  `tglPost` datetime NOT NULL,
-  `kategori` varchar(75) NOT NULL,
-  `oleh` varchar(30) NOT NULL,
-  `publish` int(1) NOT NULL,
-  `sticky` enum('Y','N') NOT NULL DEFAULT 'N',
-  `slideshow` enum('Y','N') NOT NULL DEFAULT 'N',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table disdik.berita: ~12 rows (approximately)
 DELETE FROM `berita`;
@@ -140,20 +56,9 @@ INSERT INTO `berita` (`id`, `judul`, `gambar`, `file_name`, `isi`, `hits`, `tglP
 	(15, 'Kegiatan Pelatihan TIK', '', '', 'PELATIHAN', 0, '2012-12-30 23:44:59', '3-', 'admin', 1, 'N', 'N'),
 	(16, 'Beasiswa 2015', '70b4f9ce5812e63cbb6a98ae06275085.jpg', '', '<p>Info beasiswa</p>', 7, '2012-12-30 23:45:29', '2', 'admin', 1, 'N', 'Y'),
 	(17, 'Kegiatan HUT KE-58 Provinsi Jambi', 'IMG_4432.JPG', '', '<div><strong>Bola.net </strong>- Ketika beberapa klub sudah antusias bersiap menyambut jendela transfer musim dingin guna memperkuat diri, Sir Alex Ferguson malah kalem.</div>\n<div>&nbsp;</div>\n<div>Gaffer Manchester United itu mengaku tidak pernah suka dengan penambahan amunisi di tengah musim, dan ia punya alasan tersendiri akan hal tersebut.</div>\n<div>&nbsp;</div>\n<div>"Bursa transfer Januari tidak pernah menjadi bursa transfer terbaik dan itu telah terbukti selama bertahun-tahun dengan sangat sedikitnya transfer-transfer besar terjadi," ucapnya.</div>\n<div>&nbsp;</div>\n<div>Fergie mengacu pada kondisi beberapa tahun terakhir, ketika sangat jarang terjadi pembelian-pembelian yang sukses pada Januari.</div>\n<div>&nbsp;</div>\n<div>Justru yang lebih sering terjadi adalah pembelian pemain dengan biaya besar namun tidak sukses di kemudian hari.</div>\n<div>&nbsp;</div>\n<div>Hasilnya, kemungkinan klub-klub panik dengan prospek memiliki tim yang tidak maksimal sampai Mei dengan sekelompok pemain yang gagal memenuhi harapan.</div>\n<div>&nbsp;</div>\n<div>"Semua transfer besar terjadi pada musim panas," imbuh pria yang sudah bekerja di Old Trafford sejak 26 tahun silam tersebut. (dym/lex)</div>', 41, '2012-11-30 23:46:06', '2', 'admin', 1, 'N', 'Y'),
-	(26, 'framework xxx', 'ac45e60c6e330951aab8faba1c0d8303.jpg', '601baceeb1b9ae63765b073c6e3666c4.pdf', '<p>sasa</p>', 34, '2015-03-03 00:32:44', '1-2', 'admin', 1, 'N', 'Y');
+	(26, 'framework xxx', 'ac45e60c6e330951aab8faba1c0d8303.jpg', '601baceeb1b9ae63765b073c6e3666c4.pdf', '<p>sasa</p>', 34, '2015-03-03 00:32:44', '1-2', 'admin', 1, 'N', 'Y'),
+	(27, 'test test', '', '', '<p>test test</p>', 0, '2015-05-04 14:40:59', '1', 'admin', 1, 'N', 'N');
 /*!40000 ALTER TABLE `berita` ENABLE KEYS */;
-
-
--- Dumping structure for table disdik.berita_komen
-CREATE TABLE IF NOT EXISTS `berita_komen` (
-  `id` int(4) NOT NULL AUTO_INCREMENT,
-  `id_berita` int(4) NOT NULL,
-  `nama` varchar(100) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `komentar` varchar(250) NOT NULL,
-  `tgl` datetime NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table disdik.berita_komen: ~2 rows (approximately)
 DELETE FROM `berita_komen`;
@@ -162,24 +67,6 @@ INSERT INTO `berita_komen` (`id`, `id_berita`, `nama`, `email`, `komentar`, `tgl
 	(1, 4, 'xxx', 'xxx@xxx.com', 'xxxx <b>test</b>', '2015-03-04 14:21:31'),
 	(2, 4, 'xxx', 'xxx@xxx.com', 'isi pesan [removed]alert&#40;\'test\'&#41;[removed]', '2015-03-04 14:23:03');
 /*!40000 ALTER TABLE `berita_komen` ENABLE KEYS */;
-
-
--- Dumping structure for table disdik.data_guru
-CREATE TABLE IF NOT EXISTS `data_guru` (
-  `id` int(3) NOT NULL AUTO_INCREMENT,
-  `id_sekolah` int(11) NOT NULL,
-  `nip` varchar(30) NOT NULL,
-  `nuptk` varchar(30) NOT NULL,
-  `nama` varchar(100) NOT NULL,
-  `status` varchar(50) NOT NULL,
-  `mapel` varchar(50) NOT NULL,
-  `jk` enum('l','p') NOT NULL,
-  `alamat` varchar(200) NOT NULL,
-  `foto` varchar(150) NOT NULL,
-  `aktif` enum('Y','N') NOT NULL DEFAULT 'Y',
-  `terhapus` enum('Y','N') NOT NULL DEFAULT 'N',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table disdik.data_guru: ~2 rows (approximately)
 DELETE FROM `data_guru`;
@@ -190,15 +77,6 @@ INSERT INTO `data_guru` (`id`, `id_sekolah`, `nip`, `nuptk`, `nama`, `status`, `
 	(7, 1, '', '1122', 'budi', 'cpns', '', 'l', '', '', 'Y', 'N');
 /*!40000 ALTER TABLE `data_guru` ENABLE KEYS */;
 
-
--- Dumping structure for table disdik.data_informasi
-CREATE TABLE IF NOT EXISTS `data_informasi` (
-  `id` int(2) NOT NULL AUTO_INCREMENT,
-  `judul` varchar(200) NOT NULL,
-  `isi` longtext NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
-
 -- Dumping data for table disdik.data_informasi: ~2 rows (approximately)
 DELETE FROM `data_informasi`;
 /*!40000 ALTER TABLE `data_informasi` DISABLE KEYS */;
@@ -206,16 +84,6 @@ INSERT INTO `data_informasi` (`id`, `judul`, `isi`) VALUES
 	(1, 'Rekap Data Sekolah', 'REKAP COYYYY<br>'),
 	(2, 'Daftar Nama dan Alamat Sekolah', 'DAFTAR<br>');
 /*!40000 ALTER TABLE `data_informasi` ENABLE KEYS */;
-
-
--- Dumping structure for table disdik.data_produk_hukum
-CREATE TABLE IF NOT EXISTS `data_produk_hukum` (
-  `id` int(2) NOT NULL AUTO_INCREMENT,
-  `judul` varchar(200) NOT NULL,
-  `terhapus` enum('Y','N') NOT NULL DEFAULT 'N',
-  `isi` longtext NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table disdik.data_produk_hukum: ~7 rows (approximately)
 DELETE FROM `data_produk_hukum`;
@@ -230,40 +98,6 @@ INSERT INTO `data_produk_hukum` (`id`, `judul`, `terhapus`, `isi`) VALUES
 	(7, 'Keputusan Kepala Dinas', 'N', 'KKD<br>');
 /*!40000 ALTER TABLE `data_produk_hukum` ENABLE KEYS */;
 
-
--- Dumping structure for table disdik.data_sekolah
-CREATE TABLE IF NOT EXISTS `data_sekolah` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `npsn` varchar(50) NOT NULL,
-  `nss` varchar(50) NOT NULL,
-  `nama` varchar(100) NOT NULL,
-  `id_kabupaten` int(11) NOT NULL,
-  `kecamatan` varchar(50) NOT NULL,
-  `kelurahan` varchar(50) NOT NULL,
-  `alamat` varchar(50) NOT NULL,
-  `kodepos` varchar(50) NOT NULL,
-  `no_telp` varchar(50) NOT NULL,
-  `no_faks` varchar(50) NOT NULL,
-  `email` varchar(50) NOT NULL,
-  `waktu_persekolahan` varchar(50) NOT NULL,
-  `akreditasi` varchar(50) NOT NULL,
-  `jenjang` varchar(50) NOT NULL,
-  `jumlah_ruang` varchar(50) NOT NULL,
-  `jumlah_lahan` varchar(50) NOT NULL,
-  `jumlah_gedung` varchar(50) NOT NULL,
-  `jumlah_kelas` varchar(50) NOT NULL,
-  `status` varchar(50) NOT NULL,
-  `website` varchar(50) NOT NULL,
-  `lembaga` tinyint(4) NOT NULL DEFAULT '1',
-  `rombel` tinyint(4) NOT NULL DEFAULT '0',
-  `murid` tinyint(4) NOT NULL DEFAULT '0',
-  `guru` tinyint(4) NOT NULL DEFAULT '0',
-  `lulusan` tinyint(4) NOT NULL DEFAULT '0',
-  `terhapus` enum('Y','N') NOT NULL DEFAULT 'N',
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1 COMMENT='nss= nomor statistik sekolah';
-
 -- Dumping data for table disdik.data_sekolah: ~4 rows (approximately)
 DELETE FROM `data_sekolah`;
 /*!40000 ALTER TABLE `data_sekolah` DISABLE KEYS */;
@@ -273,24 +107,6 @@ INSERT INTO `data_sekolah` (`id`, `npsn`, `nss`, `nama`, `id_kabupaten`, `kecama
 	(3, '22222', '11111', 'nama', 2, '', '', '', '', '', '', '', '', '', 'sd', '10', '0', '0', '0', 'negeri', '', 1, 0, 0, 0, 0, 'N', '2015-03-02 15:24:19'),
 	(6, '1122334455', '', 'Nama Sekolah', 10, '', '', '', '', '', '', '', '', '', 'ma', '', '', '', '', 'swasta', '', 1, 0, 0, 0, 0, 'N', '2015-03-05 13:40:12');
 /*!40000 ALTER TABLE `data_sekolah` ENABLE KEYS */;
-
-
--- Dumping structure for table disdik.data_siswa
-CREATE TABLE IF NOT EXISTS `data_siswa` (
-  `id` int(3) NOT NULL AUTO_INCREMENT,
-  `id_sekolah` int(11) NOT NULL,
-  `nisn` varchar(20) NOT NULL,
-  `nama` varchar(100) NOT NULL,
-  `jurusan` varchar(50) NOT NULL,
-  `kelas` varchar(50) DEFAULT NULL,
-  `jk` enum('L','P') NOT NULL,
-  `alamat` varchar(200) NOT NULL,
-  `foto` varchar(150) NOT NULL,
-  `pass` varchar(100) NOT NULL,
-  `terhapus` enum('Y','N') NOT NULL DEFAULT 'N',
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table disdik.data_siswa: ~4 rows (approximately)
 DELETE FROM `data_siswa`;
@@ -303,22 +119,6 @@ INSERT INTO `data_siswa` (`id`, `id_sekolah`, `nisn`, `nama`, `jurusan`, `kelas`
 	(5, 1, '1122333444', 'nama siswa', '', '', 'L', '', '', '', 'N', '2015-03-06 21:30:18');
 /*!40000 ALTER TABLE `data_siswa` ENABLE KEYS */;
 
-
--- Dumping structure for table disdik.ekspresi
-CREATE TABLE IF NOT EXISTS `ekspresi` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nama` varchar(50) NOT NULL,
-  `email` varchar(50) NOT NULL,
-  `alamat` varchar(50) NOT NULL,
-  `website` varchar(50) NOT NULL,
-  `judul` varchar(50) NOT NULL,
-  `isi_ekspresi` text NOT NULL,
-  `tampil` enum('Y','N') NOT NULL DEFAULT 'N',
-  `inserted_at` datetime NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
-
 -- Dumping data for table disdik.ekspresi: ~2 rows (approximately)
 DELETE FROM `ekspresi`;
 /*!40000 ALTER TABLE `ekspresi` DISABLE KEYS */;
@@ -326,22 +126,6 @@ INSERT INTO `ekspresi` (`id`, `nama`, `email`, `alamat`, `website`, `judul`, `is
 	(1, 'tomi ', '', '', '', 'Buku Yang lain', 'Kok buku seperti Fisika, Kimia, Biologi, Ekonomi, Geografi tidak ada ya', 'Y', '0000-00-00 00:00:00', '2015-03-02 05:20:18'),
 	(3, 'rumi', '', '', '', 'judul', 'ekspresi', 'Y', '0000-00-00 00:00:00', '2015-03-02 05:20:20');
 /*!40000 ALTER TABLE `ekspresi` ENABLE KEYS */;
-
-
--- Dumping structure for table disdik.ekspresi_tanggapan
-CREATE TABLE IF NOT EXISTS `ekspresi_tanggapan` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_ekspresi` int(11) NOT NULL,
-  `nama` varchar(50) NOT NULL,
-  `email` varchar(50) NOT NULL,
-  `alamat` varchar(50) NOT NULL,
-  `website` varchar(50) NOT NULL,
-  `komentar` text NOT NULL,
-  `tampil` enum('Y','N') NOT NULL DEFAULT 'N',
-  `inserted_at` datetime NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table disdik.ekspresi_tanggapan: ~6 rows (approximately)
 DELETE FROM `ekspresi_tanggapan`;
@@ -355,69 +139,34 @@ INSERT INTO `ekspresi_tanggapan` (`id`, `id_ekspresi`, `nama`, `email`, `alamat`
 	(6, 1, 'Administrator', '', '', '', '<p>test aja lagi</p>', 'Y', '2015-02-26 23:26:16', '2015-03-01 11:59:51');
 /*!40000 ALTER TABLE `ekspresi_tanggapan` ENABLE KEYS */;
 
-
--- Dumping structure for table disdik.forum_categories
-CREATE TABLE IF NOT EXISTS `forum_categories` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `parent_id` int(11) NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `slug` varchar(100) NOT NULL,
-  `date_added` datetime NOT NULL,
-  `date_edit` datetime NOT NULL,
-  `publish` int(1) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
-
--- Dumping data for table disdik.forum_categories: ~0 rows (approximately)
+-- Dumping data for table disdik.forum_categories: ~4 rows (approximately)
 DELETE FROM `forum_categories`;
 /*!40000 ALTER TABLE `forum_categories` DISABLE KEYS */;
-INSERT INTO `forum_categories` (`id`, `parent_id`, `name`, `slug`, `date_added`, `date_edit`, `publish`) VALUES
-	(1, 0, 'kategori a', 'kategori-a', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0),
-	(2, 1, 'sub kategori a', 'sub-kategori-a', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0),
-	(3, 0, 'kategori b', 'kategori-b', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0),
-	(4, 3, 'sub kategori b', 'sub-kategori-b', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0);
+INSERT INTO `forum_categories` (`id`, `parent_id`, `name`, `slug`, `arr_user`, `date_added`, `date_edit`, `publish`) VALUES
+	(1, 0, 'Jejaring dan Web', 'jejaring-dan-web', '1,2', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0),
+	(3, 0, 'Kasubbag TU', 'kasubbag-tu', '(NULL)', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0),
+	(6, 0, 'Pegawai Non PNS', 'pegawai-non-pns', '(NULL)', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0),
+	(7, 0, 'Pegawai PNS', 'pegawai-pns', '(NULL)', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0),
+	(8, 0, 'RTF dan Multimedia Pembelajaran', 'rtf-dan-multimedia-pembelajaran', '(NULL)', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0);
 /*!40000 ALTER TABLE `forum_categories` ENABLE KEYS */;
 
-
--- Dumping structure for table disdik.forum_posts
-CREATE TABLE IF NOT EXISTS `forum_posts` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `thread_id` int(11) NOT NULL,
-  `reply_to_id` int(11) NOT NULL,
-  `author_id` int(11) NOT NULL,
-  `post` text NOT NULL,
-  `date_add` datetime NOT NULL,
-  `date_edit` datetime NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
-
--- Dumping data for table disdik.forum_posts: ~0 rows (approximately)
+-- Dumping data for table disdik.forum_posts: ~10 rows (approximately)
 DELETE FROM `forum_posts`;
 /*!40000 ALTER TABLE `forum_posts` DISABLE KEYS */;
 INSERT INTO `forum_posts` (`id`, `thread_id`, `reply_to_id`, `author_id`, `post`, `date_add`, `date_edit`) VALUES
 	(1, 1, 0, 1, 'isi thread', '2015-04-14 09:07:52', '0000-00-00 00:00:00'),
-	(2, 1, 1, 1, '<div style="font-size:11px; background: #e3e3e3;padding:5px;">posted by <b>@admin</b><p><i>isi thread</i></p></div><br>test reply', '2015-04-14 09:08:08', '0000-00-00 00:00:00');
+	(2, 1, 1, 1, '<div style="font-size:11px; background: #e3e3e3;padding:5px;">posted by <b>@admin</b><p><i>isi thread</i></p></div><br>test reply', '2015-04-14 09:08:08', '0000-00-00 00:00:00'),
+	(3, 1, 0, 1, '<p><img src="/disdik/texteditor/upload/1240345_4837007941019_1292723752504034184_n.jpg" alt="" width="220" height="242" /></p>', '2015-04-25 20:34:42', '0000-00-00 00:00:00'),
+	(4, 1, 2, 1, '<div style="font-size:11px; background: #e3e3e3;padding:5px;">posted by <b>@admin</b><p><i>posted by @adminisi threadtest reply</i></p></div><br>test', '2015-04-25 20:42:23', '0000-00-00 00:00:00'),
+	(5, 2, 0, 1, '<p>isi kasubbag tu</p>', '2015-04-25 23:06:32', '0000-00-00 00:00:00'),
+	(6, 1, 0, 1, '<p>test lagi</p>', '2015-04-27 16:28:44', '0000-00-00 00:00:00'),
+	(7, 1, 6, 1, '<div style="font-size: 11px; background: #e3e3e3; padding: 5px;">posted by <strong>@admin</strong>\n<p><em>test lagi</em></p>\n</div>\n<p><br />test ajah</p>', '2015-04-27 16:29:09', '0000-00-00 00:00:00'),
+	(8, 1, 3, 1, '<div style="font-size: 11px; background: #e3e3e3; padding: 5px;">posted by <strong>@admin</strong>\n<p>&nbsp;</p>\n</div>\n<p>\'\'\'\'\'\'<br /><br /></p>', '2015-04-27 19:11:04', '0000-00-00 00:00:00'),
+	(37, 31, 0, 1, '<p>zzzzzzzzzzzzzzzzzzz dddddddddddddddddd</p>', '2015-05-11 20:44:52', '0000-00-00 00:00:00'),
+	(38, 32, 0, 1, '<p>test</p>', '2015-05-21 13:54:11', '0000-00-00 00:00:00');
 /*!40000 ALTER TABLE `forum_posts` ENABLE KEYS */;
 
-
--- Dumping structure for table disdik.forum_roles
-CREATE TABLE IF NOT EXISTS `forum_roles` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `role` varchar(50) NOT NULL,
-  `admin_area` int(1) NOT NULL DEFAULT '0',
-  `thread_create` int(1) NOT NULL DEFAULT '0',
-  `thread_edit` int(1) NOT NULL DEFAULT '0',
-  `thread_delete` int(1) NOT NULL DEFAULT '0',
-  `post_create` int(1) NOT NULL DEFAULT '0',
-  `post_edit` int(1) NOT NULL DEFAULT '0',
-  `post_delete` int(1) NOT NULL DEFAULT '0',
-  `role_create` int(1) NOT NULL DEFAULT '0',
-  `role_edit` int(1) NOT NULL DEFAULT '0',
-  `role_delete` int(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
-
--- Dumping data for table disdik.forum_roles: ~0 rows (approximately)
+-- Dumping data for table disdik.forum_roles: ~2 rows (approximately)
 DELETE FROM `forum_roles`;
 /*!40000 ALTER TABLE `forum_roles` DISABLE KEYS */;
 INSERT INTO `forum_roles` (`id`, `role`, `admin_area`, `thread_create`, `thread_edit`, `thread_delete`, `post_create`, `post_edit`, `post_delete`, `role_create`, `role_edit`, `role_delete`) VALUES
@@ -425,56 +174,23 @@ INSERT INTO `forum_roles` (`id`, `role`, `admin_area`, `thread_create`, `thread_
 	(2, 'member', 0, 1, 0, 0, 1, 0, 0, 0, 0, 0);
 /*!40000 ALTER TABLE `forum_roles` ENABLE KEYS */;
 
-
--- Dumping structure for table disdik.forum_threads
-CREATE TABLE IF NOT EXISTS `forum_threads` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `category_id` int(11) NOT NULL,
-  `title` varchar(255) NOT NULL,
-  `slug` varchar(255) NOT NULL,
-  `date_add` datetime NOT NULL,
-  `date_edit` datetime NOT NULL,
-  `date_last_post` datetime NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
-
--- Dumping data for table disdik.forum_threads: ~0 rows (approximately)
+-- Dumping data for table disdik.forum_threads: ~3 rows (approximately)
 DELETE FROM `forum_threads`;
 /*!40000 ALTER TABLE `forum_threads` DISABLE KEYS */;
 INSERT INTO `forum_threads` (`id`, `category_id`, `title`, `slug`, `date_add`, `date_edit`, `date_last_post`) VALUES
-	(1, 2, 'ini adalah thread pertama', 'ini-adalah-thread-pertama', '2015-04-14 09:07:52', '0000-00-00 00:00:00', '2015-04-14 09:07:52');
+	(1, 1, 'ini adalah thread pertama', 'ini-adalah-thread-pertama', '2015-04-14 09:07:52', '0000-00-00 00:00:00', '2015-04-14 09:07:52'),
+	(2, 3, 'topik di kasubbag tu', 'topik-di-kasubbag-tu', '2015-04-25 23:06:32', '0000-00-00 00:00:00', '2015-04-25 23:06:32'),
+	(31, 1, 'test test vvvvv', 'test-test-vvvvv', '2015-05-11 20:44:52', '0000-00-00 00:00:00', '2015-05-11 20:44:52'),
+	(32, 1, 'test buat topik baru', 'test-buat-topik-baru', '2015-05-21 13:54:11', '0000-00-00 00:00:00', '2015-05-21 13:54:11');
 /*!40000 ALTER TABLE `forum_threads` ENABLE KEYS */;
 
-
--- Dumping structure for table disdik.forum_users
-CREATE TABLE IF NOT EXISTS `forum_users` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `role_id` int(11) NOT NULL,
-  `username` varchar(50) NOT NULL,
-  `password` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
-
--- Dumping data for table disdik.forum_users: ~0 rows (approximately)
+-- Dumping data for table disdik.forum_users: ~3 rows (approximately)
 DELETE FROM `forum_users`;
 /*!40000 ALTER TABLE `forum_users` DISABLE KEYS */;
-INSERT INTO `forum_users` (`id`, `role_id`, `username`, `password`) VALUES
-	(1, 1, 'admin', '21232f297a57a5a743894a0e4a801fc3'),
-	(2, 2, 'member', 'aa08769cdcb26674c6706093503ff0a3'),
-	(3, 2, 'trias', '5e2f28bfc775b48991e1a58fc8ea0791');
+INSERT INTO `forum_users` (`id`, `role_id`, `username`, `password`, `email`, `hp`, `foto`) VALUES
+	(1, 1, 'admin', '21232f297a57a5a743894a0e4a801fc3', '', '', 'e62926e47e83292b46f810d3b0b4635e.jpg'),
+	(2, 2, 'member', 'aa08769cdcb26674c6706093503ff0a3', 'kirana.avalokiteshvara@gmail.com', '666', '6d992576c009a1bdbe5d09bf324049e0.jpg');
 /*!40000 ALTER TABLE `forum_users` ENABLE KEYS */;
-
-
--- Dumping structure for table disdik.galeri
-CREATE TABLE IF NOT EXISTS `galeri` (
-  `id` int(4) NOT NULL AUTO_INCREMENT,
-  `id_album` int(3) NOT NULL,
-  `file` varchar(255) NOT NULL,
-  `judul` varchar(255) NOT NULL,
-  `ket` varchar(255) NOT NULL,
-  `slideshow` enum('Y','N') NOT NULL DEFAULT 'N',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table disdik.galeri: ~7 rows (approximately)
 DELETE FROM `galeri`;
@@ -482,19 +198,11 @@ DELETE FROM `galeri`;
 INSERT INTO `galeri` (`id`, `id_album`, `file`, `judul`, `ket`, `slideshow`) VALUES
 	(11, 3, 'ae008e28af53161580d9fc09fa7a9bee.jpg', 'lazy', 'lazy', 'N'),
 	(12, 2, '17a7da1a20069f22985a98c3122d3cb4.jpg', 'rock', 'rock in the river', 'Y'),
-	(13, 2, '7883a0b8b72d2bc6eecf09b25424c331.jpg', 'judul', '', 'N'),
+	(13, 2, '7883a0b8b72d2bc6eecf09b25424c331.jpg', 'judul', '', 'Y'),
 	(14, 2, '03237beafb917f13fb584aa11ea24c2e.jpg', 'indeh bingit', 'ini adalah keterangan indah bingit', 'N'),
 	(15, 3, '77d9e740d88a1977361ca53a085d6b50.jpg', 'judul', '', 'N'),
 	(16, 4, '0578eba339ddcb2b89e4f9353864df2d.jpg', 'test', '', '');
 /*!40000 ALTER TABLE `galeri` ENABLE KEYS */;
-
-
--- Dumping structure for table disdik.galeri_album
-CREATE TABLE IF NOT EXISTS `galeri_album` (
-  `id` int(3) NOT NULL AUTO_INCREMENT,
-  `nama` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table disdik.galeri_album: ~0 rows (approximately)
 DELETE FROM `galeri_album`;
@@ -505,17 +213,6 @@ INSERT INTO `galeri_album` (`id`, `nama`) VALUES
 	(4, 'test');
 /*!40000 ALTER TABLE `galeri_album` ENABLE KEYS */;
 
-
--- Dumping structure for table disdik.galeri_video
-CREATE TABLE IF NOT EXISTS `galeri_video` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `video_id` varchar(50) NOT NULL,
-  `judul` varchar(50) NOT NULL,
-  `view_count` mediumint(9) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
-
 -- Dumping data for table disdik.galeri_video: ~3 rows (approximately)
 DELETE FROM `galeri_video`;
 /*!40000 ALTER TABLE `galeri_video` DISABLE KEYS */;
@@ -525,35 +222,12 @@ INSERT INTO `galeri_video` (`id`, `video_id`, `judul`, `view_count`, `updated_at
 	(4, 'AUq5ohgtkvg', 'LINE : Nic and Mar', 0, '2015-03-16 22:33:30');
 /*!40000 ALTER TABLE `galeri_video` ENABLE KEYS */;
 
-
--- Dumping structure for table disdik.haldep
-CREATE TABLE IF NOT EXISTS `haldep` (
-  `isi` longtext NOT NULL,
-  `id` int(1) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
-
 -- Dumping data for table disdik.haldep: ~0 rows (approximately)
 DELETE FROM `haldep`;
 /*!40000 ALTER TABLE `haldep` DISABLE KEYS */;
 INSERT INTO `haldep` (`isi`, `id`) VALUES
 	('<p><em><strong>Assalamu\'alaikum warah matullohi wabarakatuh</strong></em></p>\n<p><span><span class="align-justify"><span>Segala Puji Syukur kita panjatkan kehadirat Tuhan Yang Maha Kuasa, yang dengan Rahmat-Nya telah mengantarkan Dinas Pendidikan ini menjadi sebuah SKPD yang semakin kuat menghadapi tantangan zaman, terutama dalam rangka penyediaan pelayanan publik menuju <span>Good Governance</span> yang siap menjamin transparansi, efisiensi dan efektivitas penyelenggaraan Pemerintahan, didukung penguasaan dan pemanfaatan Teknologi Informasi dan Komunikasi (TIK). </span></span></span></p>\n<p><span><span class="align-justify"><span>Sebagai upaya untuk mewujudkan komitmen tersebut, kami seluruh jajaran Dinas Pendidikan Provinsi Jambi telah bertekad untuk mengoptimalkan segala sumber daya yang ada untuk dimanfaatkan dalam melaksanakan Tugas dan fungsi sebagai pembantu Kepala Daerah Provinsi Jambi, khususnya di dunia pendidikan. Seiring dengan perubahan Struktur Organisasi yang baru ini, kami segenap Jajaran Dinas Pendidikan mengharapkan semoga akan mampu membangkitkan semangat yang baru pula kepada seluruh pihak yang terlibat dalam pembangunan pendidikan di Provinsi Jambi. kami menyadari bahwa pembangunan pendidikan tidak akan berhasil jika hanya dikelola dan menjadi tanggung jawab dinas pendidikan, untuk itu kami berharap seluruh warga Jambi untuk ikut peduli terhadap program-program yang telah kami susun dan rencanakan. partisipasi warga Jambi berupa sumbang saran, masukan, laporan maupun kritik, dapat memanfaatkan fasilitas teknologi informasi yang kami sediakan, baik melalui website ini</span></span></span></p>\n<p><em><strong>Wassalamu\'alaikum warah matullohi wabarakatuh</strong></em></p>', 1);
 /*!40000 ALTER TABLE `haldep` ENABLE KEYS */;
-
-
--- Dumping structure for table disdik.ide_saran
-CREATE TABLE IF NOT EXISTS `ide_saran` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nama` varchar(50) NOT NULL,
-  `email` varchar(50) NOT NULL,
-  `alamat` varchar(50) NOT NULL,
-  `website` varchar(50) NOT NULL,
-  `topik` text NOT NULL,
-  `tampil` enum('Y','N') NOT NULL DEFAULT 'N',
-  `inserted_at` datetime NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table disdik.ide_saran: ~6 rows (approximately)
 DELETE FROM `ide_saran`;
@@ -566,22 +240,6 @@ INSERT INTO `ide_saran` (`id`, `nama`, `email`, `alamat`, `website`, `topik`, `t
 	(5, 'trias', 'triasfahrudin@gmail.com', '', '', 'sasa', 'Y', '2015-02-28 11:39:21', '2015-03-01 11:55:31'),
 	(6, 'trias', '', '', '', 'sasa', 'Y', '2015-02-28 11:58:43', '2015-03-02 14:18:11');
 /*!40000 ALTER TABLE `ide_saran` ENABLE KEYS */;
-
-
--- Dumping structure for table disdik.ide_saran_tanggapan
-CREATE TABLE IF NOT EXISTS `ide_saran_tanggapan` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_ide_saran` int(11) NOT NULL,
-  `nama` varchar(50) NOT NULL,
-  `email` varchar(50) NOT NULL,
-  `alamat` varchar(50) NOT NULL,
-  `website` varchar(50) NOT NULL,
-  `tampil` enum('Y','N') NOT NULL DEFAULT 'N',
-  `komentar` text NOT NULL,
-  `inserted_at` datetime NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table disdik.ide_saran_tanggapan: ~19 rows (approximately)
 DELETE FROM `ide_saran_tanggapan`;
@@ -609,15 +267,6 @@ INSERT INTO `ide_saran_tanggapan` (`id`, `id_ide_saran`, `nama`, `email`, `alama
 	(20, 4, 'kaskus', '', '', '', 'N', 'xxxx', '2015-03-01 12:20:29', '2015-03-01 12:20:29');
 /*!40000 ALTER TABLE `ide_saran_tanggapan` ENABLE KEYS */;
 
-
--- Dumping structure for table disdik.jenjang
-CREATE TABLE IF NOT EXISTS `jenjang` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nama` varchar(50) DEFAULT NULL,
-  `alias` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
-
 -- Dumping data for table disdik.jenjang: ~9 rows (approximately)
 DELETE FROM `jenjang`;
 /*!40000 ALTER TABLE `jenjang` DISABLE KEYS */;
@@ -633,15 +282,6 @@ INSERT INTO `jenjang` (`id`, `nama`, `alias`) VALUES
 	(9, 'ma', 'MA'),
 	(10, 'slb', 'SLB');
 /*!40000 ALTER TABLE `jenjang` ENABLE KEYS */;
-
-
--- Dumping structure for table disdik.kabupaten
-CREATE TABLE IF NOT EXISTS `kabupaten` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_propinsi` int(11) DEFAULT NULL,
-  `nama` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table disdik.kabupaten: ~11 rows (approximately)
 DELETE FROM `kabupaten`;
@@ -660,15 +300,6 @@ INSERT INTO `kabupaten` (`id`, `id_propinsi`, `nama`) VALUES
 	(11, 1, 'Kota Sungai Penuh');
 /*!40000 ALTER TABLE `kabupaten` ENABLE KEYS */;
 
-
--- Dumping structure for table disdik.kat
-CREATE TABLE IF NOT EXISTS `kat` (
-  `id` int(3) NOT NULL AUTO_INCREMENT,
-  `nama` varchar(100) NOT NULL,
-  `terhapus` enum('Y','N') DEFAULT 'N',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
-
 -- Dumping data for table disdik.kat: ~3 rows (approximately)
 DELETE FROM `kat`;
 /*!40000 ALTER TABLE `kat` DISABLE KEYS */;
@@ -679,15 +310,6 @@ INSERT INTO `kat` (`id`, `nama`, `terhapus`) VALUES
 	(5, 'nama', 'Y');
 /*!40000 ALTER TABLE `kat` ENABLE KEYS */;
 
-
--- Dumping structure for table disdik.link
-CREATE TABLE IF NOT EXISTS `link` (
-  `id` int(3) NOT NULL AUTO_INCREMENT,
-  `nama` varchar(150) NOT NULL,
-  `alamat` varchar(150) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
-
 -- Dumping data for table disdik.link: ~4 rows (approximately)
 DELETE FROM `link`;
 /*!40000 ALTER TABLE `link` DISABLE KEYS */;
@@ -697,17 +319,6 @@ INSERT INTO `link` (`id`, `nama`, `alamat`) VALUES
 	(3, 'Pemprov Jambi', 'http://www.jambiprov.go.id/'),
 	(4, 'LPSE', 'https://lpse.lkpp.go.id/eproc4');
 /*!40000 ALTER TABLE `link` ENABLE KEYS */;
-
-
--- Dumping structure for table disdik.manage_menu
-CREATE TABLE IF NOT EXISTS `manage_menu` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `sort` tinyint(4) NOT NULL DEFAULT '0',
-  `name` varchar(50) NOT NULL,
-  `method` varchar(50) NOT NULL,
-  `show` enum('Y','N') NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table disdik.manage_menu: ~28 rows (approximately)
 DELETE FROM `manage_menu`;
@@ -743,18 +354,6 @@ INSERT INTO `manage_menu` (`id`, `sort`, `name`, `method`, `show`) VALUES
 	(28, 0, '', 'data_siswa', 'N');
 /*!40000 ALTER TABLE `manage_menu` ENABLE KEYS */;
 
-
--- Dumping structure for table disdik.newsletter
-CREATE TABLE IF NOT EXISTS `newsletter` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `judul` varchar(50) DEFAULT NULL,
-  `keterangan` varchar(50) DEFAULT NULL,
-  `file` varchar(50) DEFAULT NULL,
-  `img` varchar(50) DEFAULT NULL,
-  `view_count` smallint(6) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
-
 -- Dumping data for table disdik.newsletter: ~2 rows (approximately)
 DELETE FROM `newsletter`;
 /*!40000 ALTER TABLE `newsletter` DISABLE KEYS */;
@@ -764,19 +363,6 @@ INSERT INTO `newsletter` (`id`, `judul`, `keterangan`, `file`, `img`, `view_coun
 	(5, 'judul 3', 'keterangan 3', '79033f6662e45c7d952291d2879e450e.pdf', 'cb8b3a638367745750a1fc437287bd6a.jpg', NULL);
 /*!40000 ALTER TABLE `newsletter` ENABLE KEYS */;
 
-
--- Dumping structure for table disdik.opini
-CREATE TABLE IF NOT EXISTS `opini` (
-  `id` int(4) NOT NULL AUTO_INCREMENT,
-  `judul` varchar(255) NOT NULL,
-  `isi` mediumtext NOT NULL,
-  `hits` int(4) NOT NULL DEFAULT '0',
-  `tglPost` datetime NOT NULL,
-  `oleh` varchar(30) NOT NULL,
-  `publish` enum('Y','N') NOT NULL DEFAULT 'N',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
-
 -- Dumping data for table disdik.opini: ~2 rows (approximately)
 DELETE FROM `opini`;
 /*!40000 ALTER TABLE `opini` DISABLE KEYS */;
@@ -785,22 +371,6 @@ INSERT INTO `opini` (`id`, `judul`, `isi`, `hits`, `tglPost`, `oleh`, `publish`)
 	(3, 'ini judul', '<p>test</p>', 2, '2015-03-31 15:20:50', 'admin', 'Y'),
 	(4, 'ini adalah judul opini', '<p><img src="/disdik/texteditor/upload/1240345_4837007941019_1292723752504034184_n.jpg" alt="" width="220" height="242" /></p>\n<p>isi postingan alalal</p>', 10, '2015-03-31 17:38:32', 'admin', 'Y');
 /*!40000 ALTER TABLE `opini` ENABLE KEYS */;
-
-
--- Dumping structure for table disdik.opini_tanggapan
-CREATE TABLE IF NOT EXISTS `opini_tanggapan` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_opini` int(11) NOT NULL,
-  `nama` varchar(50) NOT NULL,
-  `email` varchar(50) NOT NULL,
-  `alamat` varchar(50) NOT NULL,
-  `website` varchar(50) NOT NULL,
-  `komentar` text NOT NULL,
-  `tampil` enum('Y','N') NOT NULL DEFAULT 'N',
-  `inserted_at` datetime NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table disdik.opini_tanggapan: ~2 rows (approximately)
 DELETE FROM `opini_tanggapan`;
@@ -812,35 +382,10 @@ INSERT INTO `opini_tanggapan` (`id`, `id_opini`, `nama`, `email`, `alamat`, `web
 	(4, 4, 'nama', '', '', '', 'komentar', 'Y', '2015-03-31 17:32:37', '2015-03-31 17:33:04');
 /*!40000 ALTER TABLE `opini_tanggapan` ENABLE KEYS */;
 
-
--- Dumping structure for table disdik.pengumuman
-CREATE TABLE IF NOT EXISTS `pengumuman` (
-  `id` int(4) NOT NULL AUTO_INCREMENT,
-  `judul` varchar(255) NOT NULL,
-  `file_name` varchar(100) NOT NULL,
-  `isi` mediumtext NOT NULL,
-  `hits` int(4) NOT NULL DEFAULT '0',
-  `tglPost` datetime NOT NULL,
-  `oleh` varchar(30) NOT NULL,
-  `publish` enum('Y','N') NOT NULL DEFAULT 'N',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
 -- Dumping data for table disdik.pengumuman: ~2 rows (approximately)
 DELETE FROM `pengumuman`;
 /*!40000 ALTER TABLE `pengumuman` DISABLE KEYS */;
 /*!40000 ALTER TABLE `pengumuman` ENABLE KEYS */;
-
-
--- Dumping structure for table disdik.pesan
-CREATE TABLE IF NOT EXISTS `pesan` (
-  `id` int(4) NOT NULL AUTO_INCREMENT,
-  `nama` varchar(100) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `pesan` varchar(200) NOT NULL,
-  `tgl` datetime NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table disdik.pesan: ~0 rows (approximately)
 DELETE FROM `pesan`;
@@ -849,37 +394,12 @@ INSERT INTO `pesan` (`id`, `nama`, `email`, `pesan`, `tgl`) VALUES
 	(1, 'trias', '', '', '2015-02-26 16:23:35');
 /*!40000 ALTER TABLE `pesan` ENABLE KEYS */;
 
-
--- Dumping structure for table disdik.poll
-CREATE TABLE IF NOT EXISTS `poll` (
-  `id` int(3) NOT NULL AUTO_INCREMENT,
-  `tanya` varchar(255) NOT NULL,
-  `op_1` varchar(200) NOT NULL,
-  `op_2` varchar(200) NOT NULL,
-  `op_3` varchar(200) NOT NULL,
-  `op_4` varchar(200) NOT NULL,
-  `j_1` int(3) NOT NULL,
-  `j_2` int(3) NOT NULL,
-  `j_3` int(3) NOT NULL,
-  `j_4` int(3) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
-
 -- Dumping data for table disdik.poll: 1 rows
 DELETE FROM `poll`;
 /*!40000 ALTER TABLE `poll` DISABLE KEYS */;
 INSERT INTO `poll` (`id`, `tanya`, `op_1`, `op_2`, `op_3`, `op_4`, `j_1`, `j_2`, `j_3`, `j_4`) VALUES
 	(1, 'Bagaimanakah design website ini ?', 'Sangat Bagus', 'Bagus', 'Bagus Sekali', 'Tidak Jelek', 10, 2, 3, 7);
 /*!40000 ALTER TABLE `poll` ENABLE KEYS */;
-
-
--- Dumping structure for table disdik.poll_stats
-CREATE TABLE IF NOT EXISTS `poll_stats` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `tgl` date DEFAULT NULL,
-  `ip` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table disdik.poll_stats: ~2 rows (approximately)
 DELETE FROM `poll_stats`;
@@ -891,19 +411,6 @@ INSERT INTO `poll_stats` (`id`, `tgl`, `ip`) VALUES
 	(4, '2015-03-06', '127.0.0.1'),
 	(5, '2015-03-08', '127.0.0.1');
 /*!40000 ALTER TABLE `poll_stats` ENABLE KEYS */;
-
-
--- Dumping structure for table disdik.produk_hukum_files
-CREATE TABLE IF NOT EXISTS `produk_hukum_files` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_prod_hukum_list` int(11) DEFAULT NULL,
-  `judul` varchar(500) DEFAULT NULL,
-  `nama_file` varchar(100) DEFAULT NULL,
-  `view_count` smallint(6) DEFAULT '0',
-  `terhapus` enum('Y','N') DEFAULT 'N',
-  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table disdik.produk_hukum_files: ~8 rows (approximately)
 DELETE FROM `produk_hukum_files`;
@@ -920,20 +427,6 @@ INSERT INTO `produk_hukum_files` (`id`, `id_prod_hukum_list`, `judul`, `nama_fil
 	(10, 4, 'framework', '65c5d4d5850c158bdfa08b16dc9cd1bc.zip', 3, 'N', '2015-03-17 02:24:42');
 /*!40000 ALTER TABLE `produk_hukum_files` ENABLE KEYS */;
 
-
--- Dumping structure for table disdik.produk_hukum_list
-CREATE TABLE IF NOT EXISTS `produk_hukum_list` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_produk_hukum` tinyint(4) NOT NULL,
-  `nomor` varchar(50) NOT NULL,
-  `tahun` varchar(50) NOT NULL,
-  `tentang` varchar(500) NOT NULL,
-  `terbit` date NOT NULL,
-  `terhapus` enum('Y','N') NOT NULL DEFAULT 'N',
-  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
-
 -- Dumping data for table disdik.produk_hukum_list: ~4 rows (approximately)
 DELETE FROM `produk_hukum_list`;
 /*!40000 ALTER TABLE `produk_hukum_list` DISABLE KEYS */;
@@ -944,16 +437,6 @@ INSERT INTO `produk_hukum_list` (`id`, `id_produk_hukum`, `nomor`, `tahun`, `ten
 	(4, 1, '25', '2014', 'xxxx', '2014-09-30', 'N', '2015-02-26 23:42:22'),
 	(5, 3, '25', '2014', 'PEMERINTAHAN DAERAH', '2014-09-30', 'N', '2015-03-02 03:10:40');
 /*!40000 ALTER TABLE `produk_hukum_list` ENABLE KEYS */;
-
-
--- Dumping structure for table disdik.profil
-CREATE TABLE IF NOT EXISTS `profil` (
-  `id` int(2) NOT NULL AUTO_INCREMENT,
-  `type` enum('text','map') NOT NULL DEFAULT 'text',
-  `judul` varchar(200) NOT NULL,
-  `isi` text NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table disdik.profil: ~5 rows (approximately)
 DELETE FROM `profil`;
@@ -966,15 +449,6 @@ INSERT INTO `profil` (`id`, `type`, `judul`, `isi`) VALUES
 	(5, 'map', 'Lokasi Kantor', 'LOKASI NIH BRO<br>');
 /*!40000 ALTER TABLE `profil` ENABLE KEYS */;
 
-
--- Dumping structure for table disdik.program
-CREATE TABLE IF NOT EXISTS `program` (
-  `id` int(2) NOT NULL AUTO_INCREMENT,
-  `judul` varchar(200) NOT NULL,
-  `isi` text NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
-
 -- Dumping data for table disdik.program: ~8 rows (approximately)
 DELETE FROM `program`;
 /*!40000 ALTER TABLE `program` DISABLE KEYS */;
@@ -984,17 +458,9 @@ INSERT INTO `program` (`id`, `judul`, `isi`) VALUES
 	(3, 'Bidang DIKMEN', ''),
 	(4, 'Bidang PAUD', ''),
 	(5, 'Bidang MONEV', ''),
-	(6, 'BTIKP', '<p style="margin-bottom: 0in; line-height: 100%;" align="center"><span style="font-size: medium;"><strong>PROGRAM DAN KEGIATAN</strong></span></p>\n<p style="margin-bottom: 0in; line-height: 100%;" align="center"><span style="font-size: medium;"><strong>BALAI TEKNOLOGI INFORMASI DAN KOMUNIKASI PENDIDIKAN</strong></span></p>\n<p style="margin-bottom: 0in; line-height: 100%;" align="center"><span style="font-size: medium;"><strong>DINAS PENDIDIKAN PROVINSI JAMBI</strong></span></p>\n<p style="margin-bottom: 0in; line-height: 100%;" align="center"><span style="font-size: medium;"><strong>TAHUN 2015</strong></span></p>\n<p style="margin-bottom: 0in; line-height: 100%;">&nbsp;</p>\n<ol type="A">\n<li>\n<p style="margin-bottom: 0in; line-height: 150%;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><strong>PENDAHULUAN</strong></span></span></p>\n</li>\n</ol><ol>\n<li>\n<p style="margin-bottom: 0in; line-height: 150%;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><strong>Dasar </strong></span></span></p>\n</li>\n</ol><ol type="a">\n<li>\n<p style="margin-bottom: 0in; line-height: 150%;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><strong>Pemikiran</strong></span></span></p>\n</li>\n</ol>\n<p style="margin-left: 0.64in; margin-bottom: 0.14in; line-height: 150%;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Pendidikan modern sudah tidak bisa lagi hanya bertahan pada model pembelajaran konvesional dimana antara guru dan murid belajar secara satu arah. Guru masih bertahan dengan pola konvesional akan tertinggal dan akhirnya akan menghasilkan anak didik yang tidak mampu bersaing di tingkat global. Oleh sebab itu mau tidak mau, mampu atau tidak mampu maka guru harus menguasai teknologi. Demikian juga dengan institusi sekolah, harus secara terbuka untuk menerima fenomena kecanggihan teknologi dengan pemanfaatan dan penguasaan secara tepat. Institusi sekolah sudah saatnya mempersiapkan perangkat-perangkat yang dapat di manfaatkan oleh guru dan siswa dalam mengaplikasikan teknologi. </span></span></p>\n<ol type="a" start="2">\n<li>\n<p style="margin-bottom: 0in; line-height: 150%;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><strong>Ketentuan hukum</strong></span></span></p>\n</li>\n</ol><ol>\n<li>\n<p style="margin-bottom: 0in; line-height: 150%; widows: 0; orphans: 0;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Undang-undang Nomor 20 tahun 2003 tentang Sistem Pendidikan Nasional (Lembaga Negara Republik Indonesia Tahun 2003 Nomor 78 Tambahan Negara Nomor 4301);</span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in; line-height: 150%;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><span lang="nb-NO">Peraturan Pemerintah Nomor 41 Tahun 2007 tentang Organisasi Perangkat Daerah</span></span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in; line-height: 150%; widows: 0; orphans: 0;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Permendagri Nomor 13 Tahun 2006 tentang pedoman pengelolaan keuangan daerah.</span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in; line-height: 150%; widows: 0; orphans: 0;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Peraturan Presiden Nomor 54 Tahun 2010 tentang pengadaan barang dan jasa pemerintah.</span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in; line-height: 150%; widows: 0; orphans: 0;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Perda Nomor 04 Tahun 2011 tentang Penyelenggaraan Pendidikan.</span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in; line-height: 150%; widows: 0; orphans: 0;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Peraturan Gubernur Jambi No 1 Tahun 2014 tentang Perubahan Keempat Atas Peraturan Gubernur Jambi Nomor 1 Tahun 2009 tentang Organisasi dan Tata Kerja Unit Pelaksana Teknis Dinas (UPTD) pada Dinas dan Badan Daerah Provinsi Jambi.</span></span></p>\n</li>\n</ol>\n<p style="margin-left: 0.89in; margin-bottom: 0.14in; line-height: 150%; widows: 0; orphans: 0;" align="justify"><br /><br /></p>\n<ol start="2">\n<li>\n<p style="margin-bottom: 0in; line-height: 150%; widows: 0; orphans: 0;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><strong>Tujuan</strong></span></span></p>\n</li>\n</ol><ol type="a">\n<li>\n<p style="margin-bottom: 0in; line-height: 150%; widows: 0; orphans: 0;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><strong>Umum </strong></span></span></p>\n</li>\n</ol>\n<p style="margin-left: 0.69in; margin-bottom: 0.14in; line-height: 150%;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Balai Teknologi Informasi dan Komunikasi Pendidikan (BTIKP) merupakan salah satu Unit Pelaksana Teknis Dinas Pendidikan Provinsi Jambi yang di bentuk berdasarkan Peraturan Gubernur Jambi Nomor 1 Tahun 2014 tentang Perubahan Keempat Atas Peraturan Gubernur Jambi Nomor 1 Tahun 2009 tentang Organisasi dan Tata Kerja Unit Pelaksana Teknis Dinas (UPTD) pada Dinas dan Badan Daerah Provinsi Jambi.</span></span></p>\n<p style="margin-left: 0.69in; margin-bottom: 0.14in; line-height: 150%;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Tugas Pokok dan Fungsi UPTD Balai Teknologi Informasi dan Komunikasi Pendidikan pada Dinas Pendidikan Provinsi Jambi adalah </span></span><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><em>melaksanakan sebagian kewenangan dan tugas teknis tertentu yang diberikan Dinas Pendidikan Provinsi Jambi di bidang Pengembangan, pembinaan, </em></span></span><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><em><strong>pelatihan</strong></em></span></span><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><em>, evaluasi kegiatan Teknologi Pendidikan dan Pendayagunaan Teknologi, Informasi dan Komunikasi untuk Pendidikan serta sebagai pusat data pendidikan.</em></span></span></p>\n<ol type="a" start="2">\n<li>\n<p style="margin-bottom: 0in; line-height: 150%; widows: 0; orphans: 0;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><strong>Khusus</strong></span></span></p>\n</li>\n</ol>\n<p style="margin-left: 0.69in; margin-bottom: 0.14in; line-height: 150%;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Dalam melaksanakan tugas pokok dan fungsinya, Balai Teknologi Informasi dan Komunikasi Pendidikan pada Dinas Pendidikan Provinsi Jambi mempunyai fungsi :</span></span></p>\n<ol>\n<li>\n<p style="margin-bottom: 0in; line-height: 150%;" align="justify"><span style="color: #000000;"><span style="font-family: Bookman Old Style,serif;"><span style="font-size: medium;"><span style="font-family: Calibri,serif;">Penyusunan rencana, program kerja dan anggaran Balai; </span></span></span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in; line-height: 150%;" align="justify"><span style="color: #000000;"><span style="font-family: Bookman Old Style,serif;"><span style="font-size: medium;"><span style="font-family: Calibri,serif;">Penyusunan kebijakan teknis dibidang teknologi, informasi dan komunikasi pendidikan; </span></span></span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in; line-height: 150%;" align="justify"><span style="color: #000000;"><span style="font-family: Bookman Old Style,serif;"><span style="font-size: medium;"><span style="font-family: Calibri,serif;">Pengembangan teknologi pembelajaran berbasis radio, televisi, film dan multimedia; </span></span></span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in; line-height: 150%;" align="justify"><span style="color: #000000;"><span style="font-family: Bookman Old Style,serif;"><span style="font-size: medium;"><span style="font-family: Calibri,serif;">Pengembangan dan pengelolaan jejaring dan web teknologi, informasi dan komunikasi pendidikan; </span></span></span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in; line-height: 150%;" align="justify"><span style="color: #000000;"><span style="font-family: Bookman Old Style,serif;"><span style="font-size: medium;"><span style="font-family: Calibri,serif;">Pelaksanaan fasilitasi pengembangan, pendayagunaan, pelatihan dan penelitian teknologi informasi dan komunikasi pendidikan; </span></span></span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in; line-height: 150%;" align="justify"><span style="color: #000000;"><span style="font-family: Bookman Old Style,serif;"><span style="font-size: medium;"><span style="font-family: Calibri,serif;">Pelaksanaan pemantauan dan evaluasi dibidang teknologi, informasi dan komunikasi pendidikan; </span></span></span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in; line-height: 150%;" align="justify"><span style="color: #000000;"><span style="font-family: Bookman Old Style,serif;"><span style="font-size: medium;"><span style="font-family: Calibri,serif;">Pelaksanaan kegiatan pendataan kependidikan yang ada di Provinsi Jambi; </span></span></span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in; line-height: 150%;" align="justify"><span style="color: #000000;"><span style="font-family: Bookman Old Style,serif;"><span style="font-size: medium;"><span style="font-family: Calibri,serif;">Penyusunan laporan pelaksanaan pengembangan teknologi, informasi dan komunikasi pendidikan; dan </span></span></span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in; line-height: 150%;" align="justify"><span style="color: #000000;"><span style="font-family: Bookman Old Style,serif;"><span style="font-size: medium;"><span style="font-family: Calibri,serif;">Pelaksanaan tugas lain yang diberikan oleh atasan sesuai dengan bidang tugasnya. </span></span></span></span></p>\n</li>\n</ol>'),
+	(6, 'BTIKP', '<p style="margin-bottom: 0in; line-height: 100%; text-align: center;"><span style="font-size: medium;"><strong>PROGRAM DAN KEGIATAN</strong></span></p>\n<p style="margin-bottom: 0in; line-height: 100%; text-align: center;"><span style="font-size: medium;"><strong>BALAI TEKNOLOGI INFORMASI DAN KOMUNIKASI PENDIDIKAN</strong></span></p>\n<p style="margin-bottom: 0in; line-height: 100%; text-align: center;"><span style="font-size: medium;"><strong>DINAS PENDIDIKAN PROVINSI JAMBI</strong></span></p>\n<p style="margin-bottom: 0in; line-height: 100%; text-align: center;"><span style="font-size: medium;"><strong>TAHUN 2015</strong></span></p>\n<p style="margin-bottom: 0in; line-height: 100%;">&nbsp;</p>\n<ol type="A">\n<li>\n<p style="margin-bottom: 0in; line-height: 150%;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><strong>PENDAHULUAN</strong></span></span></p>\n</li>\n</ol><ol>\n<li>\n<p style="margin-bottom: 0in; line-height: 150%;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><strong>Dasar </strong></span></span></p>\n</li>\n</ol><ol type="a">\n<li>\n<p style="margin-bottom: 0in; line-height: 150%;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><strong>Pemikiran</strong></span></span></p>\n</li>\n</ol>\n<p style="margin-left: 0.64in; margin-bottom: 0.14in; line-height: 150%;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Pendidikan modern sudah tidak bisa lagi hanya bertahan pada model pembelajaran konvesional dimana antara guru dan murid belajar secara satu arah. Guru masih bertahan dengan pola konvesional akan tertinggal dan akhirnya akan menghasilkan anak didik yang tidak mampu bersaing di tingkat global. Oleh sebab itu mau tidak mau, mampu atau tidak mampu maka guru harus menguasai teknologi. Demikian juga dengan institusi sekolah, harus secara terbuka untuk menerima fenomena kecanggihan teknologi dengan pemanfaatan dan penguasaan secara tepat. Institusi sekolah sudah saatnya mempersiapkan perangkat-perangkat yang dapat di manfaatkan oleh guru dan siswa dalam mengaplikasikan teknologi. </span></span></p>\n<ol type="a" start="2">\n<li>\n<p style="margin-bottom: 0in; line-height: 150%;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><strong>Ketentuan hukum</strong></span></span></p>\n</li>\n</ol><ol>\n<li>\n<p style="margin-bottom: 0in; line-height: 150%; widows: 0; orphans: 0;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Undang-undang Nomor 20 tahun 2003 tentang Sistem Pendidikan Nasional (Lembaga Negara Republik Indonesia Tahun 2003 Nomor 78 Tambahan Negara Nomor 4301);</span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in; line-height: 150%;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><span lang="nb-NO">Peraturan Pemerintah Nomor 41 Tahun 2007 tentang Organisasi Perangkat Daerah</span></span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in; line-height: 150%; widows: 0; orphans: 0;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Permendagri Nomor 13 Tahun 2006 tentang pedoman pengelolaan keuangan daerah.</span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in; line-height: 150%; widows: 0; orphans: 0;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Peraturan Presiden Nomor 54 Tahun 2010 tentang pengadaan barang dan jasa pemerintah.</span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in; line-height: 150%; widows: 0; orphans: 0;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Perda Nomor 04 Tahun 2011 tentang Penyelenggaraan Pendidikan.</span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in; line-height: 150%; widows: 0; orphans: 0;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Peraturan Gubernur Jambi No 1 Tahun 2014 tentang Perubahan Keempat Atas Peraturan Gubernur Jambi Nomor 1 Tahun 2009 tentang Organisasi dan Tata Kerja Unit Pelaksana Teknis Dinas (UPTD) pada Dinas dan Badan Daerah Provinsi Jambi.</span></span></p>\n</li>\n</ol>\n<p style="margin-left: 0.89in; margin-bottom: 0.14in; line-height: 150%; widows: 0; orphans: 0;" align="justify"><br /><br /></p>\n<ol start="2">\n<li>\n<p style="margin-bottom: 0in; line-height: 150%; widows: 0; orphans: 0;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><strong>Tujuan</strong></span></span></p>\n</li>\n</ol><ol type="a">\n<li>\n<p style="margin-bottom: 0in; line-height: 150%; widows: 0; orphans: 0;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><strong>Umum </strong></span></span></p>\n</li>\n</ol>\n<p style="margin-left: 0.69in; margin-bottom: 0.14in; line-height: 150%;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Balai Teknologi Informasi dan Komunikasi Pendidikan (BTIKP) merupakan salah satu Unit Pelaksana Teknis Dinas Pendidikan Provinsi Jambi yang di bentuk berdasarkan Peraturan Gubernur Jambi Nomor 1 Tahun 2014 tentang Perubahan Keempat Atas Peraturan Gubernur Jambi Nomor 1 Tahun 2009 tentang Organisasi dan Tata Kerja Unit Pelaksana Teknis Dinas (UPTD) pada Dinas dan Badan Daerah Provinsi Jambi.</span></span></p>\n<p style="margin-left: 0.69in; margin-bottom: 0.14in; line-height: 150%;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Tugas Pokok dan Fungsi UPTD Balai Teknologi Informasi dan Komunikasi Pendidikan pada Dinas Pendidikan Provinsi Jambi adalah </span></span><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><em>melaksanakan sebagian kewenangan dan tugas teknis tertentu yang diberikan Dinas Pendidikan Provinsi Jambi di bidang Pengembangan, pembinaan, </em></span></span><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><em><strong>pelatihan</strong></em></span></span><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><em>, evaluasi kegiatan Teknologi Pendidikan dan Pendayagunaan Teknologi, Informasi dan Komunikasi untuk Pendidikan serta sebagai pusat data pendidikan.</em></span></span></p>\n<ol type="a" start="2">\n<li>\n<p style="margin-bottom: 0in; line-height: 150%; widows: 0; orphans: 0;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><strong>Khusus</strong></span></span></p>\n</li>\n</ol>\n<p style="margin-left: 0.69in; margin-bottom: 0.14in; line-height: 150%;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Dalam melaksanakan tugas pokok dan fungsinya, Balai Teknologi Informasi dan Komunikasi Pendidikan pada Dinas Pendidikan Provinsi Jambi mempunyai fungsi :</span></span></p>\n<ol>\n<li>\n<p style="margin-bottom: 0in; line-height: 150%;" align="justify"><span style="color: #000000;"><span style="font-family: Bookman Old Style,serif;"><span style="font-size: medium;"><span style="font-family: Calibri,serif;">Penyusunan rencana, program kerja dan anggaran Balai; </span></span></span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in; line-height: 150%;" align="justify"><span style="color: #000000;"><span style="font-family: Bookman Old Style,serif;"><span style="font-size: medium;"><span style="font-family: Calibri,serif;">Penyusunan kebijakan teknis dibidang teknologi, informasi dan komunikasi pendidikan; </span></span></span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in; line-height: 150%;" align="justify"><span style="color: #000000;"><span style="font-family: Bookman Old Style,serif;"><span style="font-size: medium;"><span style="font-family: Calibri,serif;">Pengembangan teknologi pembelajaran berbasis radio, televisi, film dan multimedia; </span></span></span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in; line-height: 150%;" align="justify"><span style="color: #000000;"><span style="font-family: Bookman Old Style,serif;"><span style="font-size: medium;"><span style="font-family: Calibri,serif;">Pengembangan dan pengelolaan jejaring dan web teknologi, informasi dan komunikasi pendidikan; </span></span></span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in; line-height: 150%;" align="justify"><span style="color: #000000;"><span style="font-family: Bookman Old Style,serif;"><span style="font-size: medium;"><span style="font-family: Calibri,serif;">Pelaksanaan fasilitasi pengembangan, pendayagunaan, pelatihan dan penelitian teknologi informasi dan komunikasi pendidikan; </span></span></span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in; line-height: 150%;" align="justify"><span style="color: #000000;"><span style="font-family: Bookman Old Style,serif;"><span style="font-size: medium;"><span style="font-family: Calibri,serif;">Pelaksanaan pemantauan dan evaluasi dibidang teknologi, informasi dan komunikasi pendidikan; </span></span></span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in; line-height: 150%;" align="justify"><span style="color: #000000;"><span style="font-family: Bookman Old Style,serif;"><span style="font-size: medium;"><span style="font-family: Calibri,serif;">Pelaksanaan kegiatan pendataan kependidikan yang ada di Provinsi Jambi; </span></span></span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in; line-height: 150%;" align="justify"><span style="color: #000000;"><span style="font-family: Bookman Old Style,serif;"><span style="font-size: medium;"><span style="font-family: Calibri,serif;">Penyusunan laporan pelaksanaan pengembangan teknologi, informasi dan komunikasi pendidikan; dan </span></span></span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in; line-height: 150%;" align="justify"><span style="color: #000000;"><span style="font-family: Bookman Old Style,serif;"><span style="font-size: medium;"><span style="font-family: Calibri,serif;">Pelaksanaan tugas lain yang diberikan oleh atasan sesuai dengan bidang tugasnya. </span></span></span></span></p>\n</li>\n</ol>\n<p style="margin-bottom: 0.14in; line-height: 150%;" align="justify"><br /><br /></p>\n<ol start="3">\n<li>\n<p style="margin-bottom: 0in; line-height: 150%; widows: 0; orphans: 0;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><strong>Struktur</strong></span></span></p>\n</li>\n</ol>\n<p style="margin-left: 0.39in; margin-bottom: 0.14in; line-height: 150%;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Susunan Struktur Organisasi Balai Teknologi Informasi dan Komunikasi Pendidikan (BTIKP) terdiri dari :</span></span></p>\n<ol type="a">\n<li>\n<p style="margin-bottom: 0.14in; line-height: 150%;" align="justify"><span style="font-size: medium;">Kepala</span></p>\n</li>\n<li>\n<p style="margin-bottom: 0.14in; line-height: 150%;" align="justify"><span style="font-size: medium;">Suba Bagian Tata Usaha</span></p>\n</li>\n<li>\n<p style="margin-bottom: 0.14in; line-height: 150%;" align="justify"><span style="font-size: medium;">Seksi Pengembangan Teknologi Pembelajaran berbasis Radio, Televisi, Film dan Multimedia</span></p>\n</li>\n<li>\n<p style="margin-bottom: 0.14in; line-height: 150%;" align="justify"><span style="font-size: medium;">Seksi Pengembangan Jejaring dan Web</span></p>\n</li>\n<li>\n<p style="margin-bottom: 0.14in; line-height: 150%;" align="justify"><span style="font-size: medium;">Kelompok Jabatan Fungsional </span></p>\n</li>\n</ol>\n<p style="margin-bottom: 0.14in; line-height: 150%;" align="justify">&nbsp;</p>\n<p style="margin-left: 0.75in; margin-bottom: 0.14in; line-height: 150%;" align="justify"><img src="/disdik/texteditor/upload/kelompok%20jabatan%20fungsional.png" alt="" width="738" height="440" /><br /><br /></p>\n<ol type="A" start="2">\n<li>\n<p style="margin-bottom: 0in; line-height: 150%;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><strong>PROGRAM KEGIATAN</strong></span></span></p>\n</li>\n</ol>\n<p style="margin-left: 0.39in; margin-bottom: 0.14in; line-height: 150%;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Dalam melaksanakan programnya, Balai Teknologi Informasi dan Komunikasi Pendidikan (BTIKP) berpedoman 5 arahan program pendidikan yaitu :</span></span></p>\n<ol>\n<li>\n<p style="margin-bottom: 0.14in; line-height: 150%;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Akses;</span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0.14in; line-height: 150%;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Mutu;</span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0.14in; line-height: 150%;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Relevansi;</span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0.14in; line-height: 150%;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Kelestarian Budaya dan</span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0.14in; line-height: 150%;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Tata Kelola </span></span></p>\n</li>\n</ol>\n<p style="margin-left: 0.39in; margin-bottom: 0.14in; line-height: 150%;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Balai Teknologi Informasi dan Komunikasi Pendidikan (BTIKP) juga memperhatikan 8 Standar Nasional Pendidikan yaitu :</span></span></p>\n<ol>\n<li>\n<p style="margin-bottom: 0in; line-height: 150%;" align="justify"><span style="font-size: medium;">Standar Kompetensi Lulusan</span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in; line-height: 150%;" align="justify"><span style="font-size: medium;">Standar Isi</span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in; line-height: 150%;" align="justify"><span style="font-size: medium;">Standar Proses</span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in; line-height: 150%;" align="justify"><span style="font-size: medium;">Standar Pendidik dan Tenaga Kependidikan</span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in; line-height: 150%;" align="justify"><span style="font-size: medium;">Standar Sarana dan Prasarana</span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in; line-height: 150%;" align="justify"><span style="font-size: medium;">Standar Pengelolaan Pendidikan</span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in; line-height: 150%;" align="justify"><span style="font-size: medium;">Standar Pembiayaan Pendidikan</span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in; line-height: 0.21in;" align="justify"><span style="font-size: medium;">Standar Penilaian Pendidikan</span></p>\n</li>\n</ol>\n<p style="margin-left: 0.39in; margin-bottom: 0.14in; line-height: 150%;" align="justify"><br /><br /></p>\n<p style="margin-left: 0.39in; margin-bottom: 0.14in; line-height: 150%;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Berdasarkan arahan dan standar nasional pendidikan tersebut, maka disusun program/kegiatan yang dilaksanakan oleh Balai Teknologi Informasi dan Komunikasi Pendidikan (BTIKP) Dinas Pendidikan Provinsi Jambi yang dibagi dalam 4 (empat kegiatan) yaitu :</span></span></p>\n<ol>\n<li>\n<p style="margin-bottom: 0.14in; line-height: 150%;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Kegiatan Optimalisasi Pemfanfaatan TIK untuk Pendidikan :</span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0.14in; line-height: 150%;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Kegiatan Produksi TIK</span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0.14in; line-height: 150%;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Kegiatan Pengembangan SIM Pendidikan</span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0.14in; line-height: 150%;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Kegiatan Public Relation dan Infokom.</span></span></p>\n</li>\n</ol>\n<p style="margin-left: 0.39in; margin-bottom: 0.14in; line-height: 150%;" align="justify"><br /><br /></p>\n<p style="margin-left: 0.39in; margin-bottom: 0.14in; line-height: 150%;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">4 (empat) kegiatan tersebut diatas dirancang dan dilaksanakan dalam rangka melaksanakan tugas BTIKP Dinas Pendidikan Provinsi Jambi dengan indikator konerja sebagai berikut :</span></span></p>\n<p style="margin-left: 0.39in; margin-bottom: 0.14in; line-height: 150%;" align="justify"><br /><br /></p>\n<ol>\n<li>\n<p style="margin-bottom: 0.14in; line-height: 150%;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><strong>Kegiatan Optimalisasi Pemanfataan TIK untuk Pendidikan :</strong></span></span></p>\n</li>\n</ol><dl><dd>\n<table style="width: 539px;" cellspacing="0" cellpadding="7"><colgroup><col width="89" /> <col width="420" /> </colgroup>\n<tbody>\n<tr>\n<td style="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in;" colspan="2" width="523">\n<p style="text-align: center;"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><strong>INDIKATOR KINERJA</strong></span></span></p>\n</td>\n</tr>\n<tr valign="top">\n<td style="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in;" width="89">\n<p align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><strong>Input</strong></span></span></p>\n</td>\n<td style="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in;" width="420">\n<p align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Dana dan SDM</span></span></p>\n</td>\n</tr>\n<tr valign="top">\n<td style="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in;" width="89">\n<p align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><strong>Output</strong></span></span></p>\n</td>\n<td style="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in;" width="420">\n<p style="margin-bottom: 0in;"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Terlaksananya Pemanfaatan TIK dalam pelaksanaan kegiatan Belajar Mengajar dan Manajemen Sekolah melalui kegiatan :</span></span></p>\n<ul>\n<li>\n<p style="margin-bottom: 0in;"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Pelatihan Pemanfaatan TIK bagi guru/sekolah/operator/Dinas Kab/Kota</span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in;"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Rapat Koordinasi TIK </span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in;"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Kihajar Award </span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in;"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Pengembangan Konten Pembelajaran </span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in;"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Evaluasi dan Supervisi Konten Pembelajaran</span></span></p>\n</li>\n</ul>\n<p style="margin-left: 0.32in;">&nbsp;</p>\n</td>\n</tr>\n<tr valign="top">\n<td style="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in;" width="89">\n<p style="margin-bottom: 0in;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><strong>Volume</strong></span></span></p>\n<p align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><strong>(Sasaran)</strong></span></span></p>\n</td>\n<td style="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in;" width="420">\n<p><span style="font-family: Calibri,serif;"><span style="font-size: medium;">1800 orang guru/Sekolah/Operator/Dinas Kab/Kota</span></span></p>\n</td>\n</tr>\n<tr valign="top">\n<td style="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in;" width="89">\n<p align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><strong>Outcome</strong></span></span></p>\n</td>\n<td style="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in;" width="420">\n<ul>\n<li>\n<p style="margin-bottom: 0in;"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Terlaksananya Kegiatan Pelatihan Pemanfaatan TIK</span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in;"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Terlaksananya kegiatan Rapat Koordinasi TIK</span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in;"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Terlaksananya kegiatan Kihajar Award</span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in;"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Terlaksananya Kegiatan Pengembangan Konten Pembelajaran</span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in;"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Terlaksananya Kegiatan Evaluasi dan Supervisi Konten Pembelajaran</span></span></p>\n</li>\n</ul>\n<p style="margin-left: 0.32in;">&nbsp;</p>\n</td>\n</tr>\n<tr valign="top">\n<td style="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in;" width="89">\n<p align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><strong>Benefit</strong></span></span></p>\n</td>\n<td style="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in;" width="420">\n<ul>\n<li>\n<p style="margin-bottom: 0in;"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Pemanfaatan TIK dalam kegiatan Belajar Mengajar dan Manajemen Sekolah</span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in;"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Adanya Program Kegiatan Pengembangan TIK melalui hasil Rapat Koordinasi TIK</span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in;"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Penghargaan bagi Siswa, Guru, Sekolah dan Pihak lain yang melaksanakan kegiatan TIK</span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in;"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Adanya Konten Pembelajaran yang mendukung Kegiatan Pembelajaran berbasis TIK</span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in;"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Konten Pembelajaran yang semakin berkualitas </span></span></p>\n</li>\n</ul>\n<p align="justify">&nbsp;</p>\n</td>\n</tr>\n<tr valign="top">\n<td style="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in;" width="89">\n<p align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><strong>Impact</strong></span></span></p>\n</td>\n<td style="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in;" width="420">\n<ul>\n<li>\n<p style="margin-bottom: 0in;"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Guru dapat melaksanakan kegiatan Belajar Mengajar berbasis TIK dan Manajemen Sekolah dapat dilaksanakan dengan lebih efektif dan efisien berbasis TIK</span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in;"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Program Kegiatan Pengembangan TIK semakin berkualitas</span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in;"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Timbulnya motivasi semua elemen pendidikan dalam melaksanakan TIK</span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in;"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Semakin banyaknya Konten Pembelajaran </span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in;"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Adanya efektifitas pembuatan Konten Pembelajaran </span></span></p>\n</li>\n</ul>\n<p style="margin-left: 0.32in;">&nbsp;</p>\n</td>\n</tr>\n</tbody>\n</table>\n</dd></dl>\n<p style="margin-left: 0.64in; margin-bottom: 0.14in; line-height: 150%;" align="justify">&nbsp;</p>\n<ol start="2">\n<li>\n<p style="margin-bottom: 0.14in; line-height: 150%;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><strong>Kegiatan Produksi TIK :</strong></span></span></p>\n</li>\n</ol><dl><dd>\n<table style="width: 539px;" cellspacing="0" cellpadding="7"><colgroup><col width="89" /> <col width="420" /> </colgroup>\n<tbody>\n<tr>\n<td style="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in;" colspan="2" width="523">\n<p style="text-align: center;"><span style="font-family: Times New Roman,serif;"><span style="font-size: medium;"><strong>INDIKATOR KINERJA</strong></span></span></p>\n</td>\n</tr>\n<tr valign="top">\n<td style="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in;" width="89">\n<p align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><strong>Input</strong></span></span></p>\n</td>\n<td style="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in;" width="420">\n<p align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Dana dan SDM</span></span></p>\n</td>\n</tr>\n<tr valign="top">\n<td style="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in;" width="89">\n<p align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><strong>Output</strong></span></span></p>\n</td>\n<td style="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in;" width="420">\n<p style="margin-bottom: 0in;"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Tersedianya Multimedia pembelajaran berbasis TIK melalui kegiatan :</span></span></p>\n<ul>\n<li>\n<p style="margin-bottom: 0in;"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Produksi Multimedia Pembelajaran Berbasis TIK</span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in;"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Penggandaan Multimedia Pembelajaran Berbasis TIK</span></span></p>\n</li>\n</ul>\n<p style="margin-left: 0.32in; margin-bottom: 0in;">&nbsp;</p>\n<p style="margin-left: 0.55in;" align="justify">&nbsp;</p>\n</td>\n</tr>\n<tr valign="top">\n<td style="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in;" width="89">\n<p style="margin-bottom: 0in;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><strong>Volume</strong></span></span></p>\n<p align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><strong>(Sasaran)</strong></span></span></p>\n</td>\n<td style="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in;" width="420">\n<p><span style="font-family: Calibri,serif;"><span style="font-size: medium;">165 Sekolah</span></span></p>\n</td>\n</tr>\n<tr valign="top">\n<td style="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in;" width="89">\n<p align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><strong>Outcome</strong></span></span></p>\n</td>\n<td style="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in;" width="420">\n<ul>\n<li>\n<p style="margin-bottom: 0in;"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Tersedianya Multimedia Pembelajaran Berbasis TIK</span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in;"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Tersedianya Penggandaan Multimedia pembelajaran</span></span></p>\n</li>\n</ul>\n<p style="margin-left: 0.32in;">&nbsp;</p>\n</td>\n</tr>\n<tr valign="top">\n<td style="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in;" width="89">\n<p align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><strong>Benefit</strong></span></span></p>\n</td>\n<td style="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in;" width="420">\n<ul>\n<li>\n<p style="margin-bottom: 0in;"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Pemanfaatan Multimedia TIK dalam kegiatan Belajar Mengajar </span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in;"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Pemerataan Multimedia Pembelajaran di Sekolah</span></span></p>\n</li>\n</ul>\n<p style="margin-left: 0.32in; margin-bottom: 0in;">&nbsp;</p>\n<p align="justify">&nbsp;</p>\n</td>\n</tr>\n<tr valign="top">\n<td style="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in;" width="89">\n<p align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><strong>Impact</strong></span></span></p>\n</td>\n<td style="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in;" width="420">\n<ul>\n<li>\n<p style="margin-bottom: 0in;"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Guru dapat melaksanakan kegiatan Belajar Mengajar menggunakan Multimedia TIK </span></span></p>\n</li>\n<li></li>\n</ul>\n</td>\n</tr>\n</tbody>\n</table>\n</dd></dl>\n<p style="margin-left: 0.64in; margin-bottom: 0.14in; line-height: 150%;" align="justify"><br /><br /></p>\n<ol start="3">\n<li>\n<p style="margin-bottom: 0.14in; line-height: 150%;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Kegiatan Pengembangan SIM Pendidikan :</span></span></p>\n</li>\n</ol><dl><dd>\n<table style="width: 539px;" cellspacing="0" cellpadding="7"><colgroup><col width="89" /> <col width="420" /> </colgroup>\n<tbody>\n<tr>\n<td style="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in;" colspan="2" width="523">\n<p style="text-align: center;"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><strong>INDIKATOR KINERJA</strong></span></span></p>\n</td>\n</tr>\n<tr valign="top">\n<td style="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in;" width="89">\n<p align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><strong>Input</strong></span></span></p>\n</td>\n<td style="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in;" width="420">\n<p align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Dana dan SDM</span></span></p>\n</td>\n</tr>\n<tr valign="top">\n<td style="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in;" width="89">\n<p align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><strong>Output</strong></span></span></p>\n</td>\n<td style="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in;" width="420">\n<p style="margin-bottom: 0in;"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Tersedianya Sarana dan Prasarana Multimedia, Web dan Jejaring Pendidikan melalui kegiatan :</span></span></p>\n<ul>\n<li>\n<p style="margin-bottom: 0in;"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Jaringan Internet Kantor dan Sekolah</span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in;"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Sarana dan Prasarana Multimedia </span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in;"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Website Dinas Pendidikan</span></span></p>\n</li>\n</ul>\n<p align="justify">&nbsp;</p>\n</td>\n</tr>\n<tr valign="top">\n<td style="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in;" width="89">\n<p style="margin-bottom: 0in;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><strong>Volume</strong></span></span></p>\n<p align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><strong>(Sasaran)</strong></span></span></p>\n</td>\n<td style="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in;" width="420">\n<p style="margin-bottom: 0in;"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">121 Sekolah Minim Fasilitas</span></span></p>\n<p style="margin-bottom: 0in;"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">1 Dinas Pendidikan Provinsi Jambi</span></span></p>\n<p><span style="font-family: Calibri,serif;"><span style="font-size: medium;">11 Dinas Pendidikan Kab/Kota </span></span></p>\n</td>\n</tr>\n<tr valign="top">\n<td style="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in;" width="89">\n<p align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><strong>Outcome</strong></span></span></p>\n</td>\n<td style="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in;" width="420">\n<ul>\n<li>\n<p style="margin-bottom: 0in;"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Tersedianya Jaringan Internet Kantor dan Sekolah</span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in;"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Tersedianya Sarana dan Prasarana Multimedia pembelajaran</span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in;"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Tersedianya Website Dinas Pendidikan </span></span></p>\n</li>\n</ul>\n<p style="margin-left: 0.32in;">&nbsp;</p>\n</td>\n</tr>\n<tr valign="top">\n<td style="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in;" width="89">\n<p align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><strong>Benefit</strong></span></span></p>\n</td>\n<td style="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in;" width="420">\n<ul>\n<li>\n<p style="margin-bottom: 0in;"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Pemanfaatan Jaringan Internet Kantor dan Sekolah dalam mendukung kegiatan Belajar Mengajar dan Tata Kelola </span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in;"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Pemerataan Sarana dan Prasarana Multimedia Pembelajaran </span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in;"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Adanya Media Informasi Dinas Online </span></span></p>\n</li>\n</ul>\n<p style="margin-left: 0.32in; margin-bottom: 0in;">&nbsp;</p>\n<p align="justify">&nbsp;</p>\n</td>\n</tr>\n<tr valign="top">\n<td style="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in;" width="89">\n<p align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><strong>Impact</strong></span></span></p>\n</td>\n<td style="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in;" width="420">\n<ul>\n<li>\n<p style="margin-bottom: 0in;"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Guru/Sekolah/Dinas dapat memanfaatkan jaringan internet dalam kegiatan Belajar Mengajar dan manajemen perkantoran </span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in;"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Guru/Sekolah memiliki Sarana dan Prasarana Multimedia Pembelajaran</span></span></p>\n</li>\n<li>\n<p><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Masyarakat dapat menerima informasi Dinas Online </span></span></p>\n</li>\n</ul>\n</td>\n</tr>\n</tbody>\n</table>\n</dd></dl>\n<p style="margin-left: 0.64in; margin-bottom: 0.14in; line-height: 150%;" align="justify"><br /><br /></p>\n<ol start="4">\n<li>\n<p style="margin-bottom: 0.14in; line-height: 150%;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><strong>Kegiatan Public Relation dan Infokom :</strong></span></span></p>\n</li>\n</ol><dl><dd>\n<table style="width: 539px;" cellspacing="0" cellpadding="7"><colgroup><col width="89" /> <col width="420" /> </colgroup>\n<tbody>\n<tr>\n<td style="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in;" colspan="2" width="523">\n<p style="text-align: center;"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><strong>INDIKATOR KINERJA</strong></span></span></p>\n</td>\n</tr>\n<tr valign="top">\n<td style="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in;" width="89">\n<p align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><strong>Input</strong></span></span></p>\n</td>\n<td style="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in;" width="420">\n<p align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Dana dan SDM</span></span></p>\n</td>\n</tr>\n<tr valign="top">\n<td style="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in;" width="89">\n<p align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><strong>Output</strong></span></span></p>\n</td>\n<td style="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in;" width="420">\n<p style="margin-bottom: 0in;"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Tersedianya Informasi dan Dokumentasi Pendidikan melalui kegiatan :</span></span></p>\n<ul>\n<li>\n<p style="margin-bottom: 0in;"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Publikasi Kegiatan Dinas Pendidikan</span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in;"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Penyediaan Informasi Pendidikan </span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in;"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Penyediaan Data Pendidikan </span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in;"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Dokumentasi kegiatan Pendidikan</span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in;"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Penelitian dan Pengembangan kegiatan Pendidikan </span></span></p>\n</li>\n</ul>\n<p align="justify">&nbsp;</p>\n</td>\n</tr>\n<tr valign="top">\n<td style="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in;" width="89">\n<p style="margin-bottom: 0in;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><strong>Volume</strong></span></span></p>\n<p align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><strong>(Sasaran)</strong></span></span></p>\n</td>\n<td style="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in;" width="420">\n<p style="margin-bottom: 0in;"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Guru/Sekolah/Operator/Dinas Kab/Kota</span></span></p>\n<p><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Masyarakat </span></span></p>\n</td>\n</tr>\n<tr valign="top">\n<td style="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in;" width="89">\n<p align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><strong>Outcome</strong></span></span></p>\n</td>\n<td style="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in;" width="420">\n<ul>\n<li>\n<p style="margin-bottom: 0in;"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Tersedianya Publikasi kegiatan Dinas Pendidikan</span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in;"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Tersedianya Informasi Pendidikan</span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in;"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Tersedianya Data Pendidikan</span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in;"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Tersedianya Dokumentasi kegiatan Pendidikan </span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in;"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Tersedianya Penelitian dan Pengembangan Pendidikan </span></span></p>\n</li>\n</ul>\n<p style="margin-left: 0.32in;">&nbsp;</p>\n</td>\n</tr>\n<tr valign="top">\n<td style="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in;" width="89">\n<p align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><strong>Benefit</strong></span></span></p>\n</td>\n<td style="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in;" width="420">\n<ul>\n<li>\n<p style="margin-bottom: 0in;"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Tersebarnya informasi Pembangunan Pendidikan </span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in;"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Adanya Data Pendidikan</span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in;"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Adanya Dokumentasi kegiatan Pendidikan</span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in;"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Adanya Data hasil Penelitian dan Pengembangan Pendidikan </span></span></p>\n</li>\n</ul>\n<p align="justify">&nbsp;</p>\n</td>\n</tr>\n<tr valign="top">\n<td style="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in;" width="89">\n<p align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><strong>Impact</strong></span></span></p>\n</td>\n<td style="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in;" width="420">\n<ul>\n<li>\n<p style="margin-bottom: 0in;"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Masyarakat dapat mengetahui informasi pembangunan pendidikan </span></span></p>\n</li>\n<li>\n<p style="margin-bottom: 0in;"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Adanya dukungan Data untuk mengambil kebijakan pendidikan</span></span></p>\n</li>\n<li>\n<p><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Terdokumentasinya kegiatan Pendidikan </span></span></p>\n</li>\n</ul>\n</td>\n</tr>\n</tbody>\n</table>\n</dd></dl>\n<p style="margin-bottom: 0.14in; line-height: 150%;" align="justify"><br /><br /></p>\n<ol type="A" start="3">\n<li>\n<p style="margin-bottom: 0in; line-height: 150%;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><strong>PELAKSANAAN KEGIATAN</strong></span></span></p>\n</li>\n</ol><ol>\n<li>\n<p style="margin-bottom: 0in; line-height: 150%;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">LOKASI/TEMPAT PELAKSANAAN</span></span></p>\n</li>\n</ol>\n<p style="margin-left: 0.69in; margin-bottom: 0.14in; line-height: 150%;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Adapun tempat/lokasi kegiatan Balai Teknologi Informasi dan Komunikasi Pendidikan adalah dalam Provinsi Jambi dan Dinas Pendidikan Provinsi Jambi Serta di Pustekkom Kementrian Pendidikan dan Kebudayaan RI.</span></span></p>\n<ol start="2">\n<li>\n<p style="margin-bottom: 0in; line-height: 150%;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">ANGGARAN</span></span></p>\n</li>\n</ol>\n<p style="margin-left: 0.69in; margin-bottom: 0.14in; line-height: 150%;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Adapun anggaran kegiatan pada Balai Teknologi Informasi dan Komunikasi Pendidikan dibebankan pada APBD Tahun Anggaran 2015. </span></span></p>\n<p style="margin-left: 0.3in; margin-bottom: 0.14in; line-height: 150%;" align="justify"><br /><br /></p>\n<ol type="A" start="4">\n<li>\n<p style="margin-bottom: 0in; line-height: 150%;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><strong>PENUTUP</strong></span></span></p>\n</li>\n</ol>\n<p style="margin-left: 0.39in; margin-bottom: 0.14in; line-height: 150%;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><span lang="fi-FI">Pelaksanaan kegiatan pada </span></span></span><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Balai Teknologi Informasi dan Komunikasi Pendidikan </span></span><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><span lang="fi-FI">diharapkan dapat </span></span></span><span style="font-family: Calibri,serif;"><span style="font-size: medium;">membantu </span></span><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><span lang="fi-FI">menyelesaikan program-program yang </span></span></span><span style="font-family: Calibri,serif;"><span style="font-size: medium;">telah </span></span><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><span lang="fi-FI">direncanakan </span></span></span><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Dinas Pendidikan Provinsi Jambi dalam mendukung tercapainya Jambi Emas 2015 </span></span><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><span lang="fi-FI">dan dapat membawa perubahan kearah yang lebih baik</span></span></span><span style="font-family: Calibri,serif;"><span style="font-size: medium;">.</span></span></p>\n<p style="margin-left: 0.3in; margin-bottom: 0.14in; line-height: 150%;" align="justify"><br /><br /></p>\n<p style="margin-left: 0.3in; margin-bottom: 0.14in; line-height: 150%;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;">Demikianlah semoga dengan adanya laporan ini dapat bermanfaat dan semakin meningkatkan kualitas kinerja BTIKP yang lebih sempurna lagi, terima kasih.</span></span></p>\n<p style="margin-left: 1in; margin-bottom: 0.14in; line-height: 150%;" align="justify"><br /><br /></p>\n<p style="margin-left: 0.25in; margin-bottom: 0.14in; line-height: 115%; text-align: right;" align="justify"><br /><br /></p>\n<p style="margin-left: 0.25in; margin-bottom: 0.14in; line-height: 115%; text-align: right;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"> Jambi, April 2014</span></span></p>\n<p style="margin-left: 0.25in; margin-bottom: 0.14in; line-height: 115%; text-align: right;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"> Kepala BTIKP</span></span></p>\n<p style="margin-left: 0.25in; margin-bottom: 0.14in; line-height: 115%; text-align: right;" align="justify"><br /><br /></p>\n<p style="margin-left: 0.25in; margin-bottom: 0.14in; line-height: 115%; text-align: right;" align="justify"><br /><br /></p>\n<p style="margin-bottom: 0.14in; line-height: 115%; text-align: right;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"><strong>Azwan. S.Sos. ME</strong></span></span></p>\n<p style="margin-left: 0.25in; margin-bottom: 0.14in; line-height: 115%; text-align: right;" align="justify"><span style="font-family: Calibri,serif;"><span style="font-size: medium;"> NIP. 19670107 198810 1 002</span></span></p>\n<p style="margin-left: 0.25in; margin-bottom: 0.14in; line-height: 115%;" align="justify"><br /><br /></p>\n<p style="margin-bottom: 0in; line-height: 100%;">&nbsp;</p>'),
 	(7, 'BPKSDP', '');
 /*!40000 ALTER TABLE `program` ENABLE KEYS */;
-
-
--- Dumping structure for table disdik.propinsi
-CREATE TABLE IF NOT EXISTS `propinsi` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nama` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table disdik.propinsi: ~0 rows (approximately)
 DELETE FROM `propinsi`;
@@ -1002,22 +468,6 @@ DELETE FROM `propinsi`;
 INSERT INTO `propinsi` (`id`, `nama`) VALUES
 	(1, 'Jambi');
 /*!40000 ALTER TABLE `propinsi` ENABLE KEYS */;
-
-
--- Dumping structure for table disdik.sekolah_stats
-CREATE TABLE IF NOT EXISTS `sekolah_stats` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_sekolah` int(11) NOT NULL,
-  `lembaga` tinyint(4) NOT NULL DEFAULT '1',
-  `tahun` smallint(6) NOT NULL,
-  `rombel` tinyint(4) NOT NULL DEFAULT '0',
-  `murid` tinyint(4) NOT NULL DEFAULT '0',
-  `guru` tinyint(4) NOT NULL DEFAULT '0',
-  `ruang_kelas` tinyint(4) NOT NULL DEFAULT '0',
-  `lulusan` tinyint(4) NOT NULL DEFAULT '0',
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table disdik.sekolah_stats: ~2 rows (approximately)
 DELETE FROM `sekolah_stats`;
@@ -1027,44 +477,16 @@ INSERT INTO `sekolah_stats` (`id`, `id_sekolah`, `lembaga`, `tahun`, `rombel`, `
 	(2, 1, 1, 2015, 30, 127, 58, 11, 89, '2015-03-16 17:25:52');
 /*!40000 ALTER TABLE `sekolah_stats` ENABLE KEYS */;
 
-
--- Dumping structure for table disdik.settings
-CREATE TABLE IF NOT EXISTS `settings` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(50) DEFAULT NULL,
-  `tipe` enum('small-text','big-text','image') DEFAULT 'small-text',
-  `value` text,
-  `img_height` varchar(50) DEFAULT NULL,
-  `img_width` varchar(50) DEFAULT NULL,
-  `show` enum('Y','N') DEFAULT 'Y',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
-
 -- Dumping data for table disdik.settings: ~4 rows (approximately)
 DELETE FROM `settings`;
 /*!40000 ALTER TABLE `settings` DISABLE KEYS */;
 INSERT INTO `settings` (`id`, `title`, `tipe`, `value`, `img_height`, `img_width`, `show`) VALUES
 	(1, 'running_text', 'small-text', 'Selamat Datang Pada Website Resmi Dinas Pendidikan Provinsi Jambi', NULL, NULL, 'Y'),
 	(2, 'fb_fanpage', 'small-text', 'https://www.facebook.com/pages/Dinas-Pendidikan-Provinsi-Jambi/117994094968453', NULL, NULL, 'Y'),
-	(3, 'header_img', 'image', '7c2360f38dc1bf9a11be6ca15c35aab9.png', '100', '960', 'Y'),
-	(4, 'background_img', 'image', '55ab2fe8a1156129ae8f8a0fa5123e32.jpg', '250', '250', 'Y');
+	(3, 'header_img', 'swf', 'b60814d213e4779cb4d7bd8b8f7317a3.swf', '100', '960', 'Y'),
+	(4, 'background_img', 'image', '55ab2fe8a1156129ae8f8a0fa5123e32.jpg', '250', '250', 'Y'),
+	(5, 'forum_header', 'image', 'headdikbud.png', '90', '1100', 'Y');
 /*!40000 ALTER TABLE `settings` ENABLE KEYS */;
-
-
--- Dumping structure for table disdik.tbl_agenda
-CREATE TABLE IF NOT EXISTS `tbl_agenda` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(50) NOT NULL,
-  `slug` varchar(50) NOT NULL,
-  `tgl_mulai` date NOT NULL,
-  `tgl_selesai` date NOT NULL,
-  `lokasi` varchar(100) NOT NULL,
-  `jam` varchar(50) NOT NULL,
-  `content` text NOT NULL,
-  `created_at` datetime NOT NULL,
-  `last_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table disdik.tbl_agenda: ~0 rows (approximately)
 DELETE FROM `tbl_agenda`;
@@ -1073,50 +495,28 @@ INSERT INTO `tbl_agenda` (`id`, `title`, `slug`, `tgl_mulai`, `tgl_selesai`, `lo
 	(1, '', '', '2015-04-09', '2015-04-09', '', '', '', '0000-00-00 00:00:00', '2015-04-09 14:20:54');
 /*!40000 ALTER TABLE `tbl_agenda` ENABLE KEYS */;
 
-
--- Dumping structure for table disdik.tbl_sessions
-CREATE TABLE IF NOT EXISTS `tbl_sessions` (
-  `session_id` varchar(40) NOT NULL DEFAULT '0',
-  `ip_address` varchar(45) NOT NULL DEFAULT '0',
-  `user_agent` varchar(120) DEFAULT NULL,
-  `last_activity` int(10) unsigned NOT NULL DEFAULT '0',
-  `user_data` text NOT NULL,
-  `prevent_update` int(10) DEFAULT NULL,
-  PRIMARY KEY (`session_id`),
-  KEY `last_activity_idx` (`last_activity`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- Dumping data for table disdik.tbl_sessions: ~20 rows (approximately)
+-- Dumping data for table disdik.tbl_sessions: ~15 rows (approximately)
 DELETE FROM `tbl_sessions`;
 /*!40000 ALTER TABLE `tbl_sessions` DISABLE KEYS */;
 INSERT INTO `tbl_sessions` (`session_id`, `ip_address`, `user_agent`, `last_activity`, `user_data`, `prevent_update`) VALUES
-	('0a7a0c930f068c42c004cc06800135e1', '127.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.118 Safari/537.36', 1428605269, 'a:2:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-04-10";}', NULL),
-	('25e4a623c0e85b7edcaa75a78c45000c', '127.0.0.1', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:35.0) Gecko/20100101 Firefox/35.0', 1427262367, 'a:7:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-03-25";s:7:"user_id";s:1:"1";s:4:"user";s:5:"admin";s:9:"validated";b:1;s:9:"menu_list";s:68:"1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26";s:11:"curr_method";s:23:"generate_event_calendar";}', NULL),
-	('394483af10069b41bb3371c29d6aa0aa', '127.0.0.1', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:37.0) Gecko/20100101 Firefox/37.0', 1428995319, 'a:17:{s:9:"user_data";s:0:"";s:15:"forum_logged_in";i:1;s:13:"forum_user_id";s:1:"1";s:14:"forum_username";s:5:"admin";s:17:"forum_user_roleid";s:1:"1";s:2:"id";s:1:"1";s:4:"role";s:13:"administrator";s:10:"admin_area";s:1:"1";s:13:"thread_create";s:1:"1";s:11:"thread_edit";s:1:"1";s:13:"thread_delete";s:1:"1";s:11:"post_create";s:1:"1";s:9:"post_edit";s:1:"1";s:11:"post_delete";s:1:"1";s:11:"role_create";s:1:"1";s:9:"role_edit";s:1:"1";s:11:"role_delete";s:1:"1";}', NULL),
-	('7e3c0c0008fa689f3a91d4a439d34a29', '127.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.118 Safari/537.36', 1428286033, 'a:2:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-04-08";}', NULL),
-	('9390e0f6b993d1e0564f3a0162655cef', '127.0.0.1', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:36.0) Gecko/20100101 Firefox/36.0', 1428043344, 'a:2:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-04-03";}', NULL),
-	('9c8205d1a9b16bde56f3cbd819a02baf', '127.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.118 Safari/537.36', 1428586025, 'a:2:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-04-09";}', NULL),
-	('ab913d57aab927a75f6c101994bfec7a', '127.0.0.1', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:37.0) Gecko/20100101 Firefox/37.0', 1428127552, 'a:2:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-04-04";}', NULL),
-	('aec9ab77ada6757dc9141247196b9dc2', '127.0.0.1', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:36.0) Gecko/20100101 Firefox/36.0', 1428044110, 'a:2:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-04-03";}', NULL),
-	('b25081a0ccd7eb5c46748b7ed8176d2e', '127.0.0.1', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:35.0) Gecko/20100101 Firefox/35.0', 1426514266, 'a:9:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-03-19";s:7:"user_id";s:1:"1";s:4:"user";s:5:"admin";s:9:"validated";b:1;s:9:"menu_list";s:68:"1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26";s:11:"curr_method";s:23:"generate_event_calendar";s:7:"curr_id";s:1:"1";s:12:"captcha_word";s:5:"31680";}', NULL),
-	('c475017093c9c1e75c01012eeee7ef95', '127.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.118 Safari/537.36', 1428685724, 'a:2:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-04-11";}', NULL),
-	('c4add305c5bcb898be6b8e5a9c42599e', '127.0.0.1', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:36.0) Gecko/20100101 Firefox/36.0', 1428041700, 'a:8:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-04-03";s:7:"user_id";s:1:"1";s:4:"user";s:5:"admin";s:9:"validated";b:1;s:9:"menu_list";s:74:"1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28";s:11:"curr_method";s:7:"program";s:7:"curr_id";s:1:"7";}', NULL),
-	('ccadd869b9465040d51767f8aa13c4c0', '127.0.0.1', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:36.0) Gecko/20100101 Firefox/36.0', 1427779601, 'a:8:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-03-31";s:7:"user_id";s:1:"1";s:4:"user";s:5:"admin";s:9:"validated";b:1;s:9:"menu_list";s:71:"1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27";s:11:"curr_method";s:22:"aduan_apresiasi_detail";s:12:"captcha_word";s:5:"50744";}', NULL),
-	('e4a9b22aabc3753ccd6bcb0ce5f084b4', '127.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.118 Safari/537.36', 1428285988, 'a:2:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-04-06";}', NULL),
-	('eede59ad3bc3a7f1a8c1c611337dd997', '127.0.0.1', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:36.0) Gecko/20100101 Firefox/36.0', 1428041325, 'a:2:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-04-03";}', NULL),
-	('f3eca6f6880b0374f3483be40ad2024e', '127.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.118 Safari/537.36', 1428561181, 'a:2:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-04-09";}', NULL),
-	('f8fd405a1f0656c0c2735da865dcca83', '127.0.0.1', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:36.0) Gecko/20100101 Firefox/36.0', 1428043344, 'a:2:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-04-03";}', NULL),
-	('fbd955b7ec1356f6e46290ed2d780ead', '127.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.118 Safari/537.36', 1428692684, 'a:2:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-04-11";}', NULL);
+	('0943b6406a3ac4b4a5c46c1ccec02531', '127.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.90 Safari/537.36', 1430247782, 'a:23:{s:9:"user_data";s:0:"";s:15:"forum_logged_in";i:1;s:13:"forum_user_id";s:1:"2";s:14:"forum_username";s:6:"member";s:17:"forum_user_roleid";s:1:"2";s:2:"id";s:1:"2";s:4:"role";s:6:"member";s:10:"admin_area";s:1:"0";s:13:"thread_create";s:1:"1";s:11:"thread_edit";s:1:"0";s:13:"thread_delete";s:1:"0";s:11:"post_create";s:1:"1";s:9:"post_edit";s:1:"0";s:11:"post_delete";s:1:"0";s:11:"role_create";s:1:"0";s:9:"role_edit";s:1:"0";s:11:"role_delete";s:1:"0";s:9:"last_seen";s:10:"2015-05-04";s:7:"user_id";s:1:"1";s:4:"user";s:5:"admin";s:9:"validated";b:1;s:9:"menu_list";s:74:"1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28";s:11:"curr_method";s:6:"galeri";}', NULL),
+	('0a62cbb82b65ce2d492c5d5250b34307', '127.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.90 Safari/537.36', 1431495817, 'a:2:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-05-13";}', NULL),
+	('16dd85452dc796da6ef2d8f390893d35', '127.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.90 Safari/537.36', 1429986016, 'a:17:{s:9:"user_data";s:0:"";s:15:"forum_logged_in";i:1;s:13:"forum_user_id";s:1:"1";s:14:"forum_username";s:5:"admin";s:17:"forum_user_roleid";s:1:"1";s:2:"id";s:1:"1";s:4:"role";s:13:"administrator";s:10:"admin_area";s:1:"1";s:13:"thread_create";s:1:"1";s:11:"thread_edit";s:1:"1";s:13:"thread_delete";s:1:"1";s:11:"post_create";s:1:"1";s:9:"post_edit";s:1:"1";s:11:"post_delete";s:1:"1";s:11:"role_create";s:1:"1";s:9:"role_edit";s:1:"1";s:11:"role_delete";s:1:"1";}', NULL),
+	('23e67adb7aa5467028a4a81a8020ee8a', '127.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.152 Safari/537.36', 1432209154, 'a:17:{s:9:"user_data";s:0:"";s:15:"forum_logged_in";i:1;s:13:"forum_user_id";s:1:"1";s:14:"forum_username";s:5:"admin";s:17:"forum_user_roleid";s:1:"1";s:2:"id";s:1:"1";s:4:"role";s:13:"administrator";s:10:"admin_area";s:1:"1";s:13:"thread_create";s:1:"1";s:11:"thread_edit";s:1:"1";s:13:"thread_delete";s:1:"1";s:11:"post_create";s:1:"1";s:9:"post_edit";s:1:"1";s:11:"post_delete";s:1:"1";s:11:"role_create";s:1:"1";s:9:"role_edit";s:1:"1";s:11:"role_delete";s:1:"1";}', NULL),
+	('2b0900d1c71e518826f03624f2c22529', '127.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.90 Safari/537.36', 1430147472, 'a:17:{s:9:"user_data";s:0:"";s:15:"forum_logged_in";i:1;s:13:"forum_user_id";s:1:"1";s:14:"forum_username";s:5:"admin";s:17:"forum_user_roleid";s:1:"1";s:2:"id";s:1:"1";s:4:"role";s:13:"administrator";s:10:"admin_area";s:1:"1";s:13:"thread_create";s:1:"1";s:11:"thread_edit";s:1:"1";s:13:"thread_delete";s:1:"1";s:11:"post_create";s:1:"1";s:9:"post_edit";s:1:"1";s:11:"post_delete";s:1:"1";s:11:"role_create";s:1:"1";s:9:"role_edit";s:1:"1";s:11:"role_delete";s:1:"1";}', NULL),
+	('3c59bfdb952a355a0bad18a72a0e9f83', '127.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.90 Safari/537.36', 1431500606, 'a:17:{s:9:"user_data";s:0:"";s:15:"forum_logged_in";i:1;s:13:"forum_user_id";s:1:"1";s:14:"forum_username";s:5:"admin";s:17:"forum_user_roleid";s:1:"1";s:2:"id";s:1:"1";s:4:"role";s:13:"administrator";s:10:"admin_area";s:1:"1";s:13:"thread_create";s:1:"1";s:11:"thread_edit";s:1:"1";s:13:"thread_delete";s:1:"1";s:11:"post_create";s:1:"1";s:9:"post_edit";s:1:"1";s:11:"post_delete";s:1:"1";s:11:"role_create";s:1:"1";s:9:"role_edit";s:1:"1";s:11:"role_delete";s:1:"1";}', NULL),
+	('45e21219a42ae12d6223e742bb0e1ac7', '127.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.152 Safari/537.36', 1431800341, 'a:2:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-05-17";}', NULL),
+	('6187b7ebd60fa0bdc879882591237f5c', '127.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.152 Safari/537.36', 1432193308, 'a:2:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-05-21";}', NULL),
+	('838c4b954b99d160310d4f9eeee449e3', '127.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.152 Safari/537.36', 1432041959, 'a:2:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-05-19";}', NULL),
+	('86ba9349b56f5f8262bdc2a4665b74c5', '127.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.152 Safari/537.36', 1431739172, 'a:2:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-05-16";}', NULL),
+	('89698f6c6e286044a0dcc2771c292218', '127.0.0.1', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:37.0) Gecko/20100101 Firefox/37.0', 1430725473, 'a:7:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-05-04";s:7:"user_id";s:1:"1";s:4:"user";s:5:"admin";s:9:"validated";b:1;s:9:"menu_list";s:74:"1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28";s:11:"curr_method";s:5:"index";}', NULL),
+	('96fddc39fefed530314b32bd57fae2df', '127.0.0.1', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:37.0) Gecko/20100101 Firefox/37.0', 1431370318, '', NULL),
+	('9c70d58e8f8f108b1b3c7a7f69e7d932', '127.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.152 Safari/537.36', 1432048526, 'a:2:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-05-19";}', NULL),
+	('9ca1ee70f9acf67b0ff7e1af41cd398a', '127.0.0.1', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:37.0) Gecko/20100101 Firefox/37.0', 1430841672, '', NULL),
+	('a193ebc98b71e59f479c0fdcb8d46dbe', '127.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.152 Safari/537.36', 1431806239, 'a:7:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-05-17";s:7:"user_id";s:1:"1";s:4:"user";s:5:"admin";s:9:"validated";b:1;s:9:"menu_list";s:74:"1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28";s:11:"curr_method";s:5:"index";}', NULL),
+	('f3ed4f6a83cd0f1336a0cfc946a2ea62', '127.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.152 Safari/537.36', 1431972555, 'a:2:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-05-19";}', NULL),
+	('ff191282c242ad4490b6a3b36042f264', '127.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.152 Safari/537.36', 1431885284, 'a:4:{s:9:"user_data";s:0:"";s:9:"last_seen";s:10:"2015-05-18";s:4:"sort";s:5:"judul";s:5:"order";s:3:"ASC";}', NULL);
 /*!40000 ALTER TABLE `tbl_sessions` ENABLE KEYS */;
-
-
--- Dumping structure for table disdik.view_stats
-CREATE TABLE IF NOT EXISTS `view_stats` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `ip` varchar(50) NOT NULL DEFAULT '0',
-  `tgl` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=81 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table disdik.view_stats: ~68 rows (approximately)
 DELETE FROM `view_stats`;
@@ -1201,7 +601,28 @@ INSERT INTO `view_stats` (`id`, `ip`, `tgl`) VALUES
 	(77, '127.0.0.1', '2015-04-11 02:04:44'),
 	(78, '127.0.0.1', '2015-04-14 00:34:01'),
 	(79, '127.0.0.1', '2015-04-14 12:24:49'),
-	(80, '127.0.0.1', '2015-04-14 12:27:54');
+	(80, '127.0.0.1', '2015-04-14 12:27:54'),
+	(81, '127.0.0.1', '2015-04-14 18:34:55'),
+	(82, '127.0.0.1', '2015-04-14 18:36:29'),
+	(83, '10.36.37.247', '2015-04-14 19:17:37'),
+	(84, '127.0.0.1', '2015-04-26 01:02:44'),
+	(85, '127.0.0.1', '2015-04-27 21:13:58'),
+	(86, '127.0.0.1', '2015-05-04 14:28:35'),
+	(87, '127.0.0.1', '2015-05-04 14:44:33'),
+	(88, '127.0.0.1', '2015-05-05 08:05:55'),
+	(89, '127.0.0.1', '2015-05-05 22:24:10'),
+	(90, '127.0.0.1', '2015-05-05 22:24:44'),
+	(91, '127.0.0.1', '2015-05-06 00:59:59'),
+	(92, '127.0.0.1', '2015-05-13 12:43:37'),
+	(93, '127.0.0.1', '2015-05-16 08:19:32'),
+	(94, '127.0.0.1', '2015-05-17 02:57:07'),
+	(95, '127.0.0.1', '2015-05-17 02:57:19'),
+	(96, '127.0.0.1', '2015-05-18 00:54:44'),
+	(97, '127.0.0.1', '2015-05-19 01:09:15'),
+	(98, '127.0.0.1', '2015-05-19 20:25:59'),
+	(99, '127.0.0.1', '2015-05-19 22:15:26'),
+	(100, '127.0.0.1', '2015-05-21 14:27:58'),
+	(101, '127.0.0.1', '2015-05-21 14:28:28');
 /*!40000 ALTER TABLE `view_stats` ENABLE KEYS */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
