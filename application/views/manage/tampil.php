@@ -186,28 +186,35 @@
                 theme_advanced_toolbar_location : "top",
                 theme_advanced_toolbar_align : "left",
                 theme_advanced_statusbar_location : "bottom",
-                theme_advanced_resizing : true,     
-         
-                //Mad File Manager        
-                relative_urls : false,
-                file_browser_callback : MadFileBrowser
+                theme_advanced_resizing : true,
+                
+                file_browser_callback: RoxyFileBrowser
           });
           
-          function MadFileBrowser(field_name, url, type, win){    
-              tinyMCE.activeEditor.windowManager.open({
-                  file : "<?php echo base_url();?>texteditor/mfm.php?field=" + field_name + "&url=" + url + "",
-                  title : 'File Manager',
-                  width : 640,
-                  height : 450,
-                  resizable : "no",
-                  inline : "yes",
-                  close_previous : "no"
-              }, {
-                  window : win,
-                  input : field_name
-              });
-              return false;
+          function RoxyFileBrowser(fieldName, url, type, win) {
+            var roxyFileman = '/disdik/fileman/index.html';
+            if (roxyFileman.indexOf("?") < 0) {
+                roxyFileman += "?type=" + type;
             }
+            else {
+                roxyFileman += "&type=" + type;
+            }
+            roxyFileman += '&input=' + fieldName + '&value=' + win.document.getElementById(fieldName).value;
+            if (tinyMCE.activeEditor.settings.language) {
+                roxyFileman += '&langCode=' + tinyMCE.activeEditor.settings.language;
+            }
+            tinyMCE.activeEditor.windowManager.open({
+                file: roxyFileman,
+                title: 'Roxy Fileman',
+                width: 850,
+                height: 650,
+                resizable: "yes",
+                plugins: "media",
+                inline: "yes",
+                close_previous: "no"
+            }, { window: win, input: fieldName });
+            return false;
+        }
          
          /*bkLib.onDomLoaded(function() { nicEditors.allTextAreas({fullPanel : true}) });*/
       </script>
